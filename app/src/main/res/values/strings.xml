@@ -1,0 +1,54 @@
+<resources>
+    <!-- Activity Names -->
+    <string name="app_name">mood</string>
+    <string name="add_mood_log">Add Mood</string>
+
+    <!-- Main Activity - Summary Tab -->
+    <string-array name="time_period_array">
+        <item>Weekly</item>
+        <item>Monthly</item>
+        <item>Yearly</item>
+    </string-array>
+
+    <string-array name="graph_type_array">
+        <item>Line</item>
+        <item>Bar</item>
+        <item>Pie</item>
+    </string-array>
+
+    <string-array name="graph_mood_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="graph_daily_values">
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thur</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
+    </string-array>
+
+    <!-- Add Mood Log Activity -->
+    <string name="feeling_text">How are you feeling?</string>
+    <string name="mood_great">Great</string>
+    <string name="mood_happy">Happy</string>
+    <string name="mood_neutral">OK</string>
+    <string name="mood_sad">Sad</string>
+    <string name="mood_angry">Angry</string>
+
+    <string name="activity_work">Work</string>
+    <string name="activity_study">Study</string>
+    <string name="activity_relax">Relaxing</string>
+    <string name="activity_exercise">Exercise</string>
+    <string name="activity_travel">Travel</string>
+    <string name="activity_add_new">Add...</string>
+
+    <string name="activity_text">What have you been up to recently?</string>
+
+</resources>
