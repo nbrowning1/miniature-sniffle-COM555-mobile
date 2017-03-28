@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_great"
                     android:contentDescription="@string/mood_great"
-                    android:onClick="setMoodSelected" />
+                    android:onClick="setMoodSelected"
+                    android:tag="MOOD_GREAT" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -68,7 +66,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_happy"
                     android:contentDescription="@string/mood_happy"
-                    android:onClick="setMoodSelected" />
+                    android:onClick="setMoodSelected"
+                    android:tag="MOOD_HAPPY" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -93,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_neutral"
                     android:contentDescription="@string/mood_neutral"
-                    android:onClick="setMoodSelected" />
+                    android:onClick="setMoodSelected"
+                    android:tag="MOOD_NEUTRAL" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -118,7 +118,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_sad"
                     android:contentDescription="@string/mood_sad"
-                    android:onClick="setMoodSelected" />
+                    android:onClick="setMoodSelected"
+                    android:tag="MOOD_SAD" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,7 +144,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_angry"
                     android:contentDescription="@string/mood_angry"
-                    android:onClick="setMoodSelected" />
+                    android:onClick="setMoodSelected"
+                    android:tag="MOOD_ANGRY" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -166,209 +168,31 @@
             android:textSize="30sp" />
 
         <LinearLayout
+            android:id="@+id/activities_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="25dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+            <!-- Dynamically created activities generated here -->
 
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
+        </LinearLayout>
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/activity_work"
-                        android:contentDescription="@string/activity_work"
-                        android:onClick="setMoodSelected" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_work"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/activity_study"
-                        android:contentDescription="@string/activity_study"
-                        android:onClick="setMoodSelected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_study"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="25dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/activity_relax"
-                        android:contentDescription="@string/activity_relax"
-                        android:onClick="setMoodSelected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_relax"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/activity_exercise"
-                        android:contentDescription="@string/activity_exercise"
-                        android:onClick="setMoodSelected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_exercise"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="25dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/activity_travel"
-                        android:contentDescription="@string/activity_travel"
-                        android:onClick="setMoodSelected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_travel"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="125dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:background="@drawable/add_activity"
-                        android:contentDescription="@string/activity_add_new"
-                        android:onClick="setMoodSelected" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:text="@string/activity_add_new"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="right">
-
-                <ImageButton
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:background="@drawable/add_mood_finish"
-                    android:onClick="finishMoodLog" />
-
-                <View
-                    android:layout_width="20dp"
-                    android:layout_height="0dp" />
-
-            </LinearLayout>
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/add_mood_finish"
+                android:onClick="finishMoodLog" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

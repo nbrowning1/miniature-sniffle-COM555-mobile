@@ -1,11 +1,14 @@
 package com.moodlogger.db;
 
+import com.moodlogger.activities.ActivityIconEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
 import com.moodlogger.db.entities.Screen;
 import com.moodlogger.db.entities.User;
+
+import java.util.Locale;
 
 public final class MoodDbContract {
 
@@ -29,11 +32,19 @@ public final class MoodDbContract {
                     Mood.NAME + " TEXT," +
                     Mood.RATING + " TINYINT);";
 
+    private static final String SQL_UPDATE_MOOD_TABLE =
+            "INSERT INTO " + Mood.TABLE_NAME +
+                    "(" + Mood.NAME + ", " + Mood.RATING + ") VALUES ('%s', %d);";
+
     private static final String SQL_CREATE_ACTIVITY_TABLE =
             "CREATE TABLE " + Activity.TABLE_NAME + " (" +
                     Activity._ID + " INTEGER PRIMARY KEY," +
                     Activity.NAME + " TEXT," +
-                    Activity.IMG_KEY + " TINYINT);";
+                    Activity.IMG_KEY + " TEXT);";
+
+    private static final String SQL_UPDATE_ACTIVITY_TABLE =
+            "INSERT INTO " + Activity.TABLE_NAME +
+                    "(" + Activity.NAME + ", " + Activity.IMG_KEY + ") VALUES ('%s', '%s');";
 
     private static final String SQL_CREATE_MOOD_ENTRY_ACTIVITY_TABLE =
             "CREATE TABLE " + MoodEntryActivity.TABLE_NAME + " (" +
@@ -59,6 +70,20 @@ public final class MoodDbContract {
             SQL_CREATE_MOOD_ENTRY_ACTIVITY_TABLE,
             SQL_CREATE_SCREEN_TABLE,
             SQL_CREATE_USER_TABLE
+    };
+
+    public static final String[] SQL_UPDATE_ENTRIES = new String[]{
+            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Great", 4),
+            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Happy", 3),
+            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Neutral", 2),
+            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Sad", 1),
+            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Angry", 0),
+
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Work", ActivityIconEnum.Work.getResourceKey()),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", ActivityIconEnum.Study.getResourceKey()),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", ActivityIconEnum.Relax.getResourceKey()),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Exercise", ActivityIconEnum.Exercise.getResourceKey()),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Travel", ActivityIconEnum.Travel.getResourceKey())
     };
 
     public static final String SQL_DELETE_ENTRIES =

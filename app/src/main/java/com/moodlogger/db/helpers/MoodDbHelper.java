@@ -10,6 +10,7 @@ import com.moodlogger.db.entities.User;
 
 import static com.moodlogger.db.MoodDbContract.SQL_CREATE_ENTRIES;
 import static com.moodlogger.db.MoodDbContract.SQL_DELETE_ENTRIES;
+import static com.moodlogger.db.MoodDbContract.SQL_UPDATE_ENTRIES;
 
 public class MoodDbHelper extends SQLiteOpenHelper {
 
@@ -24,6 +25,9 @@ public class MoodDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         for (String createTableStmt : SQL_CREATE_ENTRIES) {
             db.execSQL(createTableStmt);
+        }
+        for (String updateStmt : SQL_UPDATE_ENTRIES) {
+            db.execSQL(updateStmt);
         }
     }
 

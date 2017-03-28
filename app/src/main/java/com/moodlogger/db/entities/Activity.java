@@ -6,11 +6,25 @@ public class Activity extends Entity {
     public static final String NAME = "name";
     public static final String IMG_KEY = "img_key";
 
-    public String name;
-    public int imgKey;
+    private long id;
+    private String name;
+    private String imgKey;
 
-    public Activity(String name, int imgKey) {
+    public Activity(long id, String name, String imgKey) {
+        this.id = id;
         this.name = name;
         this.imgKey = imgKey;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getImgKey() {
+        return imgKey;
     }
 }
