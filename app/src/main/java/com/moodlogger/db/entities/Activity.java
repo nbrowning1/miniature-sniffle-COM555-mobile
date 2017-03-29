@@ -10,6 +10,10 @@ public class Activity extends Entity {
     private String name;
     private String imgKey;
 
+    public Activity(String name, String imgKey) {
+        this(-1L, name, imgKey);
+    }
+
     public Activity(long id, String name, String imgKey) {
         this.id = id;
         this.name = name;

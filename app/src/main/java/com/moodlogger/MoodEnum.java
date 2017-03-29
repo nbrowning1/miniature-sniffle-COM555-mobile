@@ -24,4 +24,13 @@ public enum MoodEnum {
         }
         return -1;
     }
+
+    public static String getTagName(int moodRating) {
+        for (MoodEnum mood : MoodEnum.values()) {
+            if (moodRating == mood.moodRating) {
+                return mood.tagName;
+            }
+        }
+        return "";
+    }
 }

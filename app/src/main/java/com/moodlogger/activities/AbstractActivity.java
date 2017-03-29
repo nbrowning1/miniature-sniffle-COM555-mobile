@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.List;
 
 public abstract class AbstractActivity extends AppCompatActivity {
 
@@ -30,5 +34,26 @@ public abstract class AbstractActivity extends AppCompatActivity {
                     }
                 });
         alertDialog.show();
+    }
+
+    /**
+     * Get all child views for a given view. Returns all leaves in the branch AKA only
+     * views that have no children of their own.
+     *
+     * @param view to find child views for
+     * @param existingChildren used to keep track of children when making recursive calls down the tree
+     * @return list of child views for {@code view}
+     */
+    protected List<View> getChildViews(View view, List<View> existingChildren) {
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            int noOfChildren = viewGroup.getChildCount();
+            for (int i = 0; i < noOfChildren; i++) {
+                existingChildren = getChildViews(viewGroup.getChildAt(i), existingChildren);
+            }
+        } else {
+            existingChildren.add(view);
+        }
+        return existingChildren;
     }
 }

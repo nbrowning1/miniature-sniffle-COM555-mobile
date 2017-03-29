@@ -2,6 +2,7 @@
     <!-- Activity Names -->
     <string name="app_name">mood</string>
     <string name="add_mood_log">Add Mood</string>
+    <string name="add_activity">Add Activity</string>
 
     <!-- Main Activity - Summary Tab -->
     <string-array name="time_period_array">
@@ -50,5 +51,10 @@
     <string name="activity_add_new">Add...</string>
 
     <string name="activity_text">What have you been up to recently?</string>
+
+    <!-- Add Activity Activity -->
+    <string name="new_activity_image_choice">Choose a suitable image</string>
+    <string name="new_activity_name">Give it a name</string>
+    <string name="new_activity_name_hint">Activity Name</string>
 
 </resources>

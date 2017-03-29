@@ -24,10 +24,13 @@ import java.util.Map;
 
 public class AddMoodLogActivity extends AbstractActivity {
 
+    private static final String ACTIVITY_TAG = "ACTIVITY_id-";
     private static final String SELECTED_ACTIVITY_TAG_PREFIX = "SELECTED_";
 
     private int selectedMood = -1;
-    private List<Long> selectedActivities = new ArrayList<>();
+    /* defined explicitly as an ArrayList as ArrayList implements Serializable - used to pass
+        in intent to Add Activity activity */
+    private ArrayList<Long> selectedActivities = new ArrayList<>();
     private Map<Long, String> generatedActivitiesIdsAndResourceKeys = new HashMap<>();
 
     @Override
@@ -36,6 +39,7 @@ public class AddMoodLogActivity extends AbstractActivity {
         setContentView(R.layout.add_mood_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         buildActivities();
+        populateFromIntent();
     }
 
     private void buildActivities() {
@@ -48,6 +52,8 @@ public class AddMoodLogActivity extends AbstractActivity {
                     activities.get(i + 1);
             activitiesLayout.addView(createDualActivityView(leftActivity, rightActivity));
         }
+
+        activitiesLayout.addView(createAddNewActivityView());
     }
 
     private LinearLayout createDualActivityView(Activity leftActivity, Activity rightActivity) {
@@ -67,13 +73,7 @@ public class AddMoodLogActivity extends AbstractActivity {
     }
 
     private LinearLayout createSingleActivityView(Activity activity) {
-        LinearLayout singleActivityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                dpToPixels(125),
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        singleActivityLayoutParams.setMargins(dpToPixels(20), 0, dpToPixels(20), 0);
-        singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
-        singleActivityLayout.setGravity(Gravity.CENTER_VERTICAL);
+        LinearLayout singleActivityLayout = createSingleActivityView();
 
         if (activity != null) {
             singleActivityLayout.addView(createActivityImageButton(activity));
@@ -83,25 +83,68 @@ public class AddMoodLogActivity extends AbstractActivity {
         return singleActivityLayout;
     }
 
+    private LinearLayout createAddNewActivityView() {
+        LinearLayout singleActivityLayout = createSingleActivityView();
+
+        singleActivityLayout.addView(createAddActivityImageButton());
+        TextView addNewActivityText = createActivityText("");
+        addNewActivityText.setText(R.string.activity_add_new);
+        singleActivityLayout.addView(addNewActivityText);
+
+        return singleActivityLayout;
+    }
+
+    private LinearLayout createSingleActivityView() {
+        LinearLayout singleActivityLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
+                dpToPixels(125),
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        singleActivityLayoutParams.setMargins(dpToPixels(20), 0, dpToPixels(20), 0);
+        singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
+        singleActivityLayout.setGravity(Gravity.CENTER_VERTICAL);
+
+        return singleActivityLayout;
+    }
+
     private ImageButton createActivityImageButton(Activity activity) {
+        ImageButton activityImageBtn = createActivityImageButton(
+                getResources().getIdentifier(activity.getImgKey(), "drawable", this.getPackageName()),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        setActivitySelected(view);
+                    }
+                }
+        );
+
+        String uniqueTag = ACTIVITY_TAG + activity.getId();
+        activityImageBtn.setTag(uniqueTag);
+        generatedActivitiesIdsAndResourceKeys.put(activity.getId(), activity.getImgKey());
+
+        return activityImageBtn;
+    }
+
+    private ImageButton createAddActivityImageButton() {
+        return createActivityImageButton(R.drawable.add_activity,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        addNewActivity();
+                    }
+                }
+        );
+    }
+
+    private ImageButton createActivityImageButton(int resId, View.OnClickListener onClickListener) {
         LinearLayout.LayoutParams activityImageLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         activityImageLayoutParams.setMargins(0, 0, dpToPixels(10), 0);
         ImageButton activityImageBtn = new ImageButton(this);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
-        activityImageBtn.setBackgroundResource(getResources().getIdentifier(activity.getImgKey(), "drawable", this.getPackageName()));
+        activityImageBtn.setBackgroundResource(resId);
 
-        String uniqueTag = "ACTIVITY_id-" + activity.getId();
-        activityImageBtn.setTag(uniqueTag);
-        generatedActivitiesIdsAndResourceKeys.put(activity.getId(), activity.getImgKey());
-
-        activityImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setActivitySelected(view);
-            }
-        });
+        activityImageBtn.setOnClickListener(onClickListener);
 
         return activityImageBtn;
     }
@@ -120,11 +163,10 @@ public class AddMoodLogActivity extends AbstractActivity {
 
     public void setMoodSelected(View view) {
         resetMoods();
-        int moodId = view.getId();
         selectedMood = MoodEnum.getMoodRating(view.getTag().toString());
-        String imgResource = getResources().getResourceEntryName(moodId);
+        String imgResource = getResources().getResourceEntryName(view.getId());
         String imgSelectedResource = imgResource + "_selected";
-        findViewById(moodId).setBackgroundResource(getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
+        findViewById(view.getId()).setBackgroundResource(getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
     }
 
     private void resetMoods() {
@@ -155,37 +197,56 @@ public class AddMoodLogActivity extends AbstractActivity {
         view.setBackgroundResource(getResources().getIdentifier(newResourceName, "drawable", this.getPackageName()));
     }
 
-    @Deprecated
-    private void resetActivities() {
-        ViewGroup activitiesRoot = (ViewGroup) findViewById(R.id.activities_root);
-        List<View> allActivityViews = getChildViews(activitiesRoot, new ArrayList<View>());
-        for (View activityView : allActivityViews) {
-            if (activityView.getTag() != null && activityView.getTag().toString().contains("ACTIVITY")) {
-                long activityId = parseActivityIdFromView(activityView);
-                // set background resource back to un-selected resource
-                String resetResourceKey = generatedActivitiesIdsAndResourceKeys.get(activityId);
-                activityView.setBackgroundResource(getResources().getIdentifier(resetResourceKey, "drawable", this.getPackageName()));
-            }
-        }
-    }
-
     private long parseActivityIdFromView(View view) {
         String activityTag = view.getTag().toString();
         // get unique activity ID from end of tag
         return Long.parseLong(activityTag.substring(activityTag.indexOf("id-") + 3));
     }
 
-    private List<View> getChildViews(View view, List<View> existingChildren) {
-        if (view instanceof ViewGroup) {
-            ViewGroup viewGroup = (ViewGroup) view;
-            int noOfChildren = viewGroup.getChildCount();
-            for (int i = 0; i < noOfChildren; i++) {
-                existingChildren = getChildViews(viewGroup.getChildAt(i), existingChildren);
-            }
-        } else {
-            existingChildren.add(view);
+    private void populateFromIntent() {
+        populateMoodFromIntent();
+        populateActivitiesFromIntent();
+    }
+
+    private void populateMoodFromIntent() {
+        int moodRating = getIntent().getIntExtra("mood_selected", -1);
+        String targetTag = MoodEnum.getTagName(moodRating);
+        if (targetTag.isEmpty()) {
+            return;
         }
-        return existingChildren;
+
+        List<View> moodChildViews = getChildViews(findViewById(R.id.mood_parent), new ArrayList<View>());
+        for (View view : moodChildViews) {
+            if (view.getTag() != null && view.getTag().toString().equals(targetTag)) {
+                setMoodSelected(view);
+                return;
+            }
+        }
+    }
+
+    private void populateActivitiesFromIntent() {
+        ArrayList<Long> activityIds = (ArrayList) getIntent().getSerializableExtra("activities_selected");
+        if (activityIds == null) {
+            return;
+        }
+
+        List<View> activityChildViews = getChildViews(findViewById(R.id.activities_root), new ArrayList<View>());
+        for (View view : activityChildViews) {
+            for (long activityId : activityIds) {
+                String targetTag = ACTIVITY_TAG + activityId;
+                if (view.getTag() != null && view.getTag().toString().equals(targetTag)) {
+                    setActivitySelected(view);
+                }
+            }
+        }
+    }
+
+    private void addNewActivity() {
+        Intent intent = new Intent(AddMoodLogActivity.this, AddActivityActivity.class);
+        // pass extras to activity creation to restore later
+        intent.putExtra("mood_selected", selectedMood);
+        intent.putExtra("activities_selected", selectedActivities);
+        startActivity(intent);
     }
 
     public void finishMoodLog(View view) {
@@ -205,6 +266,7 @@ public class AddMoodLogActivity extends AbstractActivity {
 
         Intent intent = new Intent(AddMoodLogActivity.this, MainActivity.class);
         startActivity(intent);
+
         Toast.makeText(AddMoodLogActivity.this, "Mood log added!",
                 Toast.LENGTH_LONG).show();
     }

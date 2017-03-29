@@ -1,6 +1,5 @@
 package com.moodlogger.db;
 
-import com.moodlogger.ActivityIconEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;
@@ -79,11 +78,11 @@ public final class MoodDbContract {
             String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Sad", 1),
             String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Angry", 0),
 
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Work", ActivityIconEnum.Work.getResourceKey()),
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", ActivityIconEnum.Study.getResourceKey()),
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", ActivityIconEnum.Relax.getResourceKey()),
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Exercise", ActivityIconEnum.Exercise.getResourceKey()),
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Travel", ActivityIconEnum.Travel.getResourceKey())
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Work", "activity_work"),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", "activity_study"),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", "activity_relax"),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Exercise", "activity_exercise"),
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Travel", "activity_travel")
     };
 
     public static final String SQL_DELETE_ENTRIES =
