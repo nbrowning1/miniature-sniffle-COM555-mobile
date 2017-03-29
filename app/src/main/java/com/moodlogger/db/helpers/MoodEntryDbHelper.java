@@ -7,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.moodlogger.DateUtils;
 import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
+import com.moodlogger.db.entities.MoodEntryActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
         SQLiteDatabase db = getReadableDatabase();
 
         String[] columns = {
+                MoodEntry._ID,
                 MoodEntry.LOCATION_LATITUDE,
                 MoodEntry.LOCATION_LONGITUDE,
                 MoodEntry.DATE_TIME,
@@ -43,14 +46,18 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
 
         String sortOrder = MoodEntry.DATE_TIME + " ASC";
 
+        MoodEntryActivityDbHelper moodEntryActivityDbHelper = new MoodEntryActivityDbHelper(context);
         List<MoodEntry> moodEntries = new ArrayList<>();
         Cursor cursor = db.query(MoodEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, sortOrder);
         while(cursor.moveToNext()) {
+            long id = cursor.getLong(cursor.getColumnIndexOrThrow(MoodEntry._ID));
             float locationLatitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LATITUDE));
             float locationLongitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LONGITUDE));
             String dateTime = cursor.getString(cursor.getColumnIndexOrThrow(MoodEntry.DATE_TIME));
             int moodId = cursor.getInt(cursor.getColumnIndexOrThrow(MoodEntry.MOOD_ID));
-            moodEntries.add(new MoodEntry(locationLatitude, locationLongitude, dateTime, moodId));
+
+            List<Activity> activities = moodEntryActivityDbHelper.getActivitiesForMoodId(id);
+            moodEntries.add(new MoodEntry(id, locationLatitude, locationLongitude, dateTime, moodId, activities));
         }
         cursor.close();
 
@@ -66,6 +73,15 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
         values.put(MoodEntry.LOCATION_LONGITUDE, moodEntry.getLocationLongitude());
         values.put(MoodEntry.MOOD_ID, moodEntry.getMoodId());
 
-        return db.insert(MoodEntry.TABLE_NAME, null, values);
+        long uniqueMoodId = db.insert(MoodEntry.TABLE_NAME, null, values);
+
+        List<Activity> activitiesForMood = moodEntry.getActivities();
+        MoodEntryActivityDbHelper moodEntryActivityDbHelper = new MoodEntryActivityDbHelper(context);
+        for (Activity activity : activitiesForMood) {
+            MoodEntryActivity moodEntryActivity = new MoodEntryActivity(uniqueMoodId, activity.getId());
+            moodEntryActivityDbHelper.create(moodEntryActivity);
+        }
+
+        return uniqueMoodId;
     }
 }

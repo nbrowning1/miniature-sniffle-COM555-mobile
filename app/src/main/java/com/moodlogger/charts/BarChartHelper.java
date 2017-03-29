@@ -60,8 +60,9 @@ public class BarChartHelper implements ChartHelper {
     private void setXAxis(BarChart chart) {
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisMinimum(0f);
-        xAxis.setAxisMaximum(4f);
+        // extra 0.5 allowance on each side so that bars are displayed at full-width
+        xAxis.setAxisMinimum(-0.5f);
+        xAxis.setAxisMaximum(4.5f);
         xAxis.setGranularity(1);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(moodValues));
     }

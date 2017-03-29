@@ -24,8 +24,10 @@ import java.util.Map;
 
 public class AddMoodLogActivity extends AbstractActivity {
 
+    private static final String SELECTED_ACTIVITY_TAG_PREFIX = "SELECTED_";
+
     private int selectedMood = -1;
-    private long selectedActivity = -1L;
+    private List<Long> selectedActivities = new ArrayList<>();
     private Map<Long, String> generatedActivitiesIdsAndResourceKeys = new HashMap<>();
 
     @Override
@@ -90,7 +92,7 @@ public class AddMoodLogActivity extends AbstractActivity {
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
         activityImageBtn.setBackgroundResource(getResources().getIdentifier(activity.getImgKey(), "drawable", this.getPackageName()));
 
-        String uniqueTag = "ACTIVITY_" + activity.getId();
+        String uniqueTag = "ACTIVITY_id-" + activity.getId();
         activityImageBtn.setTag(uniqueTag);
         generatedActivitiesIdsAndResourceKeys.put(activity.getId(), activity.getImgKey());
 
@@ -134,14 +136,26 @@ public class AddMoodLogActivity extends AbstractActivity {
     }
 
     public void setActivitySelected(View view) {
-        resetActivities();
-        // fetch activity id from DB
+
         long activityId = parseActivityIdFromView(view);
-        String activitySelectedResource = generatedActivitiesIdsAndResourceKeys.get(activityId) + "_selected";
-        view.setBackgroundResource(getResources().getIdentifier(activitySelectedResource, "drawable", this.getPackageName()));
-        selectedActivity = activityId;
+
+        String newResourceName;
+        String tag = view.getTag().toString();
+        if (tag.contains(SELECTED_ACTIVITY_TAG_PREFIX)) {
+            // set back to initial resource name
+            newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId);
+            selectedActivities.remove(activityId);
+            view.setTag(tag.replace(SELECTED_ACTIVITY_TAG_PREFIX, ""));
+        } else {
+            newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId) + "_selected";
+            selectedActivities.add(activityId);
+            view.setTag(SELECTED_ACTIVITY_TAG_PREFIX + tag);
+        }
+
+        view.setBackgroundResource(getResources().getIdentifier(newResourceName, "drawable", this.getPackageName()));
     }
 
+    @Deprecated
     private void resetActivities() {
         ViewGroup activitiesRoot = (ViewGroup) findViewById(R.id.activities_root);
         List<View> allActivityViews = getChildViews(activitiesRoot, new ArrayList<View>());
@@ -158,7 +172,7 @@ public class AddMoodLogActivity extends AbstractActivity {
     private long parseActivityIdFromView(View view) {
         String activityTag = view.getTag().toString();
         // get unique activity ID from end of tag
-        return Long.parseLong(activityTag.substring(activityTag.indexOf("_") + 1));
+        return Long.parseLong(activityTag.substring(activityTag.indexOf("id-") + 3));
     }
 
     private List<View> getChildViews(View view, List<View> existingChildren) {
@@ -175,9 +189,19 @@ public class AddMoodLogActivity extends AbstractActivity {
     }
 
     public void finishMoodLog(View view) {
-        MoodEntryDbHelper dbHelper = new MoodEntryDbHelper(getBaseContext());
-        MoodEntry moodEntry = new MoodEntry(23.2304f, 170.3290f, selectedMood);
-        dbHelper.create(moodEntry);
+        if (selectedMood == -1 || selectedActivities.isEmpty()) {
+            showAlert("Select a mood and at least one activity");
+            return;
+        }
+
+        ActivityDbHelper activityDbHelper = new ActivityDbHelper(getBaseContext());
+        List<Activity> activities = new ArrayList<>();
+        for (long activityId : selectedActivities) {
+            activities.add(activityDbHelper.getActivity(activityId));
+        }
+
+        MoodEntry moodEntry = new MoodEntry(23.2304f, 170.3290f, selectedMood, activities);
+        new MoodEntryDbHelper(getBaseContext()).create(moodEntry);
 
         Intent intent = new Intent(AddMoodLogActivity.this, MainActivity.class);
         startActivity(intent);

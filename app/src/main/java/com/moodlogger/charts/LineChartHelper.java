@@ -43,6 +43,7 @@ public class LineChartHelper implements ChartHelper {
         List<Entry> entries = getEntries();
 
         LineDataSet dataSet = new LineDataSet(entries, "Mood");
+        dataSet.setLineWidth(2.5f);
         dataSet.setDrawValues(false);
         LineData lineData = new LineData(dataSet);
         chart.setData(lineData);

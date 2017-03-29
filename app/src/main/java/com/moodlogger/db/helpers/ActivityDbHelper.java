@@ -38,6 +38,29 @@ public class ActivityDbHelper extends MoodDbHelper implements DbHelperIntf<Activ
         return activities;
     }
 
+    public Activity getActivity(long id) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = {
+                Activity.NAME,
+                Activity.IMG_KEY
+        };
+
+        String selection = Activity._ID + " = ?";
+        String[] selectionArgs = {Long.toString(id)};
+
+        Cursor cursor = db.query(Activity.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        cursor.moveToNext();
+
+        String name = cursor.getString(cursor.getColumnIndexOrThrow(Activity.NAME));
+        String imgKey = cursor.getString(cursor.getColumnIndexOrThrow(Activity.IMG_KEY));
+        Activity activity = new Activity(id, name, imgKey);
+
+        cursor.close();
+
+        return activity;
+    }
+
     @Override
     public long create(Activity activity) {
         SQLiteDatabase db = getWritableDatabase();
