@@ -1,42 +1,22 @@
 package com.moodlogger.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TabHost;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.moodlogger.R;
 import com.moodlogger.charts.BarChartHelper;
 import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
 import com.moodlogger.charts.TimeRangeEnum;
-import com.moodlogger.db.MoodDbContract;
-import com.moodlogger.db.entities.MoodEntry;
-import com.moodlogger.db.entities.User;
-import com.moodlogger.db.helpers.MoodDbHelper;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbstractActivity {
 
     private static final String TAB_ONE_NAME = "Summary";
     private static final String TAB_TWO_NAME = "View";
@@ -90,16 +70,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildChart() {
-        View chartView = findViewById(R.id.chart);
         TimeRangeEnum timeRange = TimeRangeEnum.getEnum(timeRangeSpinner.getSelectedItem().toString());
         ChartTypeEnum chartType = ChartTypeEnum.getChartType(chartTypeSpinner.getSelectedItem().toString());
         String[] moodValues = getResources().getStringArray(R.array.graph_mood_values);
+
+        buildChart(chartType);
+        View chartView = findViewById(R.id.chart);
 
         if (chartType.equals(ChartTypeEnum.Line)) {
             new LineChartHelper(timeRange, moodValues, getBaseContext()).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
             new BarChartHelper(timeRange, moodValues, getBaseContext()).buildChart(chartView);
         }
+    }
+
+    private void buildChart(ChartTypeEnum chartType) {
+        LinearLayout chartParent = (LinearLayout) findViewById(R.id.chart_parent);
+        chartParent.removeAllViews();
+        View chart;
+        LinearLayout.LayoutParams chartLayoutParams = new LinearLayout.LayoutParams(dpToPixels(350), dpToPixels(350));
+
+        if (chartType.equals(ChartTypeEnum.Line)) {
+            chart = new LineChart(this);
+            chart.setId(R.id.chart);
+            chart.setLayoutParams(chartLayoutParams);
+        } else if (chartType.equals(ChartTypeEnum.Bar)) {
+            chart = new BarChart(this);
+            chart.setId(R.id.chart);
+            chart.setLayoutParams(chartLayoutParams);
+        } else {
+            throw new RuntimeException("Oops");
+        }
+
+        chartParent.addView(chart);
     }
 
     public void addMoodLog(View view) {

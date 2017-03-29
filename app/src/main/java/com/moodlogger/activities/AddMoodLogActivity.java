@@ -2,8 +2,6 @@ package com.moodlogger.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddMoodLogActivity extends AppCompatActivity {
+public class AddMoodLogActivity extends AbstractActivity {
 
     private int selectedMood = -1;
     private long selectedActivity = -1L;
@@ -41,7 +39,7 @@ public class AddMoodLogActivity extends AppCompatActivity {
     private void buildActivities() {
         LinearLayout activitiesLayout = (LinearLayout) findViewById(R.id.activities_root);
         List<Activity> activities = new ActivityDbHelper(getBaseContext()).getActivities();
-        for (int i = 0; i < activities.size(); i+=2) {
+        for (int i = 0; i < activities.size(); i += 2) {
             Activity leftActivity = activities.get(i);
             Activity rightActivity = (i + 1) >= activities.size() ?
                     null :
@@ -116,10 +114,6 @@ public class AddMoodLogActivity extends AppCompatActivity {
         activityText.setTextSize(15f);
 
         return activityText;
-    }
-
-    private int dpToPixels(float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 
     public void setMoodSelected(View view) {

@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.moodlogger.DateUtils;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
@@ -75,7 +76,7 @@ public class LineChartHelper implements ChartHelper {
 
     private List<Entry> getEntries() {
         List<Entry> entries = new ArrayList<>();
-        List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries();
+        List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
 
         for (MoodEntry moodEntry : moodEntries) {
             Calendar cal = Calendar.getInstance();
@@ -83,20 +84,14 @@ public class LineChartHelper implements ChartHelper {
             long endPeriodTime;
 
             if (timeRange.equals(TimeRangeEnum.Week)) {
-                cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
-                startPeriodTime = cal.getTimeInMillis();
-                cal.add(Calendar.WEEK_OF_YEAR, 1);
-                endPeriodTime = cal.getTimeInMillis();
+                startPeriodTime = DateUtils.getStartOfWeek().getTimeInMillis();
+                endPeriodTime = DateUtils.getEndOfWeek().getTimeInMillis();
             } else if (timeRange.equals(TimeRangeEnum.Month)) {
-                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-                startPeriodTime = cal.getTimeInMillis();
-                cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-                endPeriodTime = cal.getTimeInMillis();
+                startPeriodTime = DateUtils.getStartOfMonth().getTimeInMillis();
+                endPeriodTime = DateUtils.getEndOfMonth().getTimeInMillis();
             } else {
-                cal.set(Calendar.DAY_OF_YEAR, cal.getActualMinimum(Calendar.DAY_OF_YEAR));
-                startPeriodTime = cal.getTimeInMillis();
-                cal.set(Calendar.DAY_OF_YEAR, cal.getActualMaximum(Calendar.DAY_OF_YEAR));
-                endPeriodTime = cal.getTimeInMillis();
+                startPeriodTime = DateUtils.getStartOfYear().getTimeInMillis();
+                endPeriodTime = DateUtils.getEndOfYear().getTimeInMillis();
             }
 
             // find out how far we are through the time period

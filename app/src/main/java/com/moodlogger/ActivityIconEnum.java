@@ -2,7 +2,7 @@ package com.moodlogger;
 
 /**
  * holds resource keys for different activity icons to aid in construction of activities
- *  views and creating custom activities
+ * views and creating custom activities
  */
 public enum ActivityIconEnum {
 
