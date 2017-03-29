@@ -10,10 +10,12 @@ import android.widget.TabHost;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.moodlogger.R;
 import com.moodlogger.charts.BarChartHelper;
 import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
+import com.moodlogger.charts.PieChartHelper;
 import com.moodlogger.charts.TimeRangeEnum;
 
 public class MainActivity extends AbstractActivity {
@@ -81,6 +83,8 @@ public class MainActivity extends AbstractActivity {
             new LineChartHelper(timeRange, moodValues, getBaseContext()).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
             new BarChartHelper(timeRange, moodValues, getBaseContext()).buildChart(chartView);
+        } else if (chartType.equals(ChartTypeEnum.Pie)) {
+            new PieChartHelper(timeRange, moodValues, getBaseContext()).buildChart(chartView);
         }
     }
 
@@ -99,7 +103,9 @@ public class MainActivity extends AbstractActivity {
             chart.setId(R.id.chart);
             chart.setLayoutParams(chartLayoutParams);
         } else {
-            throw new RuntimeException("Oops");
+            chart = new PieChart(this);
+            chart.setId(R.id.chart);
+            chart.setLayoutParams(chartLayoutParams);
         }
 
         chartParent.addView(chart);
