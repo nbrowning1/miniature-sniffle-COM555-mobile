@@ -1,5 +1,14 @@
 package com.moodlogger.db.entities;
 
+import android.util.Log;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 public class MoodEntry extends Entity {
 
     public static final String TABLE_NAME = "mood_entry";
@@ -34,6 +43,19 @@ public class MoodEntry extends Entity {
 
     public String getDateTime() {
         return dateTime;
+    }
+
+    public Calendar getFormattedDate() {
+        try {
+            Calendar calendar = new GregorianCalendar();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            Date date = dateFormat.parse(dateTime); //replace 4 with the column index
+            calendar.setTime(date);
+            return calendar;
+        } catch (ParseException e) {
+            Log.e("ERROR", "Error occurred parsing mood entry date to java format", e);
+            throw new RuntimeException(e);
+        }
     }
 
     public int getMoodId() {

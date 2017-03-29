@@ -28,8 +28,10 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
                 MoodEntry.MOOD_ID
         };
 
+        String sortOrder = MoodEntry.DATE_TIME + " ASC";
+
         List<MoodEntry> moodEntries = new ArrayList<>();
-        Cursor cursor = db.query(User.TABLE_NAME, columns, null, null, null, null, null);
+        Cursor cursor = db.query(MoodEntry.TABLE_NAME, columns, null, null, null, null, sortOrder);
         while(cursor.moveToNext()) {
             float locationLatitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LATITUDE));
             float locationLongitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LONGITUDE));

@@ -43,6 +43,7 @@
                         android:layout_height="15dp" />
 
                     <Spinner
+                        android:id="@+id/time_range_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:entries="@array/time_period_array"></Spinner>
@@ -61,6 +62,7 @@
                         android:layout_height="15dp" />
 
                     <Spinner
+                        android:id="@+id/chart_type_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:entries="@array/graph_type_array"></Spinner>

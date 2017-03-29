@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger;
 
 /**
  * holds resource keys for different activity icons to aid in construction of activities

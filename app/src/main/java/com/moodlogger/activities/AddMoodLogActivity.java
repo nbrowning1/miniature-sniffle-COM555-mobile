@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;

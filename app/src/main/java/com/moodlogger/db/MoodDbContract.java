@@ -1,6 +1,6 @@
 package com.moodlogger.db;
 
-import com.moodlogger.activities.ActivityIconEnum;
+import com.moodlogger.ActivityIconEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;

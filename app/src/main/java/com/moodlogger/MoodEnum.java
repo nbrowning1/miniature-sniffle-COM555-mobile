@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger;
 
 public enum MoodEnum {
 
