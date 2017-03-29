@@ -41,6 +41,10 @@ public class LineChartHelper implements ChartHelper {
         chart.setDescription(emptyDescription);
 
         List<Entry> entries = getEntries();
+        if (entries.isEmpty()) {
+            // need at least one entry to draw chart
+            entries.add(new Entry(0f, 0f));
+        }
 
         LineDataSet dataSet = new LineDataSet(entries, "Mood");
         dataSet.setLineWidth(2.5f);
