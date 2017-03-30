@@ -2,6 +2,7 @@ package com.moodlogger.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,7 +14,7 @@ import com.moodlogger.db.helpers.ActivityDbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddActivityActivity extends AbstractActivity {
+public class AddActivityActivity extends AppCompatActivity {
 
     private String selectedActivityTagName;
 
@@ -30,7 +31,7 @@ public class AddActivityActivity extends AbstractActivity {
     }
 
     private void resetActivities() {
-        List<View> allViews = getChildViews(findViewById(R.id.new_activity_layout), new ArrayList<View>());
+        List<View> allViews = ActivityUtils.getChildViews(findViewById(R.id.new_activity_layout), new ArrayList<View>());
         for (View view : allViews) {
             String tag =
                     view.getTag() == null ? "" : view.getTag().toString();
@@ -52,14 +53,14 @@ public class AddActivityActivity extends AbstractActivity {
         String name = ((EditText) findViewById(R.id.edit_message)).getText().toString();
 
         if (selectedActivityTagName == null || selectedActivityTagName.isEmpty() || name.isEmpty()) {
-            showAlert("Select an icon and enter a name for the new activity");
+            ActivityUtils.showAlert(this, "Select an icon and enter a name for the new activity");
             return;
         }
 
         ActivityDbHelper activityDbHelper = new ActivityDbHelper(getBaseContext());
         for (Activity activity : activityDbHelper.getActivities()) {
             if (name.equalsIgnoreCase(activity.getName())) {
-                showAlert("Activity name is already in use");
+                ActivityUtils.showAlert(this, "Activity name is already in use");
                 return;
             }
         }
