@@ -3,4 +3,7 @@
     <color name="colorPrimary">#F89406</color>
     <color name="colorPrimaryDark">#D35400</color>
     <color name="colorAccent">#F4B350</color>
+
+    <color name="colorNestedScrollViewFill">#e6e6e6</color>
+    <color name="colorNestedScrollViewBorder">#bfbfbf</color>
 </resources>

@@ -57,7 +57,7 @@ public class PieChartHelper implements ChartHelper {
 
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                String moodText = moodValues[pieChartIndex];
+                String moodText = value == 0f ? "" : moodValues[pieChartIndex];
                 pieChartIndex++;
                 return moodText;
             }

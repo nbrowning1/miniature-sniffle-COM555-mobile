@@ -17,7 +17,7 @@
         <item>Pie</item>
     </string-array>
 
-    <string-array name="graph_mood_values">
+    <string-array name="mood_values">
         <item>Angry</item>
         <item>Sad</item>
         <item>Neutral</item>

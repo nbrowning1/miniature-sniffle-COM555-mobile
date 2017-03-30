@@ -74,7 +74,7 @@ public class MainActivity extends AbstractActivity {
     private void buildChart() {
         TimeRangeEnum timeRange = TimeRangeEnum.getEnum(timeRangeSpinner.getSelectedItem().toString());
         ChartTypeEnum chartType = ChartTypeEnum.getChartType(chartTypeSpinner.getSelectedItem().toString());
-        String[] moodValues = getResources().getStringArray(R.array.graph_mood_values);
+        String[] moodValues = getResources().getStringArray(R.array.mood_values);
 
         buildChart(chartType);
         View chartView = findViewById(R.id.chart);
