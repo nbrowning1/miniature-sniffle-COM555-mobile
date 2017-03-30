@@ -1,7 +1,9 @@
 package com.moodlogger.activities;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,7 +11,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-public abstract class AbstractActivity extends AppCompatActivity {
+public class ActivityUtils {
 
     /**
      * Used to generate a pixel value given a DP value
@@ -19,12 +21,12 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * @param dp units to convert to px
      * @return px value
      */
-    protected int dpToPixels(float dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+    public static int dpToPixels(Resources resources, float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     }
 
-    protected void showAlert(String msg) {
-        AlertDialog alertDialog = new AlertDialog.Builder(AbstractActivity.this).create();
+    public static void showAlert(Context context, String msg) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(msg);
         alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -44,7 +46,7 @@ public abstract class AbstractActivity extends AppCompatActivity {
      * @param existingChildren used to keep track of children when making recursive calls down the tree
      * @return list of child views for {@code view}
      */
-    protected List<View> getChildViews(View view, List<View> existingChildren) {
+    public static List<View> getChildViews(View view, List<View> existingChildren) {
         if (view instanceof ViewGroup) {
             ViewGroup viewGroup = (ViewGroup) view;
             int noOfChildren = viewGroup.getChildCount();

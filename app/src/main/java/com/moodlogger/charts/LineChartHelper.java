@@ -16,7 +16,6 @@ import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public class LineChartHelper implements ChartHelper {
@@ -84,7 +83,6 @@ public class LineChartHelper implements ChartHelper {
         List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
 
         for (MoodEntry moodEntry : moodEntries) {
-            Calendar cal = Calendar.getInstance();
             long startPeriodTime;
             long endPeriodTime;
 

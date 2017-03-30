@@ -2,6 +2,7 @@ package com.moodlogger.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddMoodLogActivity extends AbstractActivity {
+public class AddMoodLogActivity extends AppCompatActivity {
 
     private static final String ACTIVITY_TAG = "ACTIVITY_id-";
     private static final String SELECTED_ACTIVITY_TAG_PREFIX = "SELECTED_";
@@ -61,7 +62,8 @@ public class AddMoodLogActivity extends AbstractActivity {
         LinearLayout.LayoutParams dualActivityLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        dualActivityLayoutParams.setMargins(dpToPixels(25), 0, dpToPixels(25), dpToPixels(25));
+        int margin = ActivityUtils.dpToPixels(getResources(), 25);
+        dualActivityLayoutParams.setMargins(margin, 0, margin, margin);
         horizontalDualActivityLayout.setLayoutParams(dualActivityLayoutParams);
         horizontalDualActivityLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         horizontalDualActivityLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -97,9 +99,11 @@ public class AddMoodLogActivity extends AbstractActivity {
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                dpToPixels(125),
+                ActivityUtils.dpToPixels(getResources(), 125),
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        singleActivityLayoutParams.setMargins(dpToPixels(20), 0, dpToPixels(20), 0);
+        singleActivityLayoutParams.setMargins(
+                ActivityUtils.dpToPixels(getResources(), 20), 0,
+                ActivityUtils.dpToPixels(getResources(), 20), 0);
         singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
         singleActivityLayout.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -139,7 +143,7 @@ public class AddMoodLogActivity extends AbstractActivity {
         LinearLayout.LayoutParams activityImageLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        activityImageLayoutParams.setMargins(0, 0, dpToPixels(10), 0);
+        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(getResources(), 10), 0);
         ImageButton activityImageBtn = new ImageButton(this);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
         activityImageBtn.setBackgroundResource(resId);
@@ -215,7 +219,7 @@ public class AddMoodLogActivity extends AbstractActivity {
             return;
         }
 
-        List<View> moodChildViews = getChildViews(findViewById(R.id.mood_parent), new ArrayList<View>());
+        List<View> moodChildViews = ActivityUtils.getChildViews(findViewById(R.id.mood_parent), new ArrayList<View>());
         for (View view : moodChildViews) {
             if (view.getTag() != null && view.getTag().toString().equals(targetTag)) {
                 setMoodSelected(view);
@@ -230,7 +234,7 @@ public class AddMoodLogActivity extends AbstractActivity {
             return;
         }
 
-        List<View> activityChildViews = getChildViews(findViewById(R.id.activities_root), new ArrayList<View>());
+        List<View> activityChildViews = ActivityUtils.getChildViews(findViewById(R.id.activities_root), new ArrayList<View>());
         for (View view : activityChildViews) {
             for (long activityId : activityIds) {
                 String targetTag = ACTIVITY_TAG + activityId;
@@ -251,7 +255,7 @@ public class AddMoodLogActivity extends AbstractActivity {
 
     public void finishMoodLog(View view) {
         if (selectedMood == -1 || selectedActivities.isEmpty()) {
-            showAlert("Select a mood and at least one activity");
+            ActivityUtils.showAlert(this, "Select a mood and at least one activity");
             return;
         }
 
