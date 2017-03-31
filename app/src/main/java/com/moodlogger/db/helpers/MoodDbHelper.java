@@ -1,12 +1,8 @@
 package com.moodlogger.db.helpers;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.moodlogger.db.entities.User;
 
 import static com.moodlogger.db.MoodDbContract.SQL_CREATE_ENTRIES;
 import static com.moodlogger.db.MoodDbContract.SQL_DELETE_ENTRIES;
@@ -14,15 +10,27 @@ import static com.moodlogger.db.MoodDbContract.SQL_UPDATE_ENTRIES;
 
 public class MoodDbHelper extends SQLiteOpenHelper {
 
-    // If you change the database schema, you must increment the database version.
+    private static MoodDbHelper instance = null;
+
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Mood.db";
 
-    protected Context context;
+    private Context context;
 
-    public MoodDbHelper(Context context) {
+    public static MoodDbHelper getInstance(Context context) {
+        if (instance == null) {
+            instance = new MoodDbHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    private MoodDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public void onCreate(SQLiteDatabase db) {

@@ -7,6 +7,7 @@
     tools:context="com.moodlogger.activities.MainActivity">
 
     <LinearLayout
+        android:id="@+id/view_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -21,8 +22,10 @@
             android:entries="@array/time_period_array" />
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/mood_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/nested_scroll_view_bg">
@@ -44,6 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -96,8 +100,8 @@
                             android:id="@+id/mood_activities"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
                             android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="15dp"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
 
@@ -109,10 +113,185 @@
 
                 </LinearLayout>
 
+                <ProgressBar
+                    android:id="@+id/mood_info_progress_spinner"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="?android:attr/progressBarStyle" />
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
 
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/activity_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/nested_scroll_view_bg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <Spinner
+                    android:id="@+id/activity_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+                <ProgressBar
+                    android:id="@+id/activity_moods_progress_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:theme="?android:attr/progressBarStyle" />
+
+                <!-- visibility == gone until info loaded -->
+                <LinearLayout
+                    android:id="@+id/mood_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mood_great"
+                            android:contentDescription="@string/mood_great"
+                            android:onClick="setMoodSelected" />
+
+                        <TextView
+                            android:id="@+id/mood_great_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mood_happy"
+                            android:contentDescription="@string/mood_happy"
+                            android:onClick="setMoodSelected" />
+
+                        <TextView
+                            android:id="@+id/mood_happy_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mood_neutral"
+                            android:contentDescription="@string/mood_neutral"
+                            android:onClick="setMoodSelected" />
+
+                        <TextView
+                            android:id="@+id/mood_neutral_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:id="@+id/mood_sad"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mood_sad"
+                            android:contentDescription="@string/mood_sad"
+                            android:onClick="setMoodSelected" />
+
+                        <TextView
+                            android:id="@+id/mood_sad_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/mood_angry"
+                            android:contentDescription="@string/mood_angry"
+                            android:onClick="setMoodSelected" />
+
+                        <TextView
+                            android:id="@+id/mood_angry_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 </ScrollView>

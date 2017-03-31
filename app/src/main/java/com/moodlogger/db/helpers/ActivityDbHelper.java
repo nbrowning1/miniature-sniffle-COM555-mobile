@@ -10,14 +10,33 @@ import com.moodlogger.db.entities.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityDbHelper extends MoodDbHelper implements DbHelperIntf<Activity> {
+public class ActivityDbHelper implements DbHelperIntf<Activity> {
+
+    private MoodDbHelper dbHelper;
 
     public ActivityDbHelper(Context context) {
-        super(context);
+        dbHelper = MoodDbHelper.getInstance(context);
+    }
+
+    public List<String> getActivityNames() {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        String[] columns = {
+                Activity.NAME
+        };
+
+        List<String> activityNames = new ArrayList<>();
+        Cursor cursor = db.query(Activity.TABLE_NAME, columns, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            activityNames.add(cursor.getString(cursor.getColumnIndexOrThrow(Activity.NAME)));
+        }
+        cursor.close();
+
+        return activityNames;
     }
 
     public List<Activity> getActivities() {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] columns = {
                 Activity._ID,
@@ -38,20 +57,31 @@ public class ActivityDbHelper extends MoodDbHelper implements DbHelperIntf<Activ
         return activities;
     }
 
+    public Activity getActivity(String name) {
+        String selection = Activity.NAME + " = ?";
+        String[] selectionArgs = {name};
+        return getActivity(selection, selectionArgs);
+    }
+
     public Activity getActivity(long id) {
-        SQLiteDatabase db = getReadableDatabase();
+        String selection = Activity._ID + " = ?";
+        String[] selectionArgs = {Long.toString(id)};
+        return getActivity(selection, selectionArgs);
+    }
+
+    public Activity getActivity(String selection, String[] selectionArgs) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String[] columns = {
+                Activity._ID,
                 Activity.NAME,
                 Activity.IMG_KEY
         };
 
-        String selection = Activity._ID + " = ?";
-        String[] selectionArgs = {Long.toString(id)};
-
         Cursor cursor = db.query(Activity.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
         cursor.moveToNext();
 
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(Activity._ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(Activity.NAME));
         String imgKey = cursor.getString(cursor.getColumnIndexOrThrow(Activity.IMG_KEY));
         Activity activity = new Activity(id, name, imgKey);
@@ -63,7 +93,7 @@ public class ActivityDbHelper extends MoodDbHelper implements DbHelperIntf<Activ
 
     @Override
     public long create(Activity activity) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Activity.NAME, activity.getName());
