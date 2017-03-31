@@ -59,7 +59,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Void... args) {
+    protected Void doInBackground(Void... params) {
         List<MoodEntry> moodEntriesForMoodRating =
                 new MoodEntryDbHelper(context).getMoodEntries(moodRating, timeRange);
 
@@ -91,7 +91,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     }
 
     @Override
-    protected void onPostExecute(Void args) {
+    protected void onPostExecute(Void params) {
         buildLocationsAndActivitiesForMood();
     }
 

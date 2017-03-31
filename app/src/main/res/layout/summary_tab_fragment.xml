@@ -7,6 +7,7 @@
     tools:context="com.moodlogger.activities.MainActivity">
 
     <LinearLayout
+        android:id="@+id/summary_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -29,6 +30,12 @@
             <!-- Dynamically generated chart type -->
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/chart_progress_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:theme="?android:attr/progressBarStyle" />
 
         <Spinner
             android:id="@+id/chart_type_spinner"

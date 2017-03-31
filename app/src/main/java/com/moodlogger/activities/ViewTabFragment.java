@@ -1,29 +1,17 @@
 package com.moodlogger.activities;
 
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.moodlogger.R;
 import com.moodlogger.asyncTasks.FetchInfoForMoodTask;
 import com.moodlogger.asyncTasks.FetchMoodsForActivityTask;
-import com.moodlogger.charts.TimeRangeEnum;
-import com.moodlogger.db.entities.Activity;
-import com.moodlogger.db.entities.MoodEntry;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewTabFragment extends Fragment {
 
