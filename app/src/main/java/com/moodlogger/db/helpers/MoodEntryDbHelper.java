@@ -21,17 +21,23 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
     }
 
     public List<MoodEntry> getMoodEntries(TimeRangeEnum timeRange) {
-        SQLiteDatabase db = getReadableDatabase();
-
-        String[] columns = {
-                MoodEntry._ID,
-                MoodEntry.LOCATION_LATITUDE,
-                MoodEntry.LOCATION_LONGITUDE,
-                MoodEntry.DATE_TIME,
-                MoodEntry.MOOD_ID
-        };
-
         String selection = MoodEntry.DATE_TIME + " BETWEEN ? AND ?";
+        return getMoodEntries(selection, getTimeRangeSelectionArgs(timeRange));
+    }
+
+    public List<MoodEntry> getMoodEntries(int moodRating, TimeRangeEnum timeRange) {
+        String selection = MoodEntry.MOOD_ID + " = ? AND " + MoodEntry.DATE_TIME + " BETWEEN ? AND ?";
+
+        String[] selectionArgs = new String[3];
+        selectionArgs[0] = Integer.toString(moodRating);
+        String[] timeRangeSelectionArgs = getTimeRangeSelectionArgs(timeRange);
+        selectionArgs[1] = timeRangeSelectionArgs[0];
+        selectionArgs[2] = timeRangeSelectionArgs[1];
+
+        return getMoodEntries(selection, selectionArgs);
+    }
+
+    private String[] getTimeRangeSelectionArgs(TimeRangeEnum timeRange) {
         String[] selectionArgs = new String[2];
         if (timeRange.equals(TimeRangeEnum.Week)) {
             selectionArgs[0] = DateUtils.getSqliteDateForQuery(DateUtils.getStartOfWeek());
@@ -43,6 +49,19 @@ public class MoodEntryDbHelper extends MoodDbHelper implements DbHelperIntf<Mood
             selectionArgs[0] = DateUtils.getSqliteDateForQuery(DateUtils.getStartOfYear());
             selectionArgs[1] = DateUtils.getSqliteDateForQuery(DateUtils.getEndOfYear());
         }
+        return selectionArgs;
+    }
+
+    public List<MoodEntry> getMoodEntries(String selection, String[] selectionArgs) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String[] columns = {
+                MoodEntry._ID,
+                MoodEntry.LOCATION_LATITUDE,
+                MoodEntry.LOCATION_LONGITUDE,
+                MoodEntry.DATE_TIME,
+                MoodEntry.MOOD_ID
+        };
 
         String sortOrder = MoodEntry.DATE_TIME + " ASC";
 

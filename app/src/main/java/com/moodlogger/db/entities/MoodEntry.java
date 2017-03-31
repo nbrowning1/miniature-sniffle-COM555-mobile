@@ -1,5 +1,7 @@
 package com.moodlogger.db.entities;
 
+import android.location.Location;
+
 import com.moodlogger.DateUtils;
 
 import java.util.Calendar;
@@ -16,6 +18,7 @@ public class MoodEntry extends Entity {
     private long id;
     private float locationLatitude;
     private float locationLongitude;
+    private Location location;
     private String dateTime;
     private int moodId;
     private List<Activity> activities;
@@ -28,6 +31,9 @@ public class MoodEntry extends Entity {
         this.id = id;
         this.locationLatitude = locationLatitude;
         this.locationLongitude = locationLongitude;
+        this.location = new Location("provider");
+        this.location.setLatitude(locationLatitude);
+        this.location.setLongitude(locationLongitude);
         this.dateTime = dateTime;
         this.moodId = moodId;
         this.activities = activities;
@@ -43,6 +49,10 @@ public class MoodEntry extends Entity {
 
     public float getLocationLongitude() {
         return locationLongitude;
+    }
+
+    public Location getLocation() {
+        return location;
     }
 
     public String getDateTime() {

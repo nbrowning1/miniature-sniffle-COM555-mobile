@@ -35,6 +35,10 @@
         <item>Sun</item>
     </string-array>
 
+    <!-- View Tab -->
+    <string name="locations">Locations</string>
+    <string name="activities">Activities</string>
+
     <!-- Add Mood Log Activity -->
     <string name="feeling_text">How are you feeling?</string>
     <string name="mood_great">Great</string>

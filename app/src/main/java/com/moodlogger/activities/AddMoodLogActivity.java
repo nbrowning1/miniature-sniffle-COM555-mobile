@@ -265,7 +265,7 @@ public class AddMoodLogActivity extends AppCompatActivity {
             activities.add(activityDbHelper.getActivity(activityId));
         }
 
-        MoodEntry moodEntry = new MoodEntry(23.2304f, 170.3290f, selectedMood, activities);
+        MoodEntry moodEntry = new MoodEntry(54.607868f, -5.926437f, selectedMood, activities);
         new MoodEntryDbHelper(getBaseContext()).create(moodEntry);
 
         Intent intent = new Intent(AddMoodLogActivity.this, MainActivity.class);
