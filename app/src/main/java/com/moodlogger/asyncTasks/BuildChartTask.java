@@ -22,7 +22,6 @@ import com.moodlogger.charts.TimeRangeEnum;
 
 public class BuildChartTask extends AsyncTask<Void, Void, Void> {
 
-    private Activity activity;
     private Context context;
     private LinearLayout parentView;
     private Resources resources;
@@ -34,8 +33,7 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
     private static final int NO_OF_SPINNERS_TO_WAIT_FOR_INIT = 1;
     private int noOfSpinnersInitialised;
 
-    public BuildChartTask(Activity activity, Context context, LinearLayout parentView, Resources resources) {
-        this.activity = activity;
+    public BuildChartTask(Context context, LinearLayout parentView, Resources resources) {
         this.context = context;
         this.parentView = parentView;
         this.resources = resources;

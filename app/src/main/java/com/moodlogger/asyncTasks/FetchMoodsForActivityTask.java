@@ -36,16 +36,17 @@ public class FetchMoodsForActivityTask extends AsyncTask<Void, Void, Map<Integer
 
     @Override
     protected void onPreExecute() {
+        initialiseViewsToShowLoading();
+
         Spinner activitySpinner = (Spinner) parentView.findViewById(R.id.activity_spinner);
-        List<String> activities = new ActivityDbHelper(context).getActivityNames();
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, activities);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        activitySpinner.setAdapter(spinnerArrayAdapter);
-
         String timeRangeValue = ((Spinner) parentView.findViewById(R.id.view_time_range_spinner)).getSelectedItem().toString();
         timeRange = TimeRangeEnum.getEnum(timeRangeValue);
         activityName = activitySpinner.getSelectedItem().toString();
+    }
+
+    private void initialiseViewsToShowLoading() {
+        parentView.findViewById(R.id.activity_moods_progress_spinner).setVisibility(View.VISIBLE);
+        parentView.findViewById(R.id.mood_parent).setVisibility(View.GONE);
     }
 
     @Override

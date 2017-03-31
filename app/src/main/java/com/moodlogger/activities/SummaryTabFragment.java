@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.moodlogger.R;
 import com.moodlogger.asyncTasks.BuildChartTask;
@@ -20,7 +21,7 @@ public class SummaryTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
-        new BuildChartTask(getActivity(), getContext(), parentView, getResources())
+        new BuildChartTask(getContext(), parentView, getResources())
                 .execute();
     }
 }

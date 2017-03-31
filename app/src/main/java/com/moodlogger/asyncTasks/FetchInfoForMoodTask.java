@@ -46,13 +46,19 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        initialiseViewsToShowLoading();
         setValuesFromSpinners();
+    }
+
+    private void initialiseViewsToShowLoading() {
+        parentView.findViewById(R.id.mood_info_progress_spinner).setVisibility(View.VISIBLE);
+        ((LinearLayout) parentView.findViewById(R.id.mood_locations)).removeAllViews();
+        ((LinearLayout) parentView.findViewById(R.id.mood_activities)).removeAllViews();
     }
 
     private void setValuesFromSpinners() {
         moodRating = ((Spinner) parentView.findViewById(R.id.mood_spinner))
                 .getSelectedItemPosition();
-
         String timeRangeValue = ((Spinner) parentView.findViewById(R.id.view_time_range_spinner))
                 .getSelectedItem().toString();
         timeRange = TimeRangeEnum.getEnum(timeRangeValue);
@@ -98,10 +104,11 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private void buildLocationsAndActivitiesForMood() {
         // hide progress spinner
         parentView.findViewById(R.id.mood_info_progress_spinner).setVisibility(View.GONE);
+        ((LinearLayout) parentView.findViewById(R.id.mood_locations)).removeAllViews();
+        ((LinearLayout) parentView.findViewById(R.id.mood_activities)).removeAllViews();
+
         LinearLayout locationsParent = (LinearLayout) parentView.findViewById(R.id.mood_locations);
         LinearLayout activitiesParent = (LinearLayout) parentView.findViewById(R.id.mood_activities);
-        locationsParent.removeAllViews();
-        activitiesParent.removeAllViews();
 
         for (String locationText : locations) {
             locationsParent.addView(createLocationText(locationText));
