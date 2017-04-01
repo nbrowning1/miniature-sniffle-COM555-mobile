@@ -25,8 +25,12 @@ import java.util.Map;
 
 public class AddMoodLogActivity extends AppCompatActivity {
 
+    private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private static final String ACTIVITY_TAG = "ACTIVITY_id-";
     private static final String SELECTED_ACTIVITY_TAG_PREFIX = "SELECTED_";
+
+    private static final String MOOD_RESTORE_KEY = "mood_selected";
+    private static final String ACTIVITIES_RESTORE_KEY = "activities_selected";
 
     private int selectedMood = -1;
     /* defined explicitly as an ArrayList as ArrayList implements Serializable - used to pass
@@ -40,7 +44,7 @@ public class AddMoodLogActivity extends AppCompatActivity {
         setContentView(R.layout.add_mood_log);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         buildActivities();
-        populateFromIntent();
+        restoreView(savedInstanceState);
     }
 
     private void buildActivities() {
@@ -207,13 +211,13 @@ public class AddMoodLogActivity extends AppCompatActivity {
         return Long.parseLong(activityTag.substring(activityTag.indexOf("id-") + 3));
     }
 
-    private void populateFromIntent() {
-        populateMoodFromIntent();
-        populateActivitiesFromIntent();
+    private void restoreView(Bundle savedState) {
+        restoreMoodView(savedState);
+        restoreActivitiesView(savedState);
     }
 
-    private void populateMoodFromIntent() {
-        int moodRating = getIntent().getIntExtra("mood_selected", -1);
+    private void restoreMoodView(Bundle savedState) {
+        int moodRating = getMoodRatingFromSavedStateOrIntent(savedState);
         String targetTag = MoodEnum.getTagName(moodRating);
         if (targetTag.isEmpty()) {
             return;
@@ -228,8 +232,21 @@ public class AddMoodLogActivity extends AppCompatActivity {
         }
     }
 
-    private void populateActivitiesFromIntent() {
-        ArrayList<Long> activityIds = (ArrayList) getIntent().getSerializableExtra("activities_selected");
+    /**
+     * Try to find hook for restoring selected mood if applicable, by looking at bundle passed
+     * from onCreate and falling back to getIntent() in case where we're coming from
+     * a successful 'Add Activity' action
+     */
+    private int getMoodRatingFromSavedStateOrIntent(Bundle savedState) {
+        if (savedState != null && savedState.getInt(MOOD_RESTORE_KEY, -1) != -1) {
+            return savedState.getInt(MOOD_RESTORE_KEY, -1);
+        } else {
+            return getIntent().getIntExtra(MOOD_RESTORE_KEY, -1);
+        }
+    }
+
+    private void restoreActivitiesView(Bundle savedState) {
+        ArrayList<Long> activityIds = getActivitiesFromSavedStateOrIntent(savedState);
         if (activityIds == null) {
             return;
         }
@@ -245,12 +262,25 @@ public class AddMoodLogActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Try to find hook for restoring selected activities if applicable, by looking at bundle passed
+     * from onCreate and falling back to getIntent() in case where we're coming from
+     * a successful 'Add Activity' action
+     */
+    private ArrayList<Long> getActivitiesFromSavedStateOrIntent(Bundle savedState) {
+        if (savedState != null && savedState.getSerializable(ACTIVITIES_RESTORE_KEY) != null) {
+            return (ArrayList) savedState.getSerializable(ACTIVITIES_RESTORE_KEY);
+        } else {
+            return (ArrayList) getIntent().getSerializableExtra(ACTIVITIES_RESTORE_KEY);
+        }
+    }
+
     private void addNewActivity() {
         Intent intent = new Intent(AddMoodLogActivity.this, AddActivityActivity.class);
         // pass extras to activity creation to restore later
-        intent.putExtra("mood_selected", selectedMood);
-        intent.putExtra("activities_selected", selectedActivities);
-        startActivity(intent);
+        intent.putExtra(MOOD_RESTORE_KEY, selectedMood);
+        intent.putExtra(ACTIVITIES_RESTORE_KEY, selectedActivities);
+        startActivityForResult(intent, ADD_ACTIVITY_REQUEST_CODE);
     }
 
     public void finishMoodLog(View view) {
@@ -273,5 +303,13 @@ public class AddMoodLogActivity extends AppCompatActivity {
 
         Toast.makeText(AddMoodLogActivity.this, "Mood log added!",
                 Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // save mood and activities to restore later
+        outState.putInt(MOOD_RESTORE_KEY, selectedMood);
+        outState.putSerializable(ACTIVITIES_RESTORE_KEY, selectedActivities);
     }
 }

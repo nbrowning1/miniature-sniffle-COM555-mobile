@@ -3,6 +3,7 @@
     <string name="app_name">mood</string>
     <string name="add_mood_log">Add Mood</string>
     <string name="add_activity">Add Activity</string>
+    <string name="settings">Settings</string>
 
     <!-- Main Activity - Summary Tab -->
     <string-array name="time_period_array">
@@ -60,5 +61,14 @@
     <string name="new_activity_image_choice">Choose a suitable image</string>
     <string name="new_activity_name">Give it a name</string>
     <string name="new_activity_name_hint">Activity Name</string>
+
+    <!-- Settings Activity -->
+    <string name="settings_reminders">Reminders</string>
+    <string name="settings_time">Time:</string>
+    <string name="settings_export">Export</string>
+    <string name="settings_export_desc">Export entries to spreadsheet:</string>
+    <string name="settings_more">More</string>
+    <string name="settings_customise">Customise</string>
+    <string name="settings_about">About</string>
 
 </resources>

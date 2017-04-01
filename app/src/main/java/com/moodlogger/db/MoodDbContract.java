@@ -4,6 +4,7 @@ import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
+import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.entities.Screen;
 import com.moodlogger.db.entities.User;
 
@@ -62,13 +63,25 @@ public final class MoodDbContract {
                     User._ID + " INTEGER PRIMARY KEY," +
                     User.NAME + " TEXT);";
 
+    private static final String SQL_CREATE_REMINDER_TABLE =
+            "CREATE TABLE " + Reminder.TABLE_NAME + " (" +
+                    Reminder._ID + " INTEGER PRIMARY KEY," +
+                    Reminder.TIME + " TEXT," +
+                    Reminder.IS_ENABLED + " BOOLEAN);";
+
+    private static final String SQL_UPDATE_REMINDER_TABLE =
+            "INSERT INTO " + Reminder.TABLE_NAME +
+                    "(" + Reminder._ID + ", " + Reminder.TIME + ", " + Reminder.IS_ENABLED + ") " +
+                    "VALUES (%d, '12:00', 0);";
+
     public static final String[] SQL_CREATE_ENTRIES = new String[]{
             SQL_CREATE_MOOD_ENTRY_TABLE,
             SQL_CREATE_MOOD_TABLE,
             SQL_CREATE_ACTIVITY_TABLE,
             SQL_CREATE_MOOD_ENTRY_ACTIVITY_TABLE,
             SQL_CREATE_SCREEN_TABLE,
-            SQL_CREATE_USER_TABLE
+            SQL_CREATE_USER_TABLE,
+            SQL_CREATE_REMINDER_TABLE
     };
 
     public static final String[] SQL_UPDATE_ENTRIES = new String[]{
@@ -82,7 +95,11 @@ public final class MoodDbContract {
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", "activity_study"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", "activity_relax"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Exercise", "activity_exercise"),
-            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Travel", "activity_travel")
+            String.format(SQL_UPDATE_ACTIVITY_TABLE, "Travel", "activity_travel"),
+
+            String.format(Locale.UK, SQL_UPDATE_REMINDER_TABLE, 1),
+            String.format(Locale.UK, SQL_UPDATE_REMINDER_TABLE, 2),
+            String.format(Locale.UK, SQL_UPDATE_REMINDER_TABLE, 3)
     };
 
     public static final String SQL_DELETE_ENTRIES =
@@ -91,5 +108,6 @@ public final class MoodDbContract {
                     "DROP TABLE IF EXISTS " + Activity.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + MoodEntryActivity.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + Screen.TABLE_NAME + "; " +
-                    "DROP TABLE IF EXISTS " + User.TABLE_NAME + ";";
+                    "DROP TABLE IF EXISTS " + User.TABLE_NAME + "; " +
+                    "DROP TABLE IF EXISTS " + Reminder.TABLE_NAME + ";";
 }
