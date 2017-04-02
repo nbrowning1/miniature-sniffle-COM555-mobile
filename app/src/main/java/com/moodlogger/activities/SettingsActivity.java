@@ -1,6 +1,7 @@
 package com.moodlogger.activities;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -27,14 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setup();
         populateReminders();
-    }
-
-    private void setup() {
-//        findViewById(R.id.time_picker_1).setOnClickListener(timeButtonOnClickListener());
-//        findViewById(R.id.time_picker_2).setOnClickListener(timeButtonOnClickListener());
-//        findViewById(R.id.time_picker_3).setOnClickListener(timeButtonOnClickListener());
     }
 
     public void showTimePicker(View view) {
@@ -99,6 +93,16 @@ public class SettingsActivity extends AppCompatActivity {
         String time = ((Button) findViewById(timePickerResId)).getText().toString();
         boolean isEnabled = ((CompoundButton) findViewById(switchResId)).isChecked();
         return new Reminder(reminderInstance, time, isEnabled);
+    }
+
+    public void goToCustomise(View view) {
+        Intent intent = new Intent(this, CustomiseActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToAbout(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 
     @Override

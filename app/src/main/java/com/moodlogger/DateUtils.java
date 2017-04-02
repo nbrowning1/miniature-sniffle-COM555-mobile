@@ -33,8 +33,9 @@ public class DateUtils {
 
     public static Calendar getStartOfWeek() {
         Calendar calendar = getCalendarForNow();
-        calendar.setFirstDayOfWeek(Calendar.MONDAY);
-        calendar.set(Calendar.DAY_OF_WEEK, calendar.getFirstDayOfWeek());
+        while (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.MONDAY) {
+            calendar.add(Calendar.DATE, -1);
+        }
         setTimeToBeginningOfDay(calendar);
         return calendar;
     }
@@ -76,9 +77,7 @@ public class DateUtils {
     }
 
     private static Calendar getCalendarForNow() {
-        Calendar calendar = GregorianCalendar.getInstance();
-        calendar.setTime(new Date());
-        return calendar;
+        return GregorianCalendar.getInstance();
     }
 
     private static void setTimeToBeginningOfDay(Calendar calendar) {

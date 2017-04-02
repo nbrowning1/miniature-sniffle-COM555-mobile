@@ -1,7 +1,13 @@
 package com.moodlogger.activities;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -277,7 +283,7 @@ public class AddMoodLogActivity extends AppCompatActivity {
 
     private void addNewActivity() {
         Intent intent = new Intent(AddMoodLogActivity.this, AddActivityActivity.class);
-        // pass extras to activity creation to restore later
+        // pass extras to activity creation to restore later if new activity is created successfully
         intent.putExtra(MOOD_RESTORE_KEY, selectedMood);
         intent.putExtra(ACTIVITIES_RESTORE_KEY, selectedActivities);
         startActivityForResult(intent, ADD_ACTIVITY_REQUEST_CODE);
@@ -295,7 +301,22 @@ public class AddMoodLogActivity extends AppCompatActivity {
             activities.add(activityDbHelper.getActivity(activityId));
         }
 
-        MoodEntry moodEntry = new MoodEntry(54.607868f, -5.926437f, selectedMood, activities);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = { Manifest.permission.ACCESS_FINE_LOCATION };
+            ActivityCompat.requestPermissions(this, permissions, PackageManager.PERMISSION_GRANTED);
+            return;
+        }
+
+        float latitude = -1L;
+        float longitude = -1L;
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (location != null) {
+            latitude = (float) location.getLatitude();
+            longitude = (float) location.getLongitude();
+        }
+
+        MoodEntry moodEntry = new MoodEntry(latitude, longitude, selectedMood, activities);
         new MoodEntryDbHelper(getBaseContext()).create(moodEntry);
 
         Intent intent = new Intent(AddMoodLogActivity.this, MainActivity.class);

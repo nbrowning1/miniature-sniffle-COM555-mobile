@@ -38,7 +38,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private List<Activity> activitiesForMoodRating = new ArrayList<>();
     private List<String> locations = new ArrayList<>();
 
-    public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources){
+    public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources) {
         this.context = context;
         this.parentView = parentView;
         this.resources = resources;
@@ -81,18 +81,17 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private void buildLocations() {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         for (Location location : locationsForMoodRating) {
-            String locationText = null;
+            // default to unknown in case error occurs etc.
+            String locationText = "Unknown location";
             try {
-                Address address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0);
-                locationText = address.getThoroughfare() == null ?
-                        "Unknown Location" :
-                        address.getThoroughfare();
+                List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                if (!addresses.isEmpty() && addresses.get(0).getThoroughfare() == null) {
+                    locationText = addresses.get(0).getThoroughfare();
+                }
             } catch (IOException e) {
                 Log.w("WARN", "IOException caught when handling location: " + e.getMessage());
             }
-            if (locationText != null) {
-                locations.add(locationText);
-            }
+            locations.add(locationText);
         }
     }
 
