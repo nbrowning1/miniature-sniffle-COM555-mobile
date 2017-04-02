@@ -85,7 +85,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
             String locationText = "Unknown location";
             try {
                 List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if (!addresses.isEmpty() && addresses.get(0).getThoroughfare() == null) {
+                if (!addresses.isEmpty() && addresses.get(0).getThoroughfare() != null) {
                     locationText = addresses.get(0).getThoroughfare();
                 }
             } catch (IOException e) {

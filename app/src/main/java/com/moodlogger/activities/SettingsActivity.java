@@ -1,9 +1,13 @@
 package com.moodlogger.activities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +18,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.moodlogger.R;
+import com.moodlogger.ReminderReceiver;
+import com.moodlogger.ReminderService;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.ReminderDbHelper;
 
@@ -85,8 +91,30 @@ public class SettingsActivity extends AppCompatActivity {
         for (Reminder reminder : reminders) {
             reminderDbHelper.updateReminder(reminder);
         }
+
+        setReminders();
+
         Toast.makeText(this, "Changes saved.",
                 Toast.LENGTH_LONG).show();
+    }
+
+    private void setReminders() {
+        String time = ((Button) findViewById(R.id.time_picker_1)).getText().toString();
+        int hour = Integer.valueOf(time.substring(0, 2));
+        int mins = Integer.valueOf(time.substring(3, 5));
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(this, ReminderReceiver.class);
+        intent.putExtra("name", "Neil");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar alarmStartTime = Calendar.getInstance();
+        alarmStartTime.set(Calendar.HOUR_OF_DAY, hour);
+        alarmStartTime.set(Calendar.MINUTE, mins);
+        alarmStartTime.set(Calendar.SECOND, 0);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     private Reminder getReminderFromScreen(int reminderInstance, int timePickerResId, int switchResId) {
@@ -118,6 +146,6 @@ public class SettingsActivity extends AppCompatActivity {
                 saveReminders();
                 break;
         }
-        return(super.onOptionsItemSelected(item));
+        return (super.onOptionsItemSelected(item));
     }
 }

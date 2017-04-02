@@ -1,11 +1,18 @@
 <resources>
     <!-- Activity Names -->
     <string name="app_name">mood</string>
+    <string name="welcome">Welcome</string>
     <string name="add_mood_log">Add Mood</string>
     <string name="add_activity">Add Activity</string>
     <string name="settings">Settings</string>
     <string name="customise">Customise</string>
     <string name="about">About</string>
+
+    <!-- Welcome Activity -->
+    <string name="welcome_text_p1">Welcome to mood</string>
+    <string name="welcome_text_p2">The objective of this app is to allow you to quickly and conveniently log your mood at any time of the day. It will allow you to keep track of your mood profile over time and discover any trends and patterns that can be a first step toward making any improvements in everyday life</string>
+    <string name="welcome_text_p3">mood will provide some tips on how to get started with its features, but first…</string>
+    <string name="welcome_text_p4">What\'s your name?</string>
 
     <!-- Main Activity - Summary Tab -->
     <string-array name="time_period_array">
@@ -84,6 +91,6 @@
 
     <!-- About Activity -->
     <string name="about_team">The Team</string>
-    <string name="about_credits">Credits</string>
+    <string name="about_credits">C</string>
 
 </resources>

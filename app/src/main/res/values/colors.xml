@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#D35400</color>
     <color name="colorAccent">#F4B350</color>
     <color name="colorLight">#26f3f3f3</color>
+    <color name="white">#ffffffff</color>
 
     <color name="colorNestedScrollViewFill">#e6e6e6</color>
     <color name="colorNestedScrollViewBorder">#bfbfbf</color>
