@@ -27,6 +27,8 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final int NO_OF_REMINDERS = 3;
+
     private List<Reminder> initialReminders;
 
     @Override
@@ -80,48 +82,61 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void populateReminder(Reminder reminder, int timePickerResId, int switchResId) {
         ((Button) findViewById(timePickerResId)).setText(reminder.getTime());
-        ((Switch) findViewById(switchResId)).setChecked(reminder.getEnabled());
+        ((Switch) findViewById(switchResId)).setChecked(reminder.isEnabled());
     }
 
     private void saveReminders() {
+        // no changes, no need to waste resources updating anything
+        if (!changesMade()) {
+            return;
+        }
+
         ReminderDbHelper reminderDbHelper = new ReminderDbHelper(this);
 
+        List<Reminder> reminders = getRemindersFromScreen();
         for (Reminder reminder : getRemindersFromScreen()) {
             reminderDbHelper.updateReminder(reminder);
         }
 
-        setReminders();
+        setReminders(reminders);
 
-        if (changesMade()) {
-            Toast.makeText(this, "Changes saved.",
-                    Toast.LENGTH_LONG).show();
-        }
+        Toast.makeText(this, "Changes saved.",
+                Toast.LENGTH_LONG).show();
     }
 
-    private void setReminders() {
-        HourAndMinsTime time = new HourAndMinsTime(
-                ((Button) findViewById(R.id.time_picker_1)).getText().toString()
-        );
-
+    private void setReminders(List<Reminder> reminders) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
         Intent intent = new Intent(this, ReminderReceiver.class);
         // TODO: pass name from sharedPreferences
         intent.putExtra("name", "Neil");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR_OF_DAY, time.getHour());
-        alarmStartTime.set(Calendar.MINUTE, time.getMinute());
-        alarmStartTime.set(Calendar.SECOND, 0);
+        for (int i = 0; i < NO_OF_REMINDERS; i++) {
+            Reminder reminder = reminders.get(i);
+            HourAndMinsTime time = new HourAndMinsTime(reminder.getTime());
 
-        Calendar now = Calendar.getInstance();
-        // if we're already past the alarm time, forward by one day to avoid immediate alarm trigger
-        if (now.after(alarmStartTime)) {
-            alarmStartTime.add(Calendar.DATE, 1);
+            /* loop iteration used as unique request code for pendingIntent so existing alarm can
+                be cancelled if applicable */
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (!reminder.isEnabled()) {
+                alarmManager.cancel(pendingIntent);
+                // skip to next reminder
+                continue;
+            }
+
+            Calendar alarmStartTime = Calendar.getInstance();
+            alarmStartTime.set(Calendar.HOUR_OF_DAY, time.getHour());
+            alarmStartTime.set(Calendar.MINUTE, time.getMinute());
+            alarmStartTime.set(Calendar.SECOND, 0);
+
+            Calendar now = Calendar.getInstance();
+            // if we're already past the alarm time, forward by one day to avoid immediate alarm trigger
+            if (now.after(alarmStartTime)) {
+                alarmStartTime.add(Calendar.DATE, 1);
+            }
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     private List<Reminder> getRemindersFromScreen() {
@@ -140,7 +155,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private boolean changesMade() {
         List<Reminder> updatedReminders = getRemindersFromScreen();
-        for (int i = 0; i < initialReminders.size(); i++) {
+        for (int i = 0; i < NO_OF_REMINDERS; i++) {
             boolean remindersEqual = initialReminders.get(i).equals(updatedReminders.get(i));
             if (!remindersEqual) {
                 return true;

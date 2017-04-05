@@ -49,7 +49,7 @@ public class ReminderDbHelper implements DbHelperIntf<Reminder> {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         String time = reminder.getTime();
-        int isEnabled = reminder.getEnabled() ? 1 : 0;
+        int isEnabled = reminder.isEnabled() ? 1 : 0;
 
         ContentValues values = new ContentValues();
         values.put(Reminder.TIME, time);

@@ -8,12 +8,12 @@ public class Reminder extends Entity {
 
     private long id;
     private String time;
-    private boolean isEnabled;
+    private boolean enabled;
 
-    public Reminder(long id, String time, boolean isEnabled) {
+    public Reminder(long id, String time, boolean enabled) {
         this.id = id;
         this.time = time;
-        this.isEnabled = isEnabled;
+        this.enabled = enabled;
     }
 
     public long getId() {
@@ -24,8 +24,8 @@ public class Reminder extends Entity {
         return time;
     }
 
-    public boolean getEnabled() {
-        return isEnabled;
+    public boolean isEnabled() {
+        return enabled;
     }
 
     @Override
@@ -38,6 +38,6 @@ public class Reminder extends Entity {
 
         return this.getId() == other.getId() &&
                 this.getTime().equals(other.getTime()) &&
-                this.getEnabled() == other.getEnabled();
+                this.isEnabled() == other.isEnabled();
     }
 }
