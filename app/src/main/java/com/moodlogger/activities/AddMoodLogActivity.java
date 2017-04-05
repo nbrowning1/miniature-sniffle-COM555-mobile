@@ -11,7 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -291,7 +290,7 @@ public class AddMoodLogActivity extends AppCompatActivity {
 
     public void finishMoodLog(View view) {
         if (selectedMood == -1 || selectedActivities.isEmpty()) {
-            ActivityUtils.showAlert(this, "Select a mood and at least one activity");
+            ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
             return;
         }
 

@@ -4,10 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +15,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
 import com.moodlogger.ReminderReceiver;
-import com.moodlogger.ReminderService;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.ReminderDbHelper;
 
@@ -29,42 +27,45 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private List<Reminder> initialReminders;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         populateReminders();
+        initialReminders = getRemindersFromScreen();
     }
 
     public void showTimePicker(View view) {
-        Calendar cal = Calendar.getInstance();
-        TimePickerDialog tp1 = new TimePickerDialog(SettingsActivity.this, timePickerOnSetListener(view.getId()), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-        tp1.show();
-    }
+        HourAndMinsTime time = new HourAndMinsTime(
+                ((Button) view).getText().toString()
+        );
 
-    private View.OnClickListener timeButtonOnClickListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                TimePickerDialog tp1 = new TimePickerDialog(SettingsActivity.this, timePickerOnSetListener(v.getId()), cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true);
-                tp1.show();
-            }
-        };
+        TimePickerDialog tpd = new TimePickerDialog(SettingsActivity.this, timePickerOnSetListener(view.getId()), time.getHour(), time.getMinute(), true);
+        tpd.show();
     }
 
     private TimePickerDialog.OnTimeSetListener timePickerOnSetListener(final int buttonResId) {
         return new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 cal.set(Calendar.MINUTE, minute);
-                String timeSet = hourOfDay + ":" + minute;
+
+                String timeSet = getTimeWithLeadingZero(hourOfDay) + ":" + getTimeWithLeadingZero(minute);
                 ((TextView) findViewById(buttonResId)).setText(timeSet);
             }
         };
+    }
+
+    private String getTimeWithLeadingZero(int time) {
+        return time < 10 ?
+                "0" + time :
+                Integer.toString(time);
     }
 
     private void populateReminders() {
@@ -84,43 +85,69 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void saveReminders() {
         ReminderDbHelper reminderDbHelper = new ReminderDbHelper(this);
-        List<Reminder> reminders = new ArrayList<>();
-        reminders.add(getReminderFromScreen(1, R.id.time_picker_1, R.id.reminder_enabled_1));
-        reminders.add(getReminderFromScreen(2, R.id.time_picker_2, R.id.reminder_enabled_2));
-        reminders.add(getReminderFromScreen(3, R.id.time_picker_3, R.id.reminder_enabled_3));
-        for (Reminder reminder : reminders) {
+
+        for (Reminder reminder : getRemindersFromScreen()) {
             reminderDbHelper.updateReminder(reminder);
         }
 
         setReminders();
 
-        Toast.makeText(this, "Changes saved.",
-                Toast.LENGTH_LONG).show();
+        if (changesMade()) {
+            Toast.makeText(this, "Changes saved.",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setReminders() {
-        String time = ((Button) findViewById(R.id.time_picker_1)).getText().toString();
-        int hour = Integer.valueOf(time.substring(0, 2));
-        int mins = Integer.valueOf(time.substring(3, 5));
+        HourAndMinsTime time = new HourAndMinsTime(
+                ((Button) findViewById(R.id.time_picker_1)).getText().toString()
+        );
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         Intent intent = new Intent(this, ReminderReceiver.class);
+        // TODO: pass name from sharedPreferences
         intent.putExtra("name", "Neil");
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar alarmStartTime = Calendar.getInstance();
-        alarmStartTime.set(Calendar.HOUR_OF_DAY, hour);
-        alarmStartTime.set(Calendar.MINUTE, mins);
+        alarmStartTime.set(Calendar.HOUR_OF_DAY, time.getHour());
+        alarmStartTime.set(Calendar.MINUTE, time.getMinute());
         alarmStartTime.set(Calendar.SECOND, 0);
 
+        Calendar now = Calendar.getInstance();
+        // if we're already past the alarm time, forward by one day to avoid immediate alarm trigger
+        if (now.after(alarmStartTime)) {
+            alarmStartTime.add(Calendar.DATE, 1);
+        }
+
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+    private List<Reminder> getRemindersFromScreen() {
+        List<Reminder> reminders = new ArrayList<>();
+        reminders.add(getReminderFromScreen(1, R.id.time_picker_1, R.id.reminder_enabled_1));
+        reminders.add(getReminderFromScreen(2, R.id.time_picker_2, R.id.reminder_enabled_2));
+        reminders.add(getReminderFromScreen(3, R.id.time_picker_3, R.id.reminder_enabled_3));
+        return reminders;
     }
 
     private Reminder getReminderFromScreen(int reminderInstance, int timePickerResId, int switchResId) {
         String time = ((Button) findViewById(timePickerResId)).getText().toString();
         boolean isEnabled = ((CompoundButton) findViewById(switchResId)).isChecked();
         return new Reminder(reminderInstance, time, isEnabled);
+    }
+
+    private boolean changesMade() {
+        List<Reminder> updatedReminders = getRemindersFromScreen();
+        for (int i = 0; i < initialReminders.size(); i++) {
+            boolean remindersEqual = initialReminders.get(i).equals(updatedReminders.get(i));
+            if (!remindersEqual) {
+                return true;
+            }
+        }
+        // if all reminders equal, no changes made
+        return false;
     }
 
     public void goToCustomise(View view) {

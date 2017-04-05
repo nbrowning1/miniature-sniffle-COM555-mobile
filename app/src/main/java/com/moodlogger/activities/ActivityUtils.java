@@ -6,8 +6,13 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.moodlogger.R;
 
 import java.util.List;
 
@@ -25,7 +30,7 @@ public class ActivityUtils {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
     }
 
-    public static void showAlert(Context context, String msg) {
+    public static void showAlertDialog(Context context, String msg) {
         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
         alertDialog.setTitle("Alert");
         alertDialog.setMessage(msg);
@@ -36,6 +41,26 @@ public class ActivityUtils {
                     }
                 });
         alertDialog.show();
+    }
+
+    public static void showHintDialog(Context context, String title, String msg) {
+        AlertDialog hintDialog = new AlertDialog.Builder(context).create();
+        hintDialog.setTitle(title);
+        hintDialog.setMessage(msg);
+        hintDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }
+        );
+
+        // set dialog to show at bottom of screen for hint
+        hintDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        WindowManager.LayoutParams wmlp = hintDialog.getWindow().getAttributes();
+        wmlp.gravity = Gravity.BOTTOM;
+
+        hintDialog.show();
     }
 
     /**

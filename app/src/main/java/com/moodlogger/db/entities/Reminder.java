@@ -27,4 +27,17 @@ public class Reminder extends Entity {
     public boolean getEnabled() {
         return isEnabled;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Reminder)) {
+            return false;
+        }
+
+        final Reminder other = (Reminder) obj;
+
+        return this.getId() == other.getId() &&
+                this.getTime().equals(other.getTime()) &&
+                this.getEnabled() == other.getEnabled();
+    }
 }

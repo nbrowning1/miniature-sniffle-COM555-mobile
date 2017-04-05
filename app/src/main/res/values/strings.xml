@@ -45,6 +45,9 @@
         <item>Sun</item>
     </string-array>
 
+    <string name="summary_hint_1_title">Mood Charts</string>
+    <string name="summary_hint_1_message">Hi %s! This is a view of your moods over time. You can choose the time period over which to show moods (above chart), and the visualisation method (below chart). To add your first mood, press the (+) button</string>
+
     <!-- View Tab -->
     <string name="locations">Locations</string>
     <string name="activities">Activities</string>

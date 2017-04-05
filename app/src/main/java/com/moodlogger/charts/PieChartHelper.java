@@ -45,7 +45,7 @@ public class PieChartHelper implements ChartHelper {
 
         PieDataSet dataSet = new PieDataSet(entries, "Mood");
         int lightGreen = Color.rgb(153, 255, 51);
-        int[] moodColours = new int[]{Color.RED, Color.BLUE, Color.GRAY, Color.GREEN, lightGreen};
+        final int[] moodColours = new int[]{Color.RED, Color.BLUE, Color.GRAY, Color.GREEN, lightGreen};
         List<Integer> textColours = Arrays.asList(Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.BLACK);
         dataSet.setColors(moodColours);
         dataSet.setValueTextColors(textColours);
@@ -59,6 +59,12 @@ public class PieChartHelper implements ChartHelper {
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
                 String moodText = value == 0f ? "" : moodValues[pieChartIndex];
                 pieChartIndex++;
+
+                /* each click on pie chart will cause it to be re-drawn after initial draw -
+                    set index back to 0 for re-drawing each time the whole chart is drawn */
+                if (pieChartIndex >= moodValues.length) {
+                    pieChartIndex = 0;
+                }
                 return moodText;
             }
         });

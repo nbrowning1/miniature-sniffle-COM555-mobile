@@ -54,14 +54,14 @@ public class AddActivityActivity extends AppCompatActivity {
         String name = ((EditText) findViewById(R.id.edit_message)).getText().toString();
 
         if (selectedActivityTagName == null || selectedActivityTagName.isEmpty() || name.isEmpty()) {
-            ActivityUtils.showAlert(this, "Select an icon and enter a name for the new activity");
+            ActivityUtils.showAlertDialog(this, "Select an icon and enter a name for the new activity");
             return;
         }
 
         ActivityDbHelper activityDbHelper = new ActivityDbHelper(getBaseContext());
         for (Activity activity : activityDbHelper.getActivities()) {
             if (name.equalsIgnoreCase(activity.getName())) {
-                ActivityUtils.showAlert(this, "Activity name is already in use");
+                ActivityUtils.showAlertDialog(this, "Activity name is already in use");
                 return;
             }
         }
