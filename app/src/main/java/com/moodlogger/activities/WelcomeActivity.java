@@ -25,6 +25,7 @@ public class WelcomeActivity extends AppCompatActivity {
             return;
         }
 
+        ActivityUtils.hideSoftKeyBoard(this);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("welcome_given", true);
@@ -32,6 +33,8 @@ public class WelcomeActivity extends AppCompatActivity {
         editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+
+        // finish activity so user can't return
         finish();
     }
 }

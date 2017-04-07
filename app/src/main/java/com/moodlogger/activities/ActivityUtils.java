@@ -1,5 +1,6 @@
 package com.moodlogger.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.moodlogger.R;
 
 import java.util.List;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ActivityUtils {
 
@@ -82,5 +86,14 @@ public class ActivityUtils {
             existingChildren.add(view);
         }
         return existingChildren;
+    }
+
+    public static void hideSoftKeyBoard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+
+        // verify if the soft keyboard is open
+        if (imm.isAcceptingText() && activity.getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

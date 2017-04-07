@@ -107,8 +107,6 @@ public class SettingsActivity extends AppCompatActivity {
     private void setReminders(List<Reminder> reminders) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, ReminderReceiver.class);
-        // TODO: pass name from sharedPreferences
-        intent.putExtra("name", "Neil");
 
         for (int i = 0; i < NO_OF_REMINDERS; i++) {
             Reminder reminder = reminders.get(i);

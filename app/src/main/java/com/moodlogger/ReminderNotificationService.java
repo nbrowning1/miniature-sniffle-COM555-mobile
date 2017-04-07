@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.moodlogger.activities.AddMoodLogActivity;
@@ -18,6 +19,7 @@ public class ReminderNotificationService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
     Notification notification;
 
+    // for AndroidManifest
     public ReminderNotificationService() {
         this("Default");
     }
@@ -31,7 +33,8 @@ public class ReminderNotificationService extends IntentService {
         Context context = this.getApplicationContext();
         Intent addMoodIntent = new Intent(this, AddMoodLogActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, addMoodIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        String notificationMsg = String.format("Hey %s! This is a set reminder to add a mood log", intent.getStringExtra("name"));
+        String username = PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "");
+        String notificationMsg = String.format("Hey %s! This is a set reminder to add a mood log", username);
 
         Resources res = this.getResources();
         notification = new NotificationCompat.Builder(this)

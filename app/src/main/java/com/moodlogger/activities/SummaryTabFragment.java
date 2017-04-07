@@ -45,6 +45,6 @@ public class SummaryTabFragment extends Fragment {
         String username = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user_name", "");
         String message = String.format(getResources().getString(R.string.summary_hint_1_message), username);
 
-        ActivityUtils.showHintDialog(getContext(), title, message);
+        ActivityUtils.showHintDialog(getActivity(), title, message);
     }
 }
