@@ -34,7 +34,7 @@ public class SummaryTabFragment extends Fragment {
                 .execute();
         // TODO: change to sharedPreferences
         // TODO: move dialog to asyncTask
-        if (debugHintsCount < 2) {
+        if (false && debugHintsCount < 2) {
             debugHintsCount++;
             showHint();
         }

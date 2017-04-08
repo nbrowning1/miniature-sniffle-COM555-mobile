@@ -22,6 +22,10 @@ public class MoodEntryDbHelper implements DbHelperIntf<MoodEntry> {
         dbHelper = MoodDbHelper.getInstance(context);
     }
 
+    public List<MoodEntry> getAllMoodEntries() {
+        return getMoodEntries(null, null);
+    }
+
     public List<MoodEntry> getMoodEntries(TimeRangeEnum timeRange) {
         String selection = MoodEntry.DATE_TIME + " BETWEEN ? AND ?";
         return getMoodEntries(selection, getTimeRangeSelectionArgs(timeRange));

@@ -253,7 +253,8 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="@string/settings_export" />
+                        android:text="@string/settings_export"
+                        android:onClick="exportEntries" />
 
                 </LinearLayout>
 

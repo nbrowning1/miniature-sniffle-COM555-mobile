@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
 //        if (!welcomeGiven) {
-        if (debugWelcomeCount == 0) {
+        if (false && debugWelcomeCount == 0) {
             debugWelcomeCount++;
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
