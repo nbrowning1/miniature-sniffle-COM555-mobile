@@ -3,9 +3,11 @@ package com.moodlogger.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,8 +19,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.moodlogger.R;
+import com.moodlogger.ThemeEnum;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AbstractMoodActivity {
 
     private static final String TAB_ONE_NAME = "Summary";
     private static final String TAB_TWO_NAME = "View";
@@ -29,9 +32,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getToolbarColor());
         setSupportActionBar(toolbar);
 
         setupTabs();
@@ -45,6 +48,52 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void setupTheme() {
+        // TODO : grab theme ID from sharedPreferences
+        int themeId = 1;
+        ThemeEnum theme = ThemeEnum.getTheme(themeId);
+        switch (theme) {
+            case Default:
+                setTheme(R.style.MainTheme);
+                break;
+            case Dark:
+                setTheme(R.style.DarkMainTheme);
+                break;
+            case Ocean:
+                // set ocean
+                break;
+            case Mint:
+                // set mint
+                break;
+        }
+    }
+
+    private int getToolbarColor() {
+        // TODO : grab theme ID from sharedPreferences
+        int themeId = 1;
+        ThemeEnum theme = ThemeEnum.getTheme(themeId);
+        switch (theme) {
+            case Default:
+                return ContextCompat.getColor(this, R.color.colorPrimary);
+            case Dark:
+                return ContextCompat.getColor(this, R.color.darkColorPrimary);
+            case Ocean:
+                // ret ocean
+                return 0;
+            case Mint:
+                // ret mint
+                return 0;
+            default:
+                return 0;
+        }
+    }
+
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.activity_main;
     }
 
     @Override

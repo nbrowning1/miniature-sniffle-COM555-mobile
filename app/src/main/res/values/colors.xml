@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- light -->
     <color name="colorPrimary">#F89406</color>
     <color name="colorPrimaryDark">#D35400</color>
     <color name="colorAccent">#F4B350</color>
@@ -8,4 +9,11 @@
 
     <color name="colorNestedScrollViewFill">#e6e6e6</color>
     <color name="colorNestedScrollViewBorder">#bfbfbf</color>
+
+    <!-- dark -->
+    <color name="darkColorPrimary">#4183D7</color>
+    <color name="darkColorPrimaryDark">#446CB3</color>
+
+    <color name="darkColorNestedScrollViewFill">#000000</color>
+    <color name="darkColorNestedScrollViewBorder">#101010</color>
 </resources>

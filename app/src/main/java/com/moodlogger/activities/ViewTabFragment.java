@@ -1,5 +1,6 @@
 package com.moodlogger.activities;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.moodlogger.R;
+import com.moodlogger.ThemeEnum;
 import com.moodlogger.asyncTasks.FetchInfoForMoodTask;
 import com.moodlogger.asyncTasks.FetchMoodsForActivityTask;
 import com.moodlogger.db.helpers.ActivityDbHelper;
@@ -35,6 +37,7 @@ public class ViewTabFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setupNestedScrollViews();
         setupSpinners();
+        setSpecificViewThemes(isDarkTheme());
     }
 
     private void setupNestedScrollViews() {
@@ -134,5 +137,29 @@ public class ViewTabFragment extends Fragment {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
         new FetchMoodsForActivityTask(getContext(), parentView, getResources())
                 .execute();
+    }
+
+    protected boolean isDarkTheme() {
+        // TODO : grab theme ID from sharedPreferences
+        int themeId = 1;
+        ThemeEnum theme = ThemeEnum.getTheme(themeId);
+        switch (theme) {
+            case Default:
+            case Ocean:
+                return false;
+            case Dark:
+            case Mint:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    protected void setSpecificViewThemes(boolean dark) {
+        final int nestedScrollResId = dark ?
+                R.drawable.dark_nested_scroll_view_bg :
+                R.drawable.nested_scroll_view_bg;
+        getView().findViewById(R.id.mood_scroll_view).setBackgroundResource(nestedScrollResId);
+        getView().findViewById(R.id.activity_scroll_view).setBackgroundResource(nestedScrollResId);
     }
 }

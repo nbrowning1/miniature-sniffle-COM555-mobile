@@ -7,6 +7,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DarkAppTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/darkColorPrimary</item>
+        <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+    </style>
+
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/white</item>
@@ -24,13 +29,18 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="DarkMainTheme" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <!-- removal of regular action bar to add settings to custom action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="Toolbar" parent="Theme.AppCompat">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!-- is this needed? -->
-        <item name="color">@color/colorLight</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -23,6 +24,7 @@ import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
 import com.moodlogger.ReminderReceiver;
 import com.moodlogger.SpreadsheetBuilder;
+import com.moodlogger.ThemeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
@@ -38,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AbstractMoodActivity {
 
     private static final int NO_OF_REMINDERS = 3;
 
@@ -47,10 +49,26 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         populateReminders();
         initialReminders = getRemindersFromScreen();
+        setSpecificViewThemes(isDarkTheme());
+    }
+
+    protected int getContentViewResId() {
+        return R.layout.settings;
+    }
+
+    protected void setSpecificViewThemes(boolean dark) {
+        final int settingsSectionResId = dark ?
+                R.drawable.dark_settings_section_bg :
+                R.drawable.settings_section_bg;
+        setViewThemes(3, settingsSectionResId, "settings_section_");
+
+        final int nestedScrollResId = dark ?
+                R.drawable.dark_nested_scroll_view_bg :
+                R.drawable.nested_scroll_view_bg;
+        setViewThemes(6, nestedScrollResId, "settings_nested_scroll_");
     }
 
     public void showTimePicker(View view) {
