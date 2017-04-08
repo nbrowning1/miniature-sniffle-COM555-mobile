@@ -20,42 +20,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.moodlogger.HourAndMinsTime;
-import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.ReminderReceiver;
+import com.moodlogger.SpreadsheetBuilder;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 import com.moodlogger.db.helpers.ReminderDbHelper;
 
-import org.apache.poi.hssf.usermodel.HSSFAnchor;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFFont;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Chart;
-import org.apache.poi.ss.usermodel.ClientAnchor;
-import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.IndexedColors;
-import org.apache.poi.ss.usermodel.charts.AxisCrosses;
-import org.apache.poi.ss.usermodel.charts.AxisPosition;
-import org.apache.poi.ss.usermodel.charts.ChartAxis;
-import org.apache.poi.ss.usermodel.charts.ChartDataSource;
-import org.apache.poi.ss.usermodel.charts.ChartLegend;
-import org.apache.poi.ss.usermodel.charts.DataSources;
-import org.apache.poi.ss.usermodel.charts.LegendPosition;
-import org.apache.poi.ss.usermodel.charts.LineChartData;
-import org.apache.poi.ss.usermodel.charts.ValueAxis;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFAnchor;
-import org.apache.poi.xssf.usermodel.XSSFDrawing;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,59 +69,18 @@ public class SettingsActivity extends AppCompatActivity {
             return;
         }
 
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet firstSheet = workbook.createSheet("Moods");
-        firstSheet.setColumnWidth(0, 4000);
-        firstSheet.setColumnWidth(1, 4000);
-
-        HSSFFont defaultFont = workbook.createFont();
-        defaultFont.setFontHeightInPoints((short) 10);
-        defaultFont.setFontName("Arial");
-        defaultFont.setColor(IndexedColors.BLACK.getIndex());
-        defaultFont.setBold(false);
-        defaultFont.setItalic(false);
-
-        HSSFFont titleFont = workbook.createFont();
-        titleFont.setFontHeightInPoints((short) 12);
-        titleFont.setFontName("Arial");
-        titleFont.setColor(IndexedColors.BLACK.getIndex());
-        titleFont.setBold(true);
-        titleFont.setItalic(false);
-
-        HSSFCellStyle defaultCellStyle = workbook.createCellStyle();
-        defaultCellStyle.setFont(defaultFont);
-        defaultCellStyle.setWrapText(true);
-        HSSFCellStyle titleCellStyle = workbook.createCellStyle();
-        titleCellStyle.setFont(titleFont);
-
-        HSSFRow titleRow = firstSheet.createRow(0);
-        HSSFCell moodTypeCell = titleRow.createCell(0);
-        moodTypeCell.setCellValue(new HSSFRichTextString("Mood Type"));
-        moodTypeCell.setCellStyle(titleCellStyle);
-        HSSFCell dateCell = titleRow.createCell(1);
-        dateCell.setCellValue(new HSSFRichTextString("Date"));
-        dateCell.setCellStyle(titleCellStyle);
-
         List<MoodEntry> moodEntries = new MoodEntryDbHelper(this).getAllMoodEntries();
-        for (int i = 1; i <= moodEntries.size(); i++) {
-            MoodEntry moodEntry = moodEntries.get(i - 1);
-            HSSFRow row = firstSheet.createRow(i);
-            HSSFCell moodEntryMoodTypeCell = row.createCell(0);
-            moodEntryMoodTypeCell.setCellValue(new HSSFRichTextString(MoodEnum.getLabelName(moodEntry.getMoodId())));
-            moodEntryMoodTypeCell.setCellStyle(defaultCellStyle);
-            HSSFCell moodEntryDateTimeCell = row.createCell(1);
-            moodEntryDateTimeCell.setCellValue(new HSSFRichTextString(moodEntry.getDateTime()));
-            moodEntryDateTimeCell.setCellStyle(defaultCellStyle);
-        }
-
-        createPieChart(firstSheet, moodEntries.size() + 1);
+        HSSFWorkbook workbook = SpreadsheetBuilder.buildMoodEntriesSpreadsheet(moodEntries);
 
         FileOutputStream fos = null;
 
         try {
-            String storagePath = Environment.getExternalStorageDirectory().toString();
+            String storagePath = Environment.getExternalStorageDirectory().toString() + "/mood";
             String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            File file = new File(storagePath, getString(R.string.app_name) + timeStamp + ".xls");
+            File storageFile = new File(storagePath);
+            storageFile.mkdirs();
+
+            File file = new File(storageFile, getString(R.string.app_name) + timeStamp + ".xls");
             fos = new FileOutputStream(file);
             workbook.write(fos);
         } catch (IOException e) {
@@ -162,38 +94,8 @@ public class SettingsActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            Toast.makeText(this, "Excel Sheet Generated", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Excel sheet generated in 'mood/' directory", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void createPieChart(HSSFSheet sheet, int noOfRows) {
-        final int noOfColumns = 2;
-        final int rowStart = noOfRows + 2;
-
-        HSSFPatriarch drawing = sheet.createDrawingPatriarch();
-        HSSFClientAnchor anchor = drawing.createAnchor(0, 0, 0, 0, 0, rowStart, 10, rowStart + 10);
-
-        Chart chart = drawing.createChart(anchor);
-        ChartLegend legend = chart.getOrCreateLegend();
-        legend.setPosition(LegendPosition.TOP_RIGHT);
-
-        LineChartData data = chart.getChartDataFactory().createLineChartData();
-
-        // Use a category axis for the bottom axis.
-        ChartAxis bottomAxis = chart.getChartAxisFactory().createCategoryAxis(AxisPosition.BOTTOM);
-        ValueAxis leftAxis = chart.getChartAxisFactory().createValueAxis(AxisPosition.LEFT);
-        leftAxis.setCrosses(AxisCrosses.AUTO_ZERO);
-
-        ChartDataSource<Number> xs = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(1, 1, 0, noOfColumns - 1));
-        ChartDataSource<Number> ys1 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(2, 2, 0, noOfColumns - 1));
-        ChartDataSource<Number> ys2 = DataSources.fromNumericCellRange(sheet, new CellRangeAddress(3, 3, 0, noOfColumns - 1));
-
-
-        data.addSeries(xs, ys1);
-        data.addSeries(xs, ys2);
-
-        chart.plot(data, bottomAxis, leftAxis);
-
     }
 
     private TimePickerDialog.OnTimeSetListener timePickerOnSetListener(final int buttonResId) {
