@@ -17,6 +17,7 @@ import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
 import com.moodlogger.asyncTasks.FetchInfoForMoodTask;
 import com.moodlogger.asyncTasks.FetchMoodsForActivityTask;
+import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.helpers.ActivityDbHelper;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class ViewTabFragment extends Fragment {
     private int timeSpinnerIndexSelected;
     private int moodSpinnerIndexSelected;
     private int activitySpinnerIndexSelected;
+    private boolean isDarkTheme;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,9 +37,10 @@ public class ViewTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setupNestedScrollViews();
         setupSpinners();
-        setSpecificViewThemes(isDarkTheme());
+        setSpecificViewThemes();
     }
 
     private void setupNestedScrollViews() {
@@ -128,38 +131,29 @@ public class ViewTabFragment extends Fragment {
 
     private void buildMoodsView() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
-        new FetchInfoForMoodTask(getContext(), parentView, getResources())
+        new FetchInfoForMoodTask(getContext(), parentView, getResources(), isDarkTheme)
                 .execute();
     }
 
     private void buildActivitiesView() {
-        // TODO : keep track of selected option when changing tabs as activities are dynamically generated
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
         new FetchMoodsForActivityTask(getContext(), parentView, getResources())
                 .execute();
     }
 
-    protected boolean isDarkTheme() {
-        // TODO : grab theme ID from sharedPreferences
-        int themeId = 1;
-        ThemeEnum theme = ThemeEnum.getTheme(themeId);
-        switch (theme) {
-            case Default:
-            case Ocean:
-                return false;
-            case Dark:
-            case Mint:
-                return true;
-            default:
-                return false;
-        }
+    private void setSpecificViewThemes() {
+        setSpecificViewTheme(R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg,
+                R.id.mood_scroll_view);
+        setSpecificViewTheme(R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg,
+                R.id.activity_scroll_view);
+        setSpecificViewTheme(R.drawable.mood_great, R.drawable.mood_great_white, R.id.view_mood_great);
+        setSpecificViewTheme(R.drawable.mood_happy, R.drawable.mood_happy_white, R.id.view_mood_happy);
+        setSpecificViewTheme(R.drawable.mood_neutral, R.drawable.mood_neutral_white, R.id.view_mood_neutral);
+        setSpecificViewTheme(R.drawable.mood_sad, R.drawable.mood_sad_white, R.id.view_mood_sad);
+        setSpecificViewTheme(R.drawable.mood_angry, R.drawable.mood_angry_white, R.id.view_mood_angry);
     }
 
-    protected void setSpecificViewThemes(boolean dark) {
-        final int nestedScrollResId = dark ?
-                R.drawable.dark_nested_scroll_view_bg :
-                R.drawable.nested_scroll_view_bg;
-        getView().findViewById(R.id.mood_scroll_view).setBackgroundResource(nestedScrollResId);
-        getView().findViewById(R.id.activity_scroll_view).setBackgroundResource(nestedScrollResId);
+    private void setSpecificViewTheme(int lightThemeResId, int darkThemeResId, int viewResId) {
+        ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme, lightThemeResId, darkThemeResId, viewResId);
     }
 }

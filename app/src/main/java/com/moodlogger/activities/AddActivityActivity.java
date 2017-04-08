@@ -15,15 +15,30 @@ import com.moodlogger.db.helpers.ActivityDbHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddActivityActivity extends AppCompatActivity {
+public class AddActivityActivity extends AbstractMoodActivity {
 
     private String selectedActivityTagName;
+    private boolean isDarkTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_new_activity);
+        isDarkTheme = ActivityUtils.isDarkTheme(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSpecificViewThemes();
+    }
+
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.add_new_activity;
+    }
+
+    private void setSpecificViewThemes() {
+        // will take care of any theme-related changes for activity icons
+        resetActivities();
+        View contextView = findViewById(android.R.id.content);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
+                R.drawable.add_mood_finish, R.drawable.add_mood_finish_white, R.id.add_new_activity_add_activity_button);
     }
 
     public void setActivitySelected(View view) {
@@ -37,6 +52,9 @@ public class AddActivityActivity extends AppCompatActivity {
             String tag =
                     view.getTag() == null ? "" : view.getTag().toString();
             if (tag.contains("activity")) {
+                if (isDarkTheme) {
+                    tag += "_white";
+                }
                 int defaultResourceId = getResources().getIdentifier(tag, "drawable", this.getPackageName());
                 view.setBackgroundResource(defaultResourceId);
             }
@@ -45,7 +63,8 @@ public class AddActivityActivity extends AppCompatActivity {
 
     private void selectActivity(View activityView) {
         String tag = activityView.getTag().toString();
-        String selectedImgResource = tag + "_selected";
+        // remove theme modifier if exists before marking as selected
+        String selectedImgResource = tag.replace("_white", "") + "_selected";
         activityView.setBackgroundResource(getResources().getIdentifier(selectedImgResource, "drawable", this.getPackageName()));
         selectedActivityTagName = tag;
     }

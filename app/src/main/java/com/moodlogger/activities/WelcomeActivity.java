@@ -10,12 +10,17 @@ import android.widget.EditText;
 
 import com.moodlogger.R;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AbstractMoodActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
+    }
+
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.welcome;
     }
 
     public void finishWelcome(View view) {
@@ -30,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("welcome_given", true);
         editor.putString("user_name", name);
+        // commit as we want to save this immediately - can show up in immediate hint
         editor.commit();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

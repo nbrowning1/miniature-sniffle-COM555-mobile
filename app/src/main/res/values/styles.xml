@@ -12,6 +12,16 @@
         <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
     </style>
 
+    <style name="OceanAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/oceanColorPrimary</item>
+        <item name="colorPrimaryDark">@color/oceanColorPrimaryDark</item>
+    </style>
+
+    <style name="MintAppTheme" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/mintColorPrimary</item>
+        <item name="colorPrimaryDark">@color/mintColorPrimaryDark</item>
+    </style>
+
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/white</item>
@@ -31,6 +41,22 @@
 
     <style name="DarkMainTheme" parent="Theme.AppCompat">
         <item name="android:textColor">@color/white</item>
+        <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+        <!-- removal of regular action bar to add settings to custom action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="OceanMainTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimaryDark">@color/oceanColorPrimaryDark</item>
+        <!-- removal of regular action bar to add settings to custom action bar -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MintMainTheme" parent="Theme.AppCompat">
+        <item name="android:textColor">@color/white</item>
+        <item name="colorPrimaryDark">@color/mintColorPrimaryDark</item>
         <!-- removal of regular action bar to add settings to custom action bar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

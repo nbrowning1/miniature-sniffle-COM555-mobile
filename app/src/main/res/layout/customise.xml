@@ -5,12 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- focusableInTouchMode so text field doesn't auto-focus -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusableInTouchMode="true"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/customise_section_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
@@ -35,6 +38,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/customise_nested_scroll_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
@@ -61,8 +65,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/customise_section_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginTop="25dp"
@@ -85,6 +91,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/customise_nested_scroll_2"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/nested_scroll_view_bg"
@@ -92,6 +99,7 @@
                 android:paddingLeft="15dp">
 
                 <TextView
+                    android:id="@+id/theme_0"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -100,6 +108,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/customise_nested_scroll_3"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/nested_scroll_view_bg"
@@ -107,6 +116,7 @@
                 android:paddingLeft="15dp">
 
                 <TextView
+                    android:id="@+id/theme_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -115,6 +125,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/customise_nested_scroll_4"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/nested_scroll_view_bg"
@@ -122,6 +133,7 @@
                 android:paddingLeft="15dp">
 
                 <TextView
+                    android:id="@+id/theme_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -130,6 +142,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/customise_nested_scroll_5"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@drawable/nested_scroll_view_bg"
@@ -137,6 +150,7 @@
                 android:paddingLeft="15dp">
 
                 <TextView
+                    android:id="@+id/theme_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddMoodLogActivity extends AppCompatActivity {
+public class AddMoodLogActivity extends AbstractMoodActivity {
 
     private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private static final String ACTIVITY_TAG = "ACTIVITY_id-";
@@ -43,13 +43,29 @@ public class AddMoodLogActivity extends AppCompatActivity {
     private ArrayList<Long> selectedActivities = new ArrayList<>();
     private Map<Long, String> generatedActivitiesIdsAndResourceKeys = new HashMap<>();
 
+    private boolean isDarkTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_mood_log);
+        isDarkTheme = ActivityUtils.isDarkTheme(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSpecificViewThemes();
         buildActivities();
         restoreView(savedInstanceState);
+    }
+
+    @Override
+    protected int getContentViewResId() {
+        return R.layout.add_mood_log;
+    }
+
+    private void setSpecificViewThemes() {
+        // will take care of any theme-related changes for mood icons
+        resetMoods();
+        View contextView = findViewById(android.R.id.content);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
+                R.drawable.add_mood_finish, R.drawable.add_mood_finish_white, R.id.add_mood_log_add_mood_button);
     }
 
     private void buildActivities() {
@@ -120,8 +136,12 @@ public class AddMoodLogActivity extends AppCompatActivity {
     }
 
     private ImageButton createActivityImageButton(Activity activity) {
+        String imageResource = activity.getImgKey();
+        if (isDarkTheme) {
+            imageResource += "_white";
+        }
         ImageButton activityImageBtn = createActivityImageButton(
-                getResources().getIdentifier(activity.getImgKey(), "drawable", this.getPackageName()),
+                getResources().getIdentifier(imageResource, "drawable", this.getPackageName()),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -138,7 +158,8 @@ public class AddMoodLogActivity extends AppCompatActivity {
     }
 
     private ImageButton createAddActivityImageButton() {
-        return createActivityImageButton(R.drawable.add_activity,
+        int resourceId = isDarkTheme ? R.drawable.add_activity_white : R.drawable.add_activity;
+        return createActivityImageButton(resourceId,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -178,16 +199,24 @@ public class AddMoodLogActivity extends AppCompatActivity {
         resetMoods();
         selectedMood = MoodEnum.getMoodRating(view.getTag().toString());
         String imgResource = getResources().getResourceEntryName(view.getId());
+        // remove theme modifier if present as selected icon is same for both themes anyway
+        imgResource = imgResource.replace("_white", "");
         String imgSelectedResource = imgResource + "_selected";
         findViewById(view.getId()).setBackgroundResource(getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
     }
 
     private void resetMoods() {
-        findViewById(R.id.mood_great).setBackgroundResource(R.drawable.mood_great);
-        findViewById(R.id.mood_happy).setBackgroundResource(R.drawable.mood_happy);
-        findViewById(R.id.mood_neutral).setBackgroundResource(R.drawable.mood_neutral);
-        findViewById(R.id.mood_sad).setBackgroundResource(R.drawable.mood_sad);
-        findViewById(R.id.mood_angry).setBackgroundResource(R.drawable.mood_angry);
+        View contextView = findViewById(android.R.id.content);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_great, R.drawable.mood_great_white, R.id.mood_great);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_happy, R.drawable.mood_happy_white, R.id.mood_happy);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_neutral, R.drawable.mood_neutral_white, R.id.mood_neutral);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_sad, R.drawable.mood_sad_white, R.id.mood_sad);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_angry, R.drawable.mood_angry_white, R.id.mood_angry);
     }
 
     public void setActivitySelected(View view) {
@@ -199,6 +228,9 @@ public class AddMoodLogActivity extends AppCompatActivity {
         if (tag.contains(SELECTED_ACTIVITY_TAG_PREFIX)) {
             // set back to initial resource name
             newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId);
+            if (isDarkTheme) {
+                newResourceName += "_white";
+            }
             selectedActivities.remove(activityId);
             view.setTag(tag.replace(SELECTED_ACTIVITY_TAG_PREFIX, ""));
         } else {

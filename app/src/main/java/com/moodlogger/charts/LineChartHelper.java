@@ -1,6 +1,7 @@
 package com.moodlogger.charts;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -12,6 +13,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.moodlogger.DateUtils;
+import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
@@ -23,11 +25,13 @@ public class LineChartHelper implements ChartHelper {
     private TimeRangeEnum timeRange;
     private String[] moodValues;
     private Context context;
+    private boolean isDarkTheme;
 
-    public LineChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context) {
+    public LineChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
         this.timeRange = timeRange;
         this.moodValues = moodValues;
         this.context = context;
+        this.isDarkTheme = isDarkTheme;
     }
 
     public void buildChart(View chartView) {
@@ -53,6 +57,9 @@ public class LineChartHelper implements ChartHelper {
 
         setXAxis(chart);
         setYAxis(chart);
+        if (isDarkTheme) {
+            chart.getLegend().setTextColor(Color.WHITE);
+        }
 
         chart.invalidate(); // refresh chart
     }
@@ -64,6 +71,9 @@ public class LineChartHelper implements ChartHelper {
         xAxis.setAxisMaximum(timeRange.getTimeRangeValues().length);
         xAxis.setGranularity(1);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(timeRange.getTimeRangeValues()));
+        if (isDarkTheme) {
+            xAxis.setTextColor(Color.WHITE);
+        }
     }
 
     private void setYAxis(LineChart chart) {
@@ -72,6 +82,9 @@ public class LineChartHelper implements ChartHelper {
         yAxis.setAxisMaximum(4f);
         yAxis.setGranularity(1);
         yAxis.setValueFormatter(new IndexAxisValueFormatter(moodValues));
+        if (isDarkTheme) {
+            yAxis.setTextColor(Color.WHITE);
+        }
 
         // hide right axis - only want left
         YAxis rightAxis = chart.getAxisRight();

@@ -27,11 +27,13 @@ public class PieChartHelper implements ChartHelper {
     private TimeRangeEnum timeRange;
     private String[] moodValues;
     private Context context;
+    private boolean isDarkTheme;
 
-    public PieChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context) {
+    public PieChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
         this.timeRange = timeRange;
         this.moodValues = moodValues;
         this.context = context;
+        this.isDarkTheme = isDarkTheme;
     }
 
     public void buildChart(View chartView) {
@@ -71,6 +73,9 @@ public class PieChartHelper implements ChartHelper {
         dataSet.setSliceSpace(10f);
         PieData pieData = new PieData(dataSet);
         chart.setData(pieData);
+        if (isDarkTheme) {
+            chart.getLegend().setTextColor(Color.WHITE);
+        }
 
         chart.invalidate(); // refresh chart
     }

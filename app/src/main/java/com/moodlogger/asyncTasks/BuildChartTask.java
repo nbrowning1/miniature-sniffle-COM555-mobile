@@ -25,6 +25,8 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
     private Context context;
     private LinearLayout parentView;
     private Resources resources;
+    private boolean isDarkTheme;
+
     private Spinner timeRangeSpinner;
     private Spinner chartTypeSpinner;
 
@@ -37,6 +39,7 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
         this.context = context;
         this.parentView = parentView;
         this.resources = resources;
+        this.isDarkTheme = ActivityUtils.isDarkTheme(context);
     }
 
     @Override
@@ -90,11 +93,11 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
         View chartView = parentView.findViewById(R.id.chart);
 
         if (chartType.equals(ChartTypeEnum.Line)) {
-            new LineChartHelper(timeRange, moodValues, context).buildChart(chartView);
+            new LineChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
-            new BarChartHelper(timeRange, moodValues, context).buildChart(chartView);
+            new BarChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Pie)) {
-            new PieChartHelper(timeRange, moodValues, context).buildChart(chartView);
+            new PieChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
         }
     }
 

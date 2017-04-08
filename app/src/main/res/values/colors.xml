@@ -16,4 +16,13 @@
 
     <color name="darkColorNestedScrollViewFill">#000000</color>
     <color name="darkColorNestedScrollViewBorder">#101010</color>
+
+    <!-- ocean -->
+    <color name="oceanColorPrimary">#4183D7</color>
+    <color name="oceanColorPrimaryDark">#446CB3</color>
+
+    <!-- mint -->
+    <color name="mintColorPrimary">#03A678</color>
+    <color name="mintColorPrimaryDark">#019875</color>
+
 </resources>

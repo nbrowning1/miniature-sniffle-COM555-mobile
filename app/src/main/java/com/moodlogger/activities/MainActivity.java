@@ -52,8 +52,7 @@ public class MainActivity extends AbstractMoodActivity {
 
     @Override
     protected void setupTheme() {
-        // TODO : grab theme ID from sharedPreferences
-        int themeId = 1;
+        int themeId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("theme", 0);
         ThemeEnum theme = ThemeEnum.getTheme(themeId);
         switch (theme) {
             case Default:
@@ -63,17 +62,16 @@ public class MainActivity extends AbstractMoodActivity {
                 setTheme(R.style.DarkMainTheme);
                 break;
             case Ocean:
-                // set ocean
+                setTheme(R.style.OceanMainTheme);
                 break;
             case Mint:
-                // set mint
+                setTheme(R.style.MintMainTheme);
                 break;
         }
     }
 
     private int getToolbarColor() {
-        // TODO : grab theme ID from sharedPreferences
-        int themeId = 1;
+        int themeId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("theme", 0);
         ThemeEnum theme = ThemeEnum.getTheme(themeId);
         switch (theme) {
             case Default:
@@ -81,13 +79,11 @@ public class MainActivity extends AbstractMoodActivity {
             case Dark:
                 return ContextCompat.getColor(this, R.color.darkColorPrimary);
             case Ocean:
-                // ret ocean
-                return 0;
+                return ContextCompat.getColor(this, R.color.oceanColorPrimary);
             case Mint:
-                // ret mint
-                return 0;
+                return ContextCompat.getColor(this, R.color.mintColorPrimary);
             default:
-                return 0;
+                return ContextCompat.getColor(this, R.color.colorPrimary);
         }
     }
 

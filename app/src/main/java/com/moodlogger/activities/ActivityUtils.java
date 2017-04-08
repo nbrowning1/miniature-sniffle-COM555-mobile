@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.moodlogger.R;
+import com.moodlogger.ThemeEnum;
 
 import java.util.List;
 
@@ -95,5 +97,26 @@ public class ActivityUtils {
         if (imm.isAcceptingText() && activity.getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public static boolean isDarkTheme(Context context) {
+        int themeId = PreferenceManager.getDefaultSharedPreferences(context).getInt("theme", 0);
+        ThemeEnum theme = ThemeEnum.getTheme(themeId);
+        switch (theme) {
+            case Default:
+            case Ocean:
+                return false;
+            case Dark:
+            case Mint:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static void setSpecificViewTheme(View contextView, boolean isDarkTheme, int lightThemeResId, int darkThemeResId,
+                                        int viewResId) {
+        final int themeResId = isDarkTheme ? darkThemeResId : lightThemeResId;
+        contextView.findViewById(viewResId).setBackgroundResource(themeResId);
     }
 }

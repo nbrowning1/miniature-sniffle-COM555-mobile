@@ -25,11 +25,13 @@ public class BarChartHelper implements ChartHelper {
     private TimeRangeEnum timeRange;
     private String[] moodValues;
     private Context context;
+    private boolean isDarkTheme;
 
-    public BarChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context) {
+    public BarChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
         this.timeRange = timeRange;
         this.moodValues = moodValues;
         this.context = context;
+        this.isDarkTheme = isDarkTheme;
     }
 
     public void buildChart(View chartView) {
@@ -53,6 +55,9 @@ public class BarChartHelper implements ChartHelper {
 
         setXAxis(chart);
         setYAxis(chart);
+        if (isDarkTheme) {
+            chart.getLegend().setTextColor(Color.WHITE);
+        }
 
         chart.invalidate(); // refresh chart
     }
@@ -65,12 +70,18 @@ public class BarChartHelper implements ChartHelper {
         xAxis.setAxisMaximum(4.5f);
         xAxis.setGranularity(1);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(moodValues));
+        if (isDarkTheme) {
+            xAxis.setTextColor(Color.WHITE);
+        }
     }
 
     private void setYAxis(BarChart chart) {
         YAxis yAxis = chart.getAxisLeft();
         yAxis.setAxisMinimum(0f);
         yAxis.setGranularity(1);
+        if (isDarkTheme) {
+            yAxis.setTextColor(Color.WHITE);
+        }
 
         // hide right axis - only want left
         YAxis rightAxis = chart.getAxisRight();

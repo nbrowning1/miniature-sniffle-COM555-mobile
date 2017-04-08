@@ -31,6 +31,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private Context context;
     private LinearLayout parentView;
     private Resources resources;
+    private boolean isDarkTheme;
 
     private int moodRating;
     private TimeRangeEnum timeRange;
@@ -38,10 +39,11 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private List<Activity> activitiesForMoodRating = new ArrayList<>();
     private List<String> locations = new ArrayList<>();
 
-    public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources) {
+    public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources, boolean isDarkTheme) {
         this.context = context;
         this.parentView = parentView;
         this.resources = resources;
+        this.isDarkTheme = isDarkTheme;
     }
 
     @Override
@@ -164,7 +166,10 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
         activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(resources, 10), 0);
         ImageButton activityImageBtn = new ImageButton(context);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
-        int resId = resources.getIdentifier(activity.getImgKey(), "drawable", context.getPackageName());
+
+        // get correct icon to show for activity - choosing white one if dark theme is being used
+        String activityImageKey = isDarkTheme ? activity.getImgKey() + "_white" : activity.getImgKey();
+        int resId = resources.getIdentifier(activityImageKey, "drawable", context.getPackageName());
         activityImageBtn.setBackgroundResource(resId);
 
         return activityImageBtn;

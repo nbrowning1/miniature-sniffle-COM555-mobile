@@ -200,6 +200,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/view_mood_happy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_happy"
@@ -224,6 +225,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/view_mood_neutral"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_neutral"
@@ -248,7 +250,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
-                            android:id="@+id/mood_sad"
+                            android:id="@+id/view_mood_sad"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_sad"
@@ -273,6 +275,7 @@
                         android:orientation="vertical">
 
                         <ImageButton
+                            android:id="@+id/view_mood_angry"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_angry"

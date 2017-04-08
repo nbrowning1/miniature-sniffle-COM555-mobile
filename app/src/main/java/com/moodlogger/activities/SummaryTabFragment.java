@@ -32,6 +32,7 @@ public class SummaryTabFragment extends Fragment {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
         new BuildChartTask(getContext(), parentView, getResources())
                 .execute();
+        setSpecificViewThemes();
         // TODO: change to sharedPreferences
         // TODO: move dialog to asyncTask
         if (false && debugHintsCount < 2) {
@@ -46,5 +47,15 @@ public class SummaryTabFragment extends Fragment {
         String message = String.format(getResources().getString(R.string.summary_hint_1_message), username);
 
         ActivityUtils.showHintDialog(getActivity(), title, message);
+    }
+
+    private void setSpecificViewThemes() {
+        boolean isDarkTheme = ActivityUtils.isDarkTheme(getContext());
+        setSpecificViewTheme(isDarkTheme, R.drawable.add_activity, R.drawable.add_activity_white,
+                R.id.summary_add_mood_button);
+    }
+
+    private void setSpecificViewTheme(boolean isDarkTheme, int lightThemeResId, int darkThemeResId, int viewResId) {
+        ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme, lightThemeResId, darkThemeResId, viewResId);
     }
 }

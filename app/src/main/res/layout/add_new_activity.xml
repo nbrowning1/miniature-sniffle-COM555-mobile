@@ -346,6 +346,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/add_new_activity_add_activity_button"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginBottom="20dp"

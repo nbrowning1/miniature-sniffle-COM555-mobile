@@ -1,6 +1,7 @@
 package com.moodlogger.activities;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.moodlogger.R;
@@ -18,8 +19,7 @@ public abstract class AbstractMoodActivity extends AppCompatActivity {
     protected abstract int getContentViewResId();
 
     protected void setupTheme() {
-        // TODO : grab theme ID from sharedPreferences
-        int themeId = 1;
+        int themeId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("theme", 0);
         ThemeEnum theme = ThemeEnum.getTheme(themeId);
         switch (theme) {
             case Default:
@@ -29,17 +29,16 @@ public abstract class AbstractMoodActivity extends AppCompatActivity {
                 setTheme(R.style.DarkAppTheme);
                 break;
             case Ocean:
-                // set ocean
+                setTheme(R.style.OceanAppTheme);
                 break;
             case Mint:
-                // set mint
+                setTheme(R.style.MintAppTheme);
                 break;
         }
     }
 
     protected boolean isDarkTheme() {
-        // TODO : grab theme ID from sharedPreferences
-        int themeId = 1;
+        int themeId = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getInt("theme", 0);
         ThemeEnum theme = ThemeEnum.getTheme(themeId);
         switch (theme) {
             case Default:

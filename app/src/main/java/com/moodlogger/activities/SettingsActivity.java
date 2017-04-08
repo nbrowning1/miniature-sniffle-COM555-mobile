@@ -55,17 +55,18 @@ public class SettingsActivity extends AbstractMoodActivity {
         setSpecificViewThemes(isDarkTheme());
     }
 
+    @Override
     protected int getContentViewResId() {
         return R.layout.settings;
     }
 
-    protected void setSpecificViewThemes(boolean dark) {
-        final int settingsSectionResId = dark ?
+    protected void setSpecificViewThemes(boolean isDarkTheme) {
+        final int settingsSectionResId = isDarkTheme ?
                 R.drawable.dark_settings_section_bg :
                 R.drawable.settings_section_bg;
         setViewThemes(3, settingsSectionResId, "settings_section_");
 
-        final int nestedScrollResId = dark ?
+        final int nestedScrollResId = isDarkTheme ?
                 R.drawable.dark_nested_scroll_view_bg :
                 R.drawable.nested_scroll_view_bg;
         setViewThemes(6, nestedScrollResId, "settings_nested_scroll_");
