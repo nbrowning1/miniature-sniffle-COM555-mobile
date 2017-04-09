@@ -71,12 +71,12 @@
             android:gravity="center_horizontal"/>
 
         <ImageButton
+            android:id="@+id/welcome_finish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginBottom="15dp"
-            android:background="@drawable/welcome_finish"
-            android:onClick="finishWelcome" />
+            android:background="@drawable/welcome_finish" />
 
     </LinearLayout>
 

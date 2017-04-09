@@ -88,19 +88,6 @@ public class ActivityUtils {
         return existingChildren;
     }
 
-    /**
-     * for closing the on-screen keyboard in an activity
-     * @param activity the activity the keyboard belongs to
-     */
-    public static void hideSoftKeyBoard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
-
-        // verify if the soft keyboard is open
-        if (imm.isAcceptingText() && activity.getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-        }
-    }
-
     public static boolean textInputIsValid(String input) {
         return input != null &&
                 !input.isEmpty() &&

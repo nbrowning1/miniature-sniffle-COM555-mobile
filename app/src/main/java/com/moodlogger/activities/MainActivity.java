@@ -1,25 +1,18 @@
 package com.moodlogger.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.views.impl.WelcomeActivity;
 
 public class MainActivity extends AbstractMoodActivity {
 
@@ -43,7 +36,7 @@ public class MainActivity extends AbstractMoodActivity {
 //        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 //        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
 //        if (!welcomeGiven) {
-        if (false && debugWelcomeCount == 0) {
+        if (debugWelcomeCount == 0) {
             debugWelcomeCount++;
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
