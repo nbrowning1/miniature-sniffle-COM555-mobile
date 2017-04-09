@@ -1,14 +1,10 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.views.impl;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,24 +14,32 @@ import android.widget.Toast;
 
 import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
+import com.moodlogger.activities.AbstractMoodActivity;
+import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.activities.AddActivityActivity;
+import com.moodlogger.activities.MainActivity;
+import com.moodlogger.activities.presenters.impl.AddMoodLogPresenterImpl;
+import com.moodlogger.activities.presenters.intf.AddMoodLogPresenter;
+import com.moodlogger.activities.views.intf.AddMoodLogView;
 import com.moodlogger.db.entities.Activity;
-import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.ActivityDbHelper;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddMoodLogActivity extends AbstractMoodActivity {
+public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodLogView {
 
     private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
-    private static final String ACTIVITY_TAG = "ACTIVITY_id-";
-    private static final String SELECTED_ACTIVITY_TAG_PREFIX = "SELECTED_";
+    private static final String ACTIVITY_VIEW_TAG = "ACTIVITY_id-";
+    private static final String SELECTED_ACTIVITY_VIEW_TAG_PREFIX = "SELECTED_";
 
     private static final String MOOD_RESTORE_KEY = "mood_selected";
     private static final String ACTIVITIES_RESTORE_KEY = "activities_selected";
+
+    private static final String DARK_THEME_ACTIVITY_RESOURCE_SUFFIX = "_white";
+    private static final String SELECTED_ACTIVITY_RESOURCE_SUFFIX = "_selected";
 
     private int selectedMood = -1;
     /* defined explicitly as an ArrayList as ArrayList implements Serializable - used to pass
@@ -45,19 +49,62 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
 
     private boolean isDarkTheme;
 
+    private AddMoodLogPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         isDarkTheme = ActivityUtils.isDarkTheme(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSpecificViewThemes();
         buildActivities();
         restoreView(savedInstanceState);
+        findViewById(R.id.add_mood_log_add_mood_button).setOnClickListener(onAddMoodLog());
+
+        presenter = new AddMoodLogPresenterImpl(this, this);
     }
 
     @Override
     protected int getContentViewResId() {
         return R.layout.add_mood_log;
+    }
+
+    @Override
+    public void navigateToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+        Toast.makeText(AddMoodLogActivity.this, "Mood log added!",
+                Toast.LENGTH_LONG).show();
+
+        finish();
+    }
+
+    private View.OnClickListener onAddMoodLog() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // need location permission for saving latitude / longitude
+                if (ActivityCompat.checkSelfPermission(AddMoodLogActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+                    ActivityCompat.requestPermissions(AddMoodLogActivity.this, permissions, PackageManager.PERMISSION_GRANTED);
+                    return;
+                }
+                presenter.validateMoodLog(selectedMood, selectedActivities);
+            }
+        };
+    }
+
+    @Override
+    public void showValidationDialog() {
+        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     private void setSpecificViewThemes() {
@@ -66,6 +113,20 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
         View contextView = findViewById(android.R.id.content);
         ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.add_mood_finish, R.drawable.add_mood_finish_white, R.id.add_mood_log_add_mood_button);
+    }
+
+    private void resetMoods() {
+        View contextView = findViewById(android.R.id.content);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_great, R.drawable.mood_great_white, R.id.mood_great);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_happy, R.drawable.mood_happy_white, R.id.mood_happy);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_neutral, R.drawable.mood_neutral_white, R.id.mood_neutral);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_sad, R.drawable.mood_sad_white, R.id.mood_sad);
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+                R.drawable.mood_angry, R.drawable.mood_angry_white, R.id.mood_angry);
     }
 
     private void buildActivities() {
@@ -110,17 +171,6 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
         return singleActivityLayout;
     }
 
-    private LinearLayout createAddNewActivityView() {
-        LinearLayout singleActivityLayout = createSingleActivityView();
-
-        singleActivityLayout.addView(createAddActivityImageButton());
-        TextView addNewActivityText = createActivityText("");
-        addNewActivityText.setText(R.string.activity_add_new);
-        singleActivityLayout.addView(addNewActivityText);
-
-        return singleActivityLayout;
-    }
-
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
@@ -136,10 +186,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
     }
 
     private ImageButton createActivityImageButton(Activity activity) {
-        String imageResource = activity.getImgKey();
-        if (isDarkTheme) {
-            imageResource += "_white";
-        }
+        String imageResource = getThemeDependentResource(activity.getImgKey());
         ImageButton activityImageBtn = createActivityImageButton(
                 getResources().getIdentifier(imageResource, "drawable", this.getPackageName()),
                 new View.OnClickListener() {
@@ -150,23 +197,11 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
                 }
         );
 
-        String uniqueTag = ACTIVITY_TAG + activity.getId();
+        String uniqueTag = ACTIVITY_VIEW_TAG + activity.getId();
         activityImageBtn.setTag(uniqueTag);
         generatedActivitiesIdsAndResourceKeys.put(activity.getId(), activity.getImgKey());
 
         return activityImageBtn;
-    }
-
-    private ImageButton createAddActivityImageButton() {
-        int resourceId = isDarkTheme ? R.drawable.add_activity_white : R.drawable.add_activity;
-        return createActivityImageButton(resourceId,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        addNewActivity();
-                    }
-                }
-        );
     }
 
     private ImageButton createActivityImageButton(int resId, View.OnClickListener onClickListener) {
@@ -195,28 +230,37 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
         return activityText;
     }
 
+    private LinearLayout createAddNewActivityView() {
+        LinearLayout singleActivityLayout = createSingleActivityView();
+
+        singleActivityLayout.addView(createAddActivityImageButton());
+        TextView addNewActivityText = createActivityText("");
+        addNewActivityText.setText(R.string.activity_add_new);
+        singleActivityLayout.addView(addNewActivityText);
+
+        return singleActivityLayout;
+    }
+
+    private ImageButton createAddActivityImageButton() {
+        int resourceId = isDarkTheme ? R.drawable.add_activity_white : R.drawable.add_activity;
+        return createActivityImageButton(resourceId,
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        addNewActivity();
+                    }
+                }
+        );
+    }
+
     public void setMoodSelected(View view) {
         resetMoods();
         selectedMood = MoodEnum.getMoodRating(view.getTag().toString());
         String imgResource = getResources().getResourceEntryName(view.getId());
         // remove theme modifier if present as selected icon is same for both themes anyway
-        imgResource = imgResource.replace("_white", "");
-        String imgSelectedResource = imgResource + "_selected";
+        imgResource = imgResource.replace(DARK_THEME_ACTIVITY_RESOURCE_SUFFIX, "");
+        String imgSelectedResource = imgResource + SELECTED_ACTIVITY_RESOURCE_SUFFIX;
         findViewById(view.getId()).setBackgroundResource(getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
-    }
-
-    private void resetMoods() {
-        View contextView = findViewById(android.R.id.content);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
-                R.drawable.mood_great, R.drawable.mood_great_white, R.id.mood_great);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
-                R.drawable.mood_happy, R.drawable.mood_happy_white, R.id.mood_happy);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
-                R.drawable.mood_neutral, R.drawable.mood_neutral_white, R.id.mood_neutral);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
-                R.drawable.mood_sad, R.drawable.mood_sad_white, R.id.mood_sad);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
-                R.drawable.mood_angry, R.drawable.mood_angry_white, R.id.mood_angry);
     }
 
     public void setActivitySelected(View view) {
@@ -225,18 +269,15 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
 
         String newResourceName;
         String tag = view.getTag().toString();
-        if (tag.contains(SELECTED_ACTIVITY_TAG_PREFIX)) {
+        if (tag.contains(SELECTED_ACTIVITY_VIEW_TAG_PREFIX)) {
             // set back to initial resource name
-            newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId);
-            if (isDarkTheme) {
-                newResourceName += "_white";
-            }
+            newResourceName = getThemeDependentResource(generatedActivitiesIdsAndResourceKeys.get(activityId));
             selectedActivities.remove(activityId);
-            view.setTag(tag.replace(SELECTED_ACTIVITY_TAG_PREFIX, ""));
+            view.setTag(tag.replace(SELECTED_ACTIVITY_VIEW_TAG_PREFIX, ""));
         } else {
-            newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId) + "_selected";
+            newResourceName = generatedActivitiesIdsAndResourceKeys.get(activityId) + SELECTED_ACTIVITY_RESOURCE_SUFFIX;
             selectedActivities.add(activityId);
-            view.setTag(SELECTED_ACTIVITY_TAG_PREFIX + tag);
+            view.setTag(SELECTED_ACTIVITY_VIEW_TAG_PREFIX + tag);
         }
 
         view.setBackgroundResource(getResources().getIdentifier(newResourceName, "drawable", this.getPackageName()));
@@ -269,6 +310,23 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
         }
     }
 
+    private void restoreActivitiesView(Bundle savedState) {
+        ArrayList<Long> activityIds = getActivitiesFromSavedStateOrIntent(savedState);
+        if (activityIds == null) {
+            return;
+        }
+
+        List<View> activityChildViews = ActivityUtils.getChildViews(findViewById(R.id.activities_root), new ArrayList<View>());
+        for (View view : activityChildViews) {
+            for (long activityId : activityIds) {
+                String targetTag = ACTIVITY_VIEW_TAG + activityId;
+                if (view.getTag() != null && view.getTag().toString().equals(targetTag)) {
+                    setActivitySelected(view);
+                }
+            }
+        }
+    }
+
     /**
      * Try to find hook for restoring selected mood if applicable, by looking at bundle passed
      * from onCreate and falling back to getIntent() in case where we're coming from
@@ -279,23 +337,6 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
             return savedState.getInt(MOOD_RESTORE_KEY, -1);
         } else {
             return getIntent().getIntExtra(MOOD_RESTORE_KEY, -1);
-        }
-    }
-
-    private void restoreActivitiesView(Bundle savedState) {
-        ArrayList<Long> activityIds = getActivitiesFromSavedStateOrIntent(savedState);
-        if (activityIds == null) {
-            return;
-        }
-
-        List<View> activityChildViews = ActivityUtils.getChildViews(findViewById(R.id.activities_root), new ArrayList<View>());
-        for (View view : activityChildViews) {
-            for (long activityId : activityIds) {
-                String targetTag = ACTIVITY_TAG + activityId;
-                if (view.getTag() != null && view.getTag().toString().equals(targetTag)) {
-                    setActivitySelected(view);
-                }
-            }
         }
     }
 
@@ -313,48 +354,18 @@ public class AddMoodLogActivity extends AbstractMoodActivity {
     }
 
     private void addNewActivity() {
-        Intent intent = new Intent(AddMoodLogActivity.this, AddActivityActivity.class);
+        Intent intent = new Intent(this, AddActivityActivity.class);
         // pass extras to activity creation to restore later if new activity is created successfully
         intent.putExtra(MOOD_RESTORE_KEY, selectedMood);
         intent.putExtra(ACTIVITIES_RESTORE_KEY, selectedActivities);
         startActivityForResult(intent, ADD_ACTIVITY_REQUEST_CODE);
     }
 
-    public void finishMoodLog(View view) {
-        if (selectedMood == -1 || selectedActivities.isEmpty()) {
-            ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
-            return;
+    private String getThemeDependentResource(String originalResource) {
+        if (isDarkTheme) {
+            originalResource += DARK_THEME_ACTIVITY_RESOURCE_SUFFIX;
         }
-
-        ActivityDbHelper activityDbHelper = new ActivityDbHelper(getBaseContext());
-        List<Activity> activities = new ArrayList<>();
-        for (long activityId : selectedActivities) {
-            activities.add(activityDbHelper.getActivity(activityId));
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            String[] permissions = { Manifest.permission.ACCESS_FINE_LOCATION };
-            ActivityCompat.requestPermissions(this, permissions, PackageManager.PERMISSION_GRANTED);
-            return;
-        }
-
-        float latitude = -1L;
-        float longitude = -1L;
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (location != null) {
-            latitude = (float) location.getLatitude();
-            longitude = (float) location.getLongitude();
-        }
-
-        MoodEntry moodEntry = new MoodEntry(latitude, longitude, selectedMood, activities);
-        new MoodEntryDbHelper(getBaseContext()).create(moodEntry);
-
-        Intent intent = new Intent(AddMoodLogActivity.this, MainActivity.class);
-        startActivity(intent);
-
-        Toast.makeText(AddMoodLogActivity.this, "Mood log added!",
-                Toast.LENGTH_LONG).show();
+        return originalResource;
     }
 
     @Override

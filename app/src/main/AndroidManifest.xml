@@ -30,13 +30,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddMoodLogActivity"
+            android:name=".activities.views.impl.AddMoodLogActivity"
             android:label="@string/add_mood_log"
             android:parentActivityName=".activities.MainActivity" />
         <activity
             android:name=".activities.AddActivityActivity"
             android:label="@string/add_activity"
-            android:parentActivityName=".activities.AddMoodLogActivity" />
+            android:parentActivityName=".activities.views.impl.AddMoodLogActivity" />
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings"

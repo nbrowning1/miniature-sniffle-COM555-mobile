@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.WelcomeActivity;
 
 public class MainActivity extends AbstractMoodActivity {
