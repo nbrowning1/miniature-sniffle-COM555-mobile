@@ -23,8 +23,10 @@ import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
@@ -35,9 +37,9 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
     private int moodRating;
     private TimeRangeEnum timeRange;
-    private List<Location> locationsForMoodRating = new ArrayList<>();
-    private List<Activity> activitiesForMoodRating = new ArrayList<>();
-    private List<String> locations = new ArrayList<>();
+    private Set<Location> locationsForMoodRating = new LinkedHashSet<>();
+    private Set<Activity> activitiesForMoodRating = new LinkedHashSet<>();
+    private Set<String> locations = new LinkedHashSet<>();
 
     public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources, boolean isDarkTheme) {
         this.context = context;
@@ -73,7 +75,9 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
         for (MoodEntry moodEntry : moodEntriesForMoodRating) {
             locationsForMoodRating.add(moodEntry.getLocation());
-            activitiesForMoodRating.addAll(moodEntry.getActivities());
+            for (Activity activity : moodEntry.getActivities()) {
+                activitiesForMoodRating.add(activity);
+            }
         }
 
         buildLocations();

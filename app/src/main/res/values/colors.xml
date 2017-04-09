@@ -7,22 +7,26 @@
     <color name="colorLight">#26f3f3f3</color>
     <color name="white">#ffffffff</color>
 
-    <color name="colorNestedScrollViewFill">#e6e6e6</color>
-    <color name="colorNestedScrollViewBorder">#bfbfbf</color>
-
     <!-- dark -->
-    <color name="darkColorPrimary">#4183D7</color>
-    <color name="darkColorPrimaryDark">#446CB3</color>
-
-    <color name="darkColorNestedScrollViewFill">#000000</color>
-    <color name="darkColorNestedScrollViewBorder">#101010</color>
+    <color name="darkColorPrimary">#663399</color>
+    <color name="darkColorPrimaryDark">#000000</color>
+    <color name="darkColorAccent">#BF55EC</color>
 
     <!-- ocean -->
     <color name="oceanColorPrimary">#4183D7</color>
     <color name="oceanColorPrimaryDark">#446CB3</color>
+    <color name="oceanColorAccent">#19B5FE</color>
 
     <!-- mint -->
     <color name="mintColorPrimary">#03A678</color>
     <color name="mintColorPrimaryDark">#019875</color>
+    <color name="mintColorAccent">#2ECC71</color>
 
+    <!-- light section views -->
+    <color name="colorNestedScrollViewFill">#e6e6e6</color>
+    <color name="colorNestedScrollViewBorder">#bfbfbf</color>
+
+    <!-- dark section views -->
+    <color name="darkColorNestedScrollViewFill">#000000</color>
+    <color name="darkColorNestedScrollViewBorder">#101010</color>
 </resources>

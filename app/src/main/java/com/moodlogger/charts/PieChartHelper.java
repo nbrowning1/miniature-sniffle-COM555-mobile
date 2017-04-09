@@ -73,6 +73,7 @@ public class PieChartHelper implements ChartHelper {
         dataSet.setSliceSpace(10f);
         PieData pieData = new PieData(dataSet);
         chart.setData(pieData);
+        chart.setHoleColor(Color.TRANSPARENT);
         if (isDarkTheme) {
             chart.getLegend().setTextColor(Color.WHITE);
         }

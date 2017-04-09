@@ -44,6 +44,7 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        parentView.findViewById(R.id.chart_parent).setVisibility(View.GONE);
         // chart will be built via spinners' onClick handler after spinners are initialised
         setupSpinners();
     }
@@ -80,8 +81,9 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void params) {
-        // hide progress spinner
+        // hide progress spinner and show chart
         parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.GONE);
+        parentView.findViewById(R.id.chart_parent).setVisibility(View.VISIBLE);
     }
 
     private void buildChart() {

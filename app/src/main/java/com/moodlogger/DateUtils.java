@@ -11,8 +11,6 @@ import java.util.Locale;
 
 public class DateUtils {
 
-    private static Calendar calendar = Calendar.getInstance();
-
     public static Calendar getDateFromSqliteDateTime(String dateTime) {
         try {
             Calendar calendar = new GregorianCalendar();

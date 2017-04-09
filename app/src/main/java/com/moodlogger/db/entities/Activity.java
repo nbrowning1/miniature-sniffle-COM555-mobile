@@ -1,5 +1,7 @@
 package com.moodlogger.db.entities;
 
+import java.util.Objects;
+
 public class Activity extends Entity {
 
     public static final String TABLE_NAME = "activity";
@@ -30,5 +32,26 @@ public class Activity extends Entity {
 
     public String getImgKey() {
         return imgKey;
+    }
+
+    /* used specifically for making it easier to create a distinct list of activities
+        on the View tab */
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Activity)) {
+            return false;
+        }
+
+        final Activity other = (Activity) obj;
+
+        return this.getId() == other.getId() &&
+                this.getName().equals(other.getName());
+    }
+
+    /* used specifically for making it easier to create a distinct list of activities
+        on the View tab */
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

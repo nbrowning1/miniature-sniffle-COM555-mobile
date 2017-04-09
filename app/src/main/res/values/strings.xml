@@ -94,6 +94,8 @@
 
     <!-- About Activity -->
     <string name="about_team">The Team</string>
-    <string name="about_credits">C</string>
+    <string name="about_team_desc">The team for this app consisted of a solo developer, Neil Browning. The app was created in Android Studio using Java as part of university coursework.</string>
+    <string name="about_credits">Credits</string>
+    <string name="about_credits_desc">Thanks to Icons8 for the free icons. Icons8 can be accessed at https://icons8.com</string>
 
 </resources>

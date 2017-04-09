@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Regular activity themes -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,26 +10,32 @@
     <style name="DarkAppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/darkColorPrimary</item>
         <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+        <item name="colorAccent">@color/darkColorAccent</item>
     </style>
 
     <style name="OceanAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/oceanColorPrimary</item>
         <item name="colorPrimaryDark">@color/oceanColorPrimaryDark</item>
+        <item name="colorAccent">@color/oceanColorAccent</item>
     </style>
 
     <style name="MintAppTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/mintColorPrimary</item>
         <item name="colorPrimaryDark">@color/mintColorPrimaryDark</item>
+        <item name="colorAccent">@color/mintColorAccent</item>
     </style>
 
+    <!-- Welcome theme (only one as only shown once before user can customise) -->
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/colorPrimary</item>
+        <!-- all text-related -->
         <item name="android:textColor">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="colorControlHighlight">@color/white</item>
     </style>
 
+    <!-- MainActivity themes (tabbed view, custom toolbar) -->
     <style name="MainTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -41,14 +47,18 @@
 
     <style name="DarkMainTheme" parent="Theme.AppCompat">
         <item name="android:textColor">@color/white</item>
+        <item name="colorPrimary">@color/darkColorPrimary</item>
         <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+        <item name="colorAccent">@color/darkColorAccent</item>
         <!-- removal of regular action bar to add settings to custom action bar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <style name="OceanMainTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/oceanColorPrimary</item>
         <item name="colorPrimaryDark">@color/oceanColorPrimaryDark</item>
+        <item name="colorAccent">@color/oceanColorAccent</item>
         <!-- removal of regular action bar to add settings to custom action bar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -56,7 +66,9 @@
 
     <style name="MintMainTheme" parent="Theme.AppCompat">
         <item name="android:textColor">@color/white</item>
+        <item name="colorPrimary">@color/mintColorPrimary</item>
         <item name="colorPrimaryDark">@color/mintColorPrimaryDark</item>
+        <item name="colorAccent">@color/mintColorAccent</item>
         <!-- removal of regular action bar to add settings to custom action bar -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -66,7 +78,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!-- is this needed? -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

@@ -72,8 +72,8 @@ public class AddActivityActivity extends AbstractMoodActivity {
     public void finishActivity(View view) {
         String name = ((EditText) findViewById(R.id.edit_message)).getText().toString();
 
-        if (selectedActivityTagName == null || selectedActivityTagName.isEmpty() || name.isEmpty()) {
-            ActivityUtils.showAlertDialog(this, "Select an icon and enter a name for the new activity");
+        if (selectedActivityTagName == null || selectedActivityTagName.isEmpty() || !ActivityUtils.textInputIsValid(name)) {
+            ActivityUtils.showAlertDialog(this, "Select an icon and enter a valid name for the new activity (up to 15 alphabetical characters only)");
             return;
         }
 

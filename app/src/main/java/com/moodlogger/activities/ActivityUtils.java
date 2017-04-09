@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
-import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
 
 import java.util.List;
@@ -90,6 +88,10 @@ public class ActivityUtils {
         return existingChildren;
     }
 
+    /**
+     * for closing the on-screen keyboard in an activity
+     * @param activity the activity the keyboard belongs to
+     */
     public static void hideSoftKeyBoard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
 
@@ -97,6 +99,14 @@ public class ActivityUtils {
         if (imm.isAcceptingText() && activity.getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public static boolean textInputIsValid(String input) {
+        return input != null &&
+                !input.isEmpty() &&
+                input.length() <= 15 &&
+                // only allow alphabetical characters and spaces
+                input.matches("[a-zA-Z\\s]+");
     }
 
     public static boolean isDarkTheme(Context context) {

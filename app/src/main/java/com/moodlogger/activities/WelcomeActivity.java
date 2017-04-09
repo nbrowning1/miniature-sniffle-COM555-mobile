@@ -25,8 +25,8 @@ public class WelcomeActivity extends AbstractMoodActivity {
 
     public void finishWelcome(View view) {
         String name = ((EditText) findViewById(R.id.welcome_name_text)).getText().toString();
-        if (name.isEmpty()) {
-            ActivityUtils.showAlertDialog(this, "Please enter your name");
+        if (!ActivityUtils.textInputIsValid(name)) {
+            ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
             return;
         }
 

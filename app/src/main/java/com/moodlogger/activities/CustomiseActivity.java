@@ -41,7 +41,8 @@ public class CustomiseActivity extends AbstractMoodActivity {
         final int nestedScrollResId = isDarkTheme ?
                 R.drawable.dark_nested_scroll_view_bg :
                 R.drawable.nested_scroll_view_bg;
-        setViewThemes(5, nestedScrollResId, "customise_nested_scroll_");
+        setViewThemes(1, nestedScrollResId, "name_section_");
+        setViewThemes(4, nestedScrollResId, "theme_section_");
     }
 
     private void populateNameField() {
@@ -52,25 +53,27 @@ public class CustomiseActivity extends AbstractMoodActivity {
     }
 
     private void setupThemes() {
-        findViewById(R.id.theme_0).setOnClickListener(themeOnClick(0));
-        findViewById(R.id.theme_1).setOnClickListener(themeOnClick(1));
-        findViewById(R.id.theme_2).setOnClickListener(themeOnClick(2));
-        findViewById(R.id.theme_3).setOnClickListener(themeOnClick(3));
+        findViewById(R.id.theme_section_1).setOnClickListener(themeOnClick(0));
+        findViewById(R.id.theme_section_2).setOnClickListener(themeOnClick(1));
+        findViewById(R.id.theme_section_3).setOnClickListener(themeOnClick(2));
+        findViewById(R.id.theme_section_4).setOnClickListener(themeOnClick(3));
     }
 
     private View.OnClickListener themeOnClick(final int themeId) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // try to save any changes, return if validation not met
+                if (!saveName()) {
+                    return;
+                }
+
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("theme", themeId);
 
                 // commit as we want to change theme in SharedPrefs immediately - lots of visual feedback
                 editor.commit();
-
-                // save any changes..
-                saveName();
 
                 // and refresh
                 finish();
@@ -82,10 +85,16 @@ public class CustomiseActivity extends AbstractMoodActivity {
         };
     }
 
-    private void saveName() {
+    private boolean saveName() {
         String name = ((EditText) findViewById(R.id.name_text)).getText().toString();
         boolean changesMade = !name.equals(initialName);
-        if (!name.isEmpty() && changesMade) {
+
+        if (!ActivityUtils.textInputIsValid(name)) {
+            ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
+            return false;
+        }
+
+        if (changesMade) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("user_name", name);
@@ -97,6 +106,8 @@ public class CustomiseActivity extends AbstractMoodActivity {
             Toast.makeText(this, "Changes saved.",
                     Toast.LENGTH_LONG).show();
         }
+
+        return true;
     }
 
     @Override

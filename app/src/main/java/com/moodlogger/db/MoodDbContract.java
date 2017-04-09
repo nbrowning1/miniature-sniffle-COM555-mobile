@@ -5,8 +5,6 @@ import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
 import com.moodlogger.db.entities.Reminder;
-import com.moodlogger.db.entities.Screen;
-import com.moodlogger.db.entities.User;
 
 import java.util.Locale;
 
@@ -52,17 +50,6 @@ public final class MoodDbContract {
                     MoodEntryActivity.ACTIVITY_ID + " INTEGER," +
                     "PRIMARY KEY (" + MoodEntryActivity.MOOD_ENTRY_ID + ", " + MoodEntryActivity.ACTIVITY_ID + "));";
 
-    private static final String SQL_CREATE_SCREEN_TABLE =
-            "CREATE TABLE " + Screen.TABLE_NAME + " (" +
-                    Screen._ID + " INTEGER PRIMARY KEY," +
-                    Screen.NAME + " TEXT," +
-                    Screen.GUIDE_GIVEN + " BOOLEAN);";
-
-    private static final String SQL_CREATE_USER_TABLE =
-            "CREATE TABLE " + User.TABLE_NAME + " (" +
-                    User._ID + " INTEGER PRIMARY KEY," +
-                    User.NAME + " TEXT);";
-
     private static final String SQL_CREATE_REMINDER_TABLE =
             "CREATE TABLE " + Reminder.TABLE_NAME + " (" +
                     Reminder._ID + " INTEGER PRIMARY KEY," +
@@ -79,8 +66,6 @@ public final class MoodDbContract {
             SQL_CREATE_MOOD_TABLE,
             SQL_CREATE_ACTIVITY_TABLE,
             SQL_CREATE_MOOD_ENTRY_ACTIVITY_TABLE,
-            SQL_CREATE_SCREEN_TABLE,
-            SQL_CREATE_USER_TABLE,
             SQL_CREATE_REMINDER_TABLE
     };
 
@@ -107,7 +92,5 @@ public final class MoodDbContract {
                     "DROP TABLE IF EXISTS " + Mood.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + Activity.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + MoodEntryActivity.TABLE_NAME + "; " +
-                    "DROP TABLE IF EXISTS " + Screen.TABLE_NAME + "; " +
-                    "DROP TABLE IF EXISTS " + User.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + Reminder.TABLE_NAME + ";";
 }

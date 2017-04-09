@@ -51,7 +51,7 @@ public class SummaryTabFragment extends Fragment {
 
     private void setSpecificViewThemes() {
         boolean isDarkTheme = ActivityUtils.isDarkTheme(getContext());
-        setSpecificViewTheme(isDarkTheme, R.drawable.add_activity, R.drawable.add_activity_white,
+        setSpecificViewTheme(isDarkTheme, R.drawable.add_mood_entry, R.drawable.add_mood_entry_white,
                 R.id.summary_add_mood_button);
     }
 
