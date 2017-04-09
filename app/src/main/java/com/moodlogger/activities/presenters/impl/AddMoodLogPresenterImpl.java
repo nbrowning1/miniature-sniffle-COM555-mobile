@@ -7,7 +7,7 @@ import com.moodlogger.activities.models.intf.AddMoodLogModel;
 import com.moodlogger.activities.presenters.intf.AddMoodLogPresenter;
 import com.moodlogger.activities.views.intf.AddMoodLogView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AddMoodLogPresenterImpl implements AddMoodLogPresenter, AddMoodLogModel.OnAddMoodLogFinishedListener {
 
@@ -20,13 +20,13 @@ public class AddMoodLogPresenterImpl implements AddMoodLogPresenter, AddMoodLogM
     }
 
     @Override
-    public void validateMoodLog(int selectedMood, ArrayList<Long> selectedActivities) {
-        addMoodLogModel.finish(selectedMood, selectedActivities, this);
+    public void onDestroy() {
+        addMoodLogView = null;
     }
 
     @Override
-    public void onDestroy() {
-        addMoodLogView = null;
+    public void validateMoodLog(int selectedMood, List<Long> selectedActivities) {
+        addMoodLogModel.finish(selectedMood, selectedActivities, this);
     }
 
     @Override

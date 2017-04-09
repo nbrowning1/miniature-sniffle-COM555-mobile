@@ -34,7 +34,7 @@
             android:label="@string/add_mood_log"
             android:parentActivityName=".activities.MainActivity" />
         <activity
-            android:name=".activities.AddActivityActivity"
+            android:name=".activities.views.impl.AddNewActivityActivity"
             android:label="@string/add_activity"
             android:parentActivityName=".activities.views.impl.AddMoodLogActivity" />
         <activity

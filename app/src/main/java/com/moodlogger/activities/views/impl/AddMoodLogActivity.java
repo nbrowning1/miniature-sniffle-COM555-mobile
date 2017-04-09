@@ -16,7 +16,6 @@ import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.activities.AddActivityActivity;
 import com.moodlogger.activities.MainActivity;
 import com.moodlogger.activities.presenters.impl.AddMoodLogPresenterImpl;
 import com.moodlogger.activities.presenters.intf.AddMoodLogPresenter;
@@ -66,8 +65,19 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     }
 
     @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
     protected int getContentViewResId() {
         return R.layout.add_mood_log;
+    }
+
+    @Override
+    public void showValidationDialog() {
+        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
     }
 
     @Override
@@ -94,17 +104,6 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
                 presenter.validateMoodLog(selectedMood, selectedActivities);
             }
         };
-    }
-
-    @Override
-    public void showValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
-    }
-
-    @Override
-    protected void onDestroy() {
-        presenter.onDestroy();
-        super.onDestroy();
     }
 
     private void setSpecificViewThemes() {
@@ -354,7 +353,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     }
 
     private void addNewActivity() {
-        Intent intent = new Intent(this, AddActivityActivity.class);
+        Intent intent = new Intent(this, AddNewActivityActivity.class);
         // pass extras to activity creation to restore later if new activity is created successfully
         intent.putExtra(MOOD_RESTORE_KEY, selectedMood);
         intent.putExtra(ACTIVITIES_RESTORE_KEY, selectedActivities);

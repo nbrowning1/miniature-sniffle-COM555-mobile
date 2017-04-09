@@ -351,8 +351,7 @@
                 android:layout_height="100dp"
                 android:layout_marginBottom="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/add_mood_finish"
-                android:onClick="finishActivity" />
+                android:background="@drawable/add_mood_finish" />
 
         </LinearLayout>
 

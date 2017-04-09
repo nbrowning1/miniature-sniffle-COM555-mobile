@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.views.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,17 +8,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.moodlogger.R;
-import com.moodlogger.activities.views.impl.AddMoodLogActivity;
+import com.moodlogger.activities.AbstractMoodActivity;
+import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.activities.presenters.impl.AddMoodLogPresenterImpl;
+import com.moodlogger.activities.presenters.impl.AddNewActivityPresenterImpl;
+import com.moodlogger.activities.presenters.intf.AddNewActivityPresenter;
+import com.moodlogger.activities.views.intf.AddNewActivityView;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.helpers.ActivityDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddActivityActivity extends AbstractMoodActivity {
+public class AddNewActivityActivity extends AbstractMoodActivity implements AddNewActivityView {
 
     private String selectedActivityTagName;
     private boolean isDarkTheme;
+
+    private EditText activityName;
+    private AddNewActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +34,55 @@ public class AddActivityActivity extends AbstractMoodActivity {
         isDarkTheme = ActivityUtils.isDarkTheme(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSpecificViewThemes();
+        activityName = (EditText) findViewById(R.id.edit_message);
+        findViewById(R.id.add_new_activity_add_activity_button).setOnClickListener(onAddNewActivity());
+
+        presenter = new AddNewActivityPresenterImpl(this, getApplicationContext());
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
     protected int getContentViewResId() {
         return R.layout.add_new_activity;
+    }
+
+    @Override
+    public void showGeneralValidationDialog() {
+        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
+    }
+
+    @Override
+    public void showAlreadyExistsValidationDialog() {
+        ActivityUtils.showAlertDialog(this, "Activity name is already in use");
+    }
+
+    @Override
+    public void returnToAddMood() {
+        Intent intent = new Intent(this, AddMoodLogActivity.class);
+
+        // pass intent extras back to mood creation activity
+        intent.putExtra("mood_selected", getIntent().getIntExtra("mood_selected", -1));
+        intent.putExtra("activities_selected", getIntent().getSerializableExtra("activities_selected"));
+        startActivity(intent);
+
+        Toast.makeText(AddNewActivityActivity.this, "New activity created!",
+                Toast.LENGTH_LONG).show();
+
+        finish();
+    }
+
+    private View.OnClickListener onAddNewActivity() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.validateNewActivity(activityName.getText().toString(), selectedActivityTagName);
+            }
+        };
     }
 
     private void setSpecificViewThemes() {
@@ -67,35 +119,6 @@ public class AddActivityActivity extends AbstractMoodActivity {
         String selectedImgResource = tag.replace("_white", "") + "_selected";
         activityView.setBackgroundResource(getResources().getIdentifier(selectedImgResource, "drawable", this.getPackageName()));
         selectedActivityTagName = tag;
-    }
-
-    public void finishActivity(View view) {
-        String name = ((EditText) findViewById(R.id.edit_message)).getText().toString();
-
-        if (selectedActivityTagName == null || selectedActivityTagName.isEmpty() || !ActivityUtils.textInputIsValid(name)) {
-            ActivityUtils.showAlertDialog(this, "Select an icon and enter a valid name for the new activity (up to 15 alphabetical characters only)");
-            return;
-        }
-
-        ActivityDbHelper activityDbHelper = new ActivityDbHelper(getBaseContext());
-        for (Activity activity : activityDbHelper.getActivities()) {
-            if (name.equalsIgnoreCase(activity.getName())) {
-                ActivityUtils.showAlertDialog(this, "Activity name is already in use");
-                return;
-            }
-        }
-
-        Activity newActivity = new Activity(name, selectedActivityTagName);
-        activityDbHelper.create(newActivity);
-
-        Intent intent = new Intent(AddActivityActivity.this, AddMoodLogActivity.class);
-        // pass intent extras back to mood creation activity
-        intent.putExtra("mood_selected", getIntent().getIntExtra("mood_selected", -1));
-        intent.putExtra("activities_selected", getIntent().getSerializableExtra("activities_selected"));
-        startActivity(intent);
-
-        Toast.makeText(AddActivityActivity.this, "New activity created!",
-                Toast.LENGTH_LONG).show();
     }
 
     @Override

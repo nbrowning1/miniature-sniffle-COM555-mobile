@@ -1,6 +1,5 @@
 package com.moodlogger.activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,13 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 
+import com.moodlogger.StringUtils;
 import com.moodlogger.ThemeEnum;
 
 import java.util.List;
-
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 public class ActivityUtils {
 
@@ -89,8 +86,7 @@ public class ActivityUtils {
     }
 
     public static boolean textInputIsValid(String input) {
-        return input != null &&
-                !input.isEmpty() &&
+        return !StringUtils.isEmpty(input) &&
                 input.length() <= 15 &&
                 // only allow alphabetical characters and spaces
                 input.matches("[a-zA-Z\\s]+");

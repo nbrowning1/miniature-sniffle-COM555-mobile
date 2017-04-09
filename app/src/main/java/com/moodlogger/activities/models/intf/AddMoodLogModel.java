@@ -1,6 +1,5 @@
 package com.moodlogger.activities.models.intf;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface AddMoodLogModel {
