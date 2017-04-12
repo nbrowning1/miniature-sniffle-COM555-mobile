@@ -1,6 +1,5 @@
 package com.moodlogger.activities.views.impl;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -11,6 +10,8 @@ import android.widget.Toast;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.activities.presenters.impl.CustomisePresenterImpl;
+import com.moodlogger.activities.presenters.intf.CustomisePresenter;
 import com.moodlogger.activities.views.intf.CustomiseView;
 
 public class CustomiseActivity extends AbstractMoodActivity implements CustomiseView {
@@ -18,8 +19,9 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
     /* for checking if any changes were made - determines whether we need to provide visual feedback
         to user upon exiting */
     private String initialName = "";
-
     private EditText nameView;
+
+    private CustomisePresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,14 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         nameView = (EditText) findViewById(R.id.name_text);
         populateNameField();
         setupThemes();
+
+        presenter = new CustomisePresenterImpl(this, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -72,47 +82,33 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
                 if (!saveName()) {
                     return;
                 }
-
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("theme", themeId);
-
-                // commit as we want to change theme in SharedPrefs immediately - lots of visual feedback
-                editor.commit();
-
-                // and refresh
-                finish();
-                startActivity(getIntent());
-
-                Toast.makeText(CustomiseActivity.this, "Theme changed.",
-                        Toast.LENGTH_LONG).show();
+                presenter.setNewTheme(themeId);
             }
         };
     }
 
+    @Override
+    public void changeTheme() {
+        // refresh activity
+        finish();
+        startActivity(getIntent());
+
+        Toast.makeText(CustomiseActivity.this, "Theme changed.", Toast.LENGTH_LONG).show();
+    }
+
     private boolean saveName() {
         String name = nameView.getText().toString();
-        boolean changesMade = !name.equals(initialName);
+        return presenter.validateAndSaveName(initialName, name);
+    }
 
-        if (!ActivityUtils.textInputIsValid(name)) {
-            ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
-            return false;
-        }
+    @Override
+    public void showValidationDialog() {
+        ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
+    }
 
-        if (changesMade) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("user_name", name);
-
-            /* apply as we're unlikely to run into anything needing the name - doesn't need to be
-                be immediate */
-            editor.apply();
-
-            Toast.makeText(this, "Changes saved.",
-                    Toast.LENGTH_LONG).show();
-        }
-
-        return true;
+    @Override
+    public void showChangesSaved() {
+        Toast.makeText(this, "Changes saved.", Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.moodlogger.activities.views.impl;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,29 +18,24 @@ import android.widget.Toast;
 
 import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
-import com.moodlogger.ReminderReceiver;
-import com.moodlogger.SpreadsheetBuilder;
 import com.moodlogger.activities.AbstractMoodActivity;
-import com.moodlogger.db.entities.MoodEntry;
+import com.moodlogger.activities.presenters.impl.SettingsPresenterImpl;
+import com.moodlogger.activities.presenters.intf.SettingsPresenter;
+import com.moodlogger.activities.views.intf.SettingsView;
 import com.moodlogger.db.entities.Reminder;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
 import com.moodlogger.db.helpers.ReminderDbHelper;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class SettingsActivity extends AbstractMoodActivity {
+public class SettingsActivity extends AbstractMoodActivity implements SettingsView {
 
     private static final int NO_OF_REMINDERS = 3;
 
     private List<Reminder> initialReminders;
+
+    private SettingsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +44,14 @@ public class SettingsActivity extends AbstractMoodActivity {
         populateReminders();
         initialReminders = getRemindersFromScreen();
         setSpecificViewThemes(isDarkTheme());
+
+        presenter = new SettingsPresenterImpl(this, this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -79,42 +80,6 @@ public class SettingsActivity extends AbstractMoodActivity {
         tpd.show();
     }
 
-    public void exportEntries(View view) {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions(this, permissions, PackageManager.PERMISSION_GRANTED);
-            return;
-        }
-
-        List<MoodEntry> moodEntries = new MoodEntryDbHelper(this).getAllMoodEntries();
-        HSSFWorkbook workbook = SpreadsheetBuilder.buildMoodEntriesSpreadsheet(moodEntries);
-
-        FileOutputStream fos = null;
-
-        try {
-            String storagePath = Environment.getExternalStorageDirectory().toString() + "/mood";
-            String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-            File storageFile = new File(storagePath);
-            storageFile.mkdirs();
-
-            File file = new File(storageFile, getString(R.string.app_name) + timeStamp + ".xls");
-            fos = new FileOutputStream(file);
-            workbook.write(fos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.flush();
-                    fos.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            Toast.makeText(this, "Excel sheet generated in 'mood/' directory", Toast.LENGTH_LONG).show();
-        }
-    }
-
     private TimePickerDialog.OnTimeSetListener timePickerOnSetListener(final int buttonResId) {
         return new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -134,6 +99,27 @@ public class SettingsActivity extends AbstractMoodActivity {
         return time < 10 ?
                 "0" + time :
                 Integer.toString(time);
+    }
+
+    public void exportEntries(View view) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+            ActivityCompat.requestPermissions(this, permissions, PackageManager.PERMISSION_GRANTED);
+            return;
+        }
+        String storagePath = Environment.getExternalStorageDirectory().toString() + "/mood";
+
+        presenter.exportMoodEntries(storagePath);
+    }
+
+    @Override
+    public void onFailedExport() {
+        Toast.makeText(this, "Something went wrong when trying to save export file", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSuccessfulExport() {
+        Toast.makeText(this, "Excel sheet generated in 'mood/' directory", Toast.LENGTH_LONG).show();
     }
 
     private void populateReminders() {
@@ -157,50 +143,12 @@ public class SettingsActivity extends AbstractMoodActivity {
             return;
         }
 
-        ReminderDbHelper reminderDbHelper = new ReminderDbHelper(this);
-
-        List<Reminder> reminders = getRemindersFromScreen();
-        for (Reminder reminder : getRemindersFromScreen()) {
-            reminderDbHelper.updateReminder(reminder);
-        }
-
-        setReminders(reminders);
-
-        Toast.makeText(this, "Changes saved.",
-                Toast.LENGTH_LONG).show();
+        presenter.saveReminders(getRemindersFromScreen());
     }
 
-    private void setReminders(List<Reminder> reminders) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-
-        for (int i = 0; i < NO_OF_REMINDERS; i++) {
-            Reminder reminder = reminders.get(i);
-            HourAndMinsTime time = new HourAndMinsTime(reminder.getTime());
-
-            /* loop iteration used as unique request code for pendingIntent so existing alarm can
-                be cancelled if applicable */
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            if (!reminder.isEnabled()) {
-                alarmManager.cancel(pendingIntent);
-                // skip to next reminder
-                continue;
-            }
-
-            Calendar alarmStartTime = Calendar.getInstance();
-            alarmStartTime.set(Calendar.HOUR_OF_DAY, time.getHour());
-            alarmStartTime.set(Calendar.MINUTE, time.getMinute());
-            alarmStartTime.set(Calendar.SECOND, 0);
-
-            Calendar now = Calendar.getInstance();
-            // if we're already past the alarm time, forward by one day to avoid immediate alarm trigger
-            if (now.after(alarmStartTime)) {
-                alarmStartTime.add(Calendar.DATE, 1);
-            }
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarmStartTime.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-        }
+    @Override
+    public void onRemindersSaved() {
+        Toast.makeText(this, "Changes saved.", Toast.LENGTH_LONG).show();
     }
 
     private List<Reminder> getRemindersFromScreen() {
