@@ -16,13 +16,12 @@ import android.widget.TextView;
 
 import com.moodlogger.R;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;

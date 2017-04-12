@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.moodlogger.R;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.activities.MainActivity;
+import com.moodlogger.activities.main.MainActivity;
 import com.moodlogger.activities.presenters.impl.WelcomePresenterImpl;
 import com.moodlogger.activities.presenters.intf.WelcomePresenter;
 import com.moodlogger.activities.views.intf.WelcomeView;

@@ -1,4 +1,4 @@
-package com.moodlogger;
+package com.moodlogger.reminders;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
+import com.moodlogger.R;
 import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 
 public class ReminderNotificationService extends IntentService {

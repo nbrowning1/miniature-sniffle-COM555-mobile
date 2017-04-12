@@ -1,4 +1,4 @@
-package com.moodlogger;
+package com.moodlogger.reminders;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

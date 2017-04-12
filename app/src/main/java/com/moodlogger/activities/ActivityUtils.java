@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.moodlogger.StringUtils;
+import com.moodlogger.utils.StringUtils;
 import com.moodlogger.ThemeEnum;
 
 import java.util.List;

@@ -16,7 +16,7 @@ import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.activities.MainActivity;
+import com.moodlogger.activities.main.MainActivity;
 import com.moodlogger.activities.presenters.impl.AddMoodLogPresenterImpl;
 import com.moodlogger.activities.presenters.intf.AddMoodLogPresenter;
 import com.moodlogger.activities.views.intf.AddMoodLogView;

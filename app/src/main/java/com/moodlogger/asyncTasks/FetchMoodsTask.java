@@ -1,10 +1,9 @@
 package com.moodlogger.asyncTasks;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.AsyncTask;
 
-import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 

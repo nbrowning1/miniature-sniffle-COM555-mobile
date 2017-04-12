@@ -2,7 +2,7 @@ package com.moodlogger.db.entities;
 
 import android.location.Location;
 
-import com.moodlogger.DateUtils;
+import com.moodlogger.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.List;

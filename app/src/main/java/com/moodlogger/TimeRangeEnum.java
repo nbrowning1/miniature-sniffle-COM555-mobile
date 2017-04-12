@@ -1,4 +1,4 @@
-package com.moodlogger.charts;
+package com.moodlogger;
 
 public enum TimeRangeEnum {
 

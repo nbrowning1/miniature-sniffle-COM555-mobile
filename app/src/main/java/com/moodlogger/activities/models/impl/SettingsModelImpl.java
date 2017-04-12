@@ -8,7 +8,7 @@ import android.content.Intent;
 
 import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
-import com.moodlogger.ReminderReceiver;
+import com.moodlogger.reminders.ReminderReceiver;
 import com.moodlogger.SpreadsheetBuilder;
 import com.moodlogger.activities.models.intf.SettingsModel;
 import com.moodlogger.db.entities.MoodEntry;

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.moodlogger.DateUtils;
-import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.utils.DateUtils;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;

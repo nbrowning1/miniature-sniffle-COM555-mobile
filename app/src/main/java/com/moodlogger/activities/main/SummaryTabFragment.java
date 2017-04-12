@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.main;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.asyncTasks.BuildChartTask;
 
 public class SummaryTabFragment extends Fragment {

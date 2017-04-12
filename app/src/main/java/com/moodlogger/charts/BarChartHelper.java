@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 

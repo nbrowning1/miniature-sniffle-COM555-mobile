@@ -20,7 +20,7 @@
             android:theme="@style/WelcomeTheme"
             android:label="@string/welcome" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:theme="@style/MainTheme"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -32,7 +32,7 @@
         <activity
             android:name=".activities.views.impl.AddMoodLogActivity"
             android:label="@string/add_mood_log"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".activities.main.MainActivity" />
         <activity
             android:name=".activities.views.impl.AddNewActivityActivity"
             android:label="@string/add_activity"
@@ -40,7 +40,7 @@
         <activity
             android:name=".activities.views.impl.SettingsActivity"
             android:label="@string/settings"
-            android:parentActivityName=".activities.MainActivity" />
+            android:parentActivityName=".activities.main.MainActivity" />
         <activity
             android:name=".activities.views.impl.CustomiseActivity"
             android:label="@string/customise"
@@ -51,9 +51,9 @@
             android:parentActivityName=".activities.views.impl.SettingsActivity" />
 
         <receiver
-            android:name=".ReminderReceiver"
+            android:name=".reminders.ReminderReceiver"
             android:enabled="true" />
-        <service android:name=".ReminderNotificationService" />
+        <service android:name=".reminders.ReminderNotificationService" />
     </application>
 
 </manifest>

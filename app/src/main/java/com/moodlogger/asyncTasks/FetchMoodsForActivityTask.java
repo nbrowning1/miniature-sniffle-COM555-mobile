@@ -4,13 +4,12 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
-import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.ActivityDbHelper;

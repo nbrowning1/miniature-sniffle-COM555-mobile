@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import android.view.View;
 
 import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.SettingsActivity;
 import com.moodlogger.activities.views.impl.WelcomeActivity;

@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.Spinner;
 
 import com.moodlogger.R;
 import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.asyncTasks.FetchInfoForMoodTask;
 import com.moodlogger.asyncTasks.FetchMoodsForActivityTask;
 import com.moodlogger.db.entities.Activity;

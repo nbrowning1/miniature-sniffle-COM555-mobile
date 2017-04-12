@@ -1,4 +1,4 @@
-package com.moodlogger;
+package com.moodlogger.utils;
 
 public class StringUtils {
 

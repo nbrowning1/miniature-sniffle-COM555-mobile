@@ -12,8 +12,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.moodlogger.DateUtils;
-import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.utils.DateUtils;
+import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 

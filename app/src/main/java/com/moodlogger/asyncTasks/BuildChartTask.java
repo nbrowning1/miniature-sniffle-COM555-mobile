@@ -1,6 +1,5 @@
 package com.moodlogger.asyncTasks;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -18,7 +17,7 @@ import com.moodlogger.charts.BarChartHelper;
 import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
 import com.moodlogger.charts.PieChartHelper;
-import com.moodlogger.charts.TimeRangeEnum;
+import com.moodlogger.TimeRangeEnum;
 
 public class BuildChartTask extends AsyncTask<Void, Void, Void> {
 
