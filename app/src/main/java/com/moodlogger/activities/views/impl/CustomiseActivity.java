@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.views.impl;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,18 +9,24 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.AbstractMoodActivity;
+import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.activities.views.intf.CustomiseView;
 
-public class CustomiseActivity extends AbstractMoodActivity {
+public class CustomiseActivity extends AbstractMoodActivity implements CustomiseView {
 
     /* for checking if any changes were made - determines whether we need to provide visual feedback
         to user upon exiting */
     private String initialName = "";
+
+    private EditText nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSpecificViewThemes();
+        nameView = (EditText) findViewById(R.id.name_text);
         populateNameField();
         setupThemes();
     }
@@ -47,8 +53,7 @@ public class CustomiseActivity extends AbstractMoodActivity {
 
     private void populateNameField() {
         String username = PreferenceManager.getDefaultSharedPreferences(this).getString("user_name", "");
-        EditText nameField = (EditText) findViewById(R.id.name_text);
-        nameField.setText(username);
+        nameView.setText(username);
         initialName = username;
     }
 
@@ -86,7 +91,7 @@ public class CustomiseActivity extends AbstractMoodActivity {
     }
 
     private boolean saveName() {
-        String name = ((EditText) findViewById(R.id.name_text)).getText().toString();
+        String name = nameView.getText().toString();
         boolean changesMade = !name.equals(initialName);
 
         if (!ActivityUtils.textInputIsValid(name)) {

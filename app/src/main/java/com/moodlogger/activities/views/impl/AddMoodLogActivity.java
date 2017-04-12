@@ -130,7 +130,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     private void buildActivities() {
         LinearLayout activitiesLayout = (LinearLayout) findViewById(R.id.activities_root);
-        List<Activity> activities = new ActivityDbHelper(getBaseContext()).getActivities();
+        List<Activity> activities = new ActivityDbHelper(getApplicationContext()).getActivities();
         for (int i = 0; i < activities.size(); i += 2) {
             Activity leftActivity = activities.get(i);
             Activity rightActivity = (i + 1) >= activities.size() ?
@@ -145,13 +145,13 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     private LinearLayout createDualActivityView(Activity leftActivity, Activity rightActivity) {
         LinearLayout horizontalDualActivityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams dualActivityLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        int margin = ActivityUtils.dpToPixels(getResources(), 25);
-        dualActivityLayoutParams.setMargins(margin, 0, margin, margin);
+        dualActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
         horizontalDualActivityLayout.setLayoutParams(dualActivityLayoutParams);
         horizontalDualActivityLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         horizontalDualActivityLayout.setOrientation(LinearLayout.HORIZONTAL);
+        horizontalDualActivityLayout.setWeightSum(2);
 
         horizontalDualActivityLayout.addView(createSingleActivityView(leftActivity));
         horizontalDualActivityLayout.addView(createSingleActivityView(rightActivity));
@@ -172,14 +172,15 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
+        // width = 0 as width relies on the weight of the layout params (ensuring equal width activities side-by-side)
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                ActivityUtils.dpToPixels(getResources(), 125),
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                0, LinearLayout.LayoutParams.WRAP_CONTENT);
+        singleActivityLayoutParams.weight = 1;
         singleActivityLayoutParams.setMargins(
-                ActivityUtils.dpToPixels(getResources(), 20), 0,
-                ActivityUtils.dpToPixels(getResources(), 20), 0);
+                ActivityUtils.dpToPixels(getResources(), 30), 0,
+                0, 0);
         singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
-        singleActivityLayout.setGravity(Gravity.CENTER_VERTICAL);
+        singleActivityLayout.setGravity(Gravity.LEFT);
 
         return singleActivityLayout;
     }
@@ -207,7 +208,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         LinearLayout.LayoutParams activityImageLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(getResources(), 10), 0);
+        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(getResources(), 15), 0);
         ImageButton activityImageBtn = new ImageButton(this);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
         activityImageBtn.setBackgroundResource(resId);
@@ -230,12 +231,24 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     }
 
     private LinearLayout createAddNewActivityView() {
-        LinearLayout singleActivityLayout = createSingleActivityView();
+        LinearLayout singleActivityLayout = createSingleAddNewActivityView();
 
         singleActivityLayout.addView(createAddActivityImageButton());
         TextView addNewActivityText = createActivityText("");
         addNewActivityText.setText(R.string.activity_add_new);
         singleActivityLayout.addView(addNewActivityText);
+
+        return singleActivityLayout;
+    }
+
+    private LinearLayout createSingleAddNewActivityView() {
+        LinearLayout singleActivityLayout = new LinearLayout(this);
+        // width = 0 as width relies on the weight of the layout params (ensuring equal width activities side-by-side)
+        LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        singleActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
+        singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
+        singleActivityLayout.setGravity(Gravity.CENTER);
 
         return singleActivityLayout;
     }

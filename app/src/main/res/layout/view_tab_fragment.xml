@@ -48,12 +48,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <LinearLayout
-                        android:layout_width="175dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:paddingLeft="10dp"
@@ -81,9 +83,10 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="175dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:paddingLeft="10dp"
@@ -115,9 +118,9 @@
 
                 <ProgressBar
                     android:id="@+id/mood_info_progress_spinner"
-                    android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
                     android:theme="?android:attr/progressBarStyle" />
 
             </LinearLayout>
@@ -145,10 +148,10 @@
                     android:id="@+id/activity_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="15dp"
                     android:foregroundGravity="center"
-                    android:gravity="center"
-                    android:layout_gravity="center"/>
+                    android:gravity="center" />
 
                 <ProgressBar
                     android:id="@+id/activity_moods_progress_spinner"
@@ -164,23 +167,22 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
+                    android:weightSum="5"
                     android:visibility="gone">
 
                     <LinearLayout
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/view_mood_great"
-                            android:layout_width="match_parent"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_great"
-                            android:contentDescription="@string/mood_great"
-                            android:onClick="setMoodSelected" />
+                            android:contentDescription="@string/mood_great" />
 
                         <TextView
                             android:id="@+id/mood_great_number"
@@ -192,20 +194,18 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/view_mood_happy"
-                            android:layout_width="match_parent"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_happy"
-                            android:contentDescription="@string/mood_happy"
-                            android:onClick="setMoodSelected" />
+                            android:contentDescription="@string/mood_happy" />
 
                         <TextView
                             android:id="@+id/mood_happy_number"
@@ -217,20 +217,18 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/view_mood_neutral"
-                            android:layout_width="match_parent"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_neutral"
-                            android:contentDescription="@string/mood_neutral"
-                            android:onClick="setMoodSelected" />
+                            android:contentDescription="@string/mood_neutral" />
 
                         <TextView
                             android:id="@+id/mood_neutral_number"
@@ -242,20 +240,18 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/view_mood_sad"
-                            android:layout_width="match_parent"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_sad"
-                            android:contentDescription="@string/mood_sad"
-                            android:onClick="setMoodSelected" />
+                            android:contentDescription="@string/mood_sad" />
 
                         <TextView
                             android:id="@+id/mood_sad_number"
@@ -267,20 +263,18 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="50dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:gravity="center_horizontal"
                         android:orientation="vertical">
 
                         <ImageButton
                             android:id="@+id/view_mood_angry"
-                            android:layout_width="match_parent"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/mood_angry"
-                            android:contentDescription="@string/mood_angry"
-                            android:onClick="setMoodSelected" />
+                            android:contentDescription="@string/mood_angry" />
 
                         <TextView
                             android:id="@+id/mood_angry_number"

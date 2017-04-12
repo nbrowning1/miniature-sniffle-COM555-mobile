@@ -152,11 +152,9 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(context);
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                ActivityUtils.dpToPixels(resources, 125),
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        singleActivityLayoutParams.setMargins(
-                ActivityUtils.dpToPixels(resources, 20), 0,
-                ActivityUtils.dpToPixels(resources, 20), ActivityUtils.dpToPixels(resources, 15));
+        singleActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(resources, 15));
         singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
         singleActivityLayout.setGravity(Gravity.CENTER_VERTICAL);
 
@@ -167,7 +165,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
         LinearLayout.LayoutParams activityImageLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(resources, 10), 0);
+        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(resources, 15), 0);
         ImageButton activityImageBtn = new ImageButton(context);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
 

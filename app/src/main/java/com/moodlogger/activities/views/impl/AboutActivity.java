@@ -1,10 +1,13 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.views.impl;
 
 import android.os.Bundle;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.AbstractMoodActivity;
+import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.activities.views.intf.AboutView;
 
-public class AboutActivity extends AbstractMoodActivity {
+public class AboutActivity extends AbstractMoodActivity implements AboutView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

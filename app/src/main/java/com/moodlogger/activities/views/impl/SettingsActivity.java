@@ -1,4 +1,4 @@
-package com.moodlogger.activities;
+package com.moodlogger.activities.views.impl;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -9,12 +9,10 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -24,7 +22,7 @@ import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
 import com.moodlogger.ReminderReceiver;
 import com.moodlogger.SpreadsheetBuilder;
-import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;

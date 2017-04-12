@@ -38,17 +38,17 @@
             android:label="@string/add_activity"
             android:parentActivityName=".activities.views.impl.AddMoodLogActivity" />
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".activities.views.impl.SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".activities.MainActivity" />
         <activity
-            android:name=".activities.CustomiseActivity"
+            android:name=".activities.views.impl.CustomiseActivity"
             android:label="@string/customise"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".activities.views.impl.SettingsActivity" />
         <activity
-            android:name=".activities.AboutActivity"
+            android:name=".activities.views.impl.AboutActivity"
             android:label="@string/about"
-            android:parentActivityName=".activities.SettingsActivity" />
+            android:parentActivityName=".activities.views.impl.SettingsActivity" />
 
         <receiver
             android:name=".ReminderReceiver"
