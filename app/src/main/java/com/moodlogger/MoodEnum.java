@@ -18,6 +18,10 @@ public enum MoodEnum {
         this.moodRating = moodRating;
     }
 
+    public String getLabelName() {
+        return labelName;
+    }
+
     public static int getMoodRating(String tagName) {
         for (MoodEnum mood : MoodEnum.values()) {
             if (tagName.equals(mood.tagName)) {
