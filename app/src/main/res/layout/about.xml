@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,30 +7,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/main_content_all_margin"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/about_section_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/about_team" />
+                    android:text="@string/about_team"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -41,17 +40,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/about_team_desc"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 
@@ -61,25 +57,22 @@
             android:id="@+id/about_section_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/about_credits" />
+                    android:text="@string/about_credits"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -89,17 +82,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:paddingTop="10dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="@string/about_credits_desc"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 

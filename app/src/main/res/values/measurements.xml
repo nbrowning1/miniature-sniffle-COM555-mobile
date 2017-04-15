@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- general -->
+    <dimen name="main_content_all_margin">25dp</dimen>
+    <dimen name="element_spacing_vertical_margin">15dp</dimen>
+    <dimen name="nested_element_spacing_vertical_margin">50dp</dimen>
+    <dimen name="text_padding">15dp</dimen>
+    <dimen name="mood_icon_width">50dp</dimen>
+    <dimen name="activity_icon_width">50dp</dimen>
+
+    <!-- text size -->
+    <dimen name="large_header_text_size">30sp</dimen>
+    <dimen name="header_text_size">20sp</dimen>
+    <dimen name="title_text_size">16sp</dimen>
+    <dimen name="regular_text_size">14sp</dimen>
+
+    <!-- welcome -->
+    <dimen name="welcome_padding">30dp</dimen>
+    <dimen name="welcome_app_name_text_size">40sp</dimen>
+    <dimen name="welcome_mood_icon_bottom_margin">30dp</dimen>
+    <dimen name="welcome_paragraph_margin_vertical">10dp</dimen>
+    <dimen name="welcome_paragraph_text_size">18sp</dimen>
+    <dimen name="welcome_name_text_field_width">200dp</dimen>
+
+    <!-- summary tab -->
+    <dimen name="summary_tab_progress_bar_height">300dp</dimen>
+
+    <!-- view tab -->
+    <dimen name="view_tab_mood_nested_scroll_height">300dp</dimen>
+    <dimen name="view_tab_mood_section_column_padding">10dp</dimen>
+    <dimen name="view_tab_mood_section_progress_bar_margin">30dp</dimen>
+
+    <dimen name="view_tab_activity_nested_scroll_height">150dp</dimen>
+    <dimen name="view_tab_activity_section_padding_left_right">5dp</dimen>
+
+    <!-- evaluate tab -->
+    <dimen name="evaluate_tab_progress_bar_margin">30dp</dimen>
+
+    <!-- add new activity -->
+    <dimen name="add_new_activity_section_vertical_margin">30dp</dimen>
+    <dimen name="add_new_activity_activity_row_vertical_margin">30dp</dimen>
+    <dimen name="add_new_activity_activity_icon_horizontal_margin">10dp</dimen>
+    <dimen name="add_new_activity_activity_name_field_width">200dp</dimen>
+
+    <!-- settings -->
+    <dimen name="settings_reminder_button_vertical_margin">5dp</dimen>
+    <dimen name="settings_export_button_vertical_margin">5dp</dimen>
+
+    <!-- start / finish activity buttons -->
+    <dimen name="submit_button_height_width">100dp</dimen>
+    <dimen name="submit_button_bottom_margin">15dp</dimen>
+    <dimen name="submit_button_right_margin">15dp</dimen>
+</resources>

@@ -8,6 +8,8 @@ import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,10 @@ public class MoodEntryEvaluator {
 
     public List<String> getEvaluations(TimeRangeEnum timeRange) {
         List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
+        if (moodEntries.isEmpty()) {
+            return Arrays.asList("No mood entries exist for evaluation");
+        }
+
         for (MoodEntry moodEntry : moodEntries) {
             int moodRating = moodEntry.getMoodId();
             for (Activity moodEntryActivity : moodEntry.getActivities()) {

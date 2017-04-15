@@ -63,9 +63,5 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView, V
         if (imm.isAcceptingText() && getCurrentFocus() != null) {
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
-
-        while (imm.isAcceptingText() && getCurrentFocus() != null) {
-            // waiting for soft keyboard to close
-        }
     }
 }

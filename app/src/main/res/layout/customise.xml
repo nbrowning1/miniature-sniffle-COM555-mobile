@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/main_content_all_margin"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
@@ -16,24 +17,23 @@
             android:id="@+id/customise_section_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/customise_personal" />
+                    android:text="@string/customise_personal"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -43,21 +43,21 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/customise_name" />
+                    android:text="@string/customise_name"
+                    android:textSize="@dimen/regular_text_size" />
 
                 <EditText
                     android:id="@+id/name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="75dp"
-                    android:layout_marginTop="5dp"
+                    android:inputType="textPersonName|textCapWords"
                     android:gravity="center" />
 
             </LinearLayout>
@@ -68,89 +68,90 @@
             android:id="@+id/customise_section_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/customise_theme" />
+                    android:text="@string/customise_theme"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/theme_section_1"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/theme_default" />
+                    android:text="@string/theme_default"
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/theme_section_2"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/theme_dark" />
+                    android:text="@string/theme_dark"
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/theme_section_3"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/theme_ocean" />
+                    android:text="@string/theme_ocean"
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/theme_section_4"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/theme_mint" />
+                    android:text="@string/theme_mint"
+                    android:textSize="@dimen/regular_text_size" />
 
             </LinearLayout>
 

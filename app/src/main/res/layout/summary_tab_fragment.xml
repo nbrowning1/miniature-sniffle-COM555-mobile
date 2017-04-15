@@ -17,8 +17,8 @@
             android:id="@+id/time_range_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
+            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
             android:entries="@array/time_period_array" />
 
         <LinearLayout
@@ -34,28 +34,28 @@
         <ProgressBar
             android:id="@+id/chart_progress_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="300dp"
+            android:layout_height="@dimen/summary_tab_progress_bar_height"
             android:theme="?android:attr/progressBarStyle" />
 
         <Spinner
             android:id="@+id/chart_type_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
             android:entries="@array/graph_type_array" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginBottom="@dimen/submit_button_bottom_margin"
+            android:layout_marginRight="@dimen/submit_button_right_margin"
             android:gravity="end"
             android:orientation="horizontal">
 
             <ImageButton
                 android:id="@+id/summary_add_mood_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/submit_button_height_width"
+                android:layout_height="@dimen/submit_button_height_width"
                 android:background="@drawable/add_mood_entry"
                 android:contentDescription="@string/add_mood_log"
                 android:onClick="addMoodLog" />

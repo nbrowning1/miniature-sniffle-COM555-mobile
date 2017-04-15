@@ -10,6 +10,9 @@
         android:id="@+id/evaluate_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/main_content_all_margin"
+        android:paddingLeft="@dimen/main_content_all_margin"
+        android:paddingRight="@dimen/main_content_all_margin"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -17,20 +20,17 @@
             android:id="@+id/evaluate_time_range_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
+            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
             android:entries="@array/time_period_array" />
 
         <LinearLayout
             android:id="@+id/evaluate_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:padding="15dp"
             android:background="@drawable/nested_scroll_view_bg"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/text_padding">
 
             <LinearLayout
                 android:id="@+id/evaluate_text_view"
@@ -46,8 +46,8 @@
                 android:id="@+id/evaluations_progress_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/evaluate_tab_progress_bar_margin"
                 android:theme="?android:attr/progressBarStyle" />
 
         </LinearLayout>

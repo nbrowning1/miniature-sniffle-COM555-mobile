@@ -10,357 +10,358 @@
     <LinearLayout
         android:id="@+id/new_activity_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/main_content_all_margin"
         android:focusableInTouchMode="true"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/add_new_activity_section_vertical_margin"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
+                android:text="@string/new_activity_image_choice"
+                android:textSize="@dimen/large_header_text_size" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_new_activity_activity_row_vertical_margin"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_work"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_work"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_work" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_study"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_study"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_study" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_relax"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_relax"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_relax" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_exercise"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_exercise"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_exercise" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_travel"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_travel"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_travel" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/add_new_activity_activity_row_vertical_margin"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_building"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_building"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_building" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_bed"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_bed"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_bed" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_tv"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_tv"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_tv" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_music"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_music"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_music" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_pet"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_pet"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_pet" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_game"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_game"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_game" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_shop"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_shop"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_shop" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_person"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_person"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_person" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_book"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_book"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_book" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_marginRight="@dimen/add_new_activity_activity_icon_horizontal_margin"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/activity_eat"
+                        android:layout_width="@dimen/activity_icon_width"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/activity_eat"
+                        android:onClick="setActivitySelected"
+                        android:tag="activity_eat" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
-            android:text="@string/new_activity_image_choice"
-            android:textSize="30sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_work"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_work"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_work" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_study"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_study"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_study" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_relax"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_relax"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_relax" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_exercise"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_exercise"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_exercise" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_travel"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_travel"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_travel" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_building"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_building"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_building" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_bed"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_bed"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_bed" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_tv"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_tv"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_tv" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_music"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_music"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_music" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_pet"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_pet"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_pet" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_game"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_game"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_game" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_shop"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_shop"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_shop" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_person"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_person"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_person" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_book"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_book"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_book" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageButton
-                    android:id="@+id/activity_eat"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/activity_eat"
-                    android:onClick="setActivitySelected"
-                    android:tag="activity_eat" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
+            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
             android:gravity="center_horizontal"
             android:text="@string/new_activity_name"
-            android:textSize="30sp" />
+            android:textSize="@dimen/large_header_text_size" />
 
         <EditText
             android:id="@+id/edit_message"
-            android:layout_width="200dp"
+            android:layout_width="@dimen/add_new_activity_activity_name_field_width"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="@dimen/add_new_activity_section_vertical_margin"
             android:gravity="center_horizontal"
             android:hint="@string/new_activity_name_hint"
-            android:inputType="text"
+            android:inputType="textPersonName|textCapWords"
             android:maxLines="1" />
 
         <LinearLayout
@@ -371,10 +372,10 @@
 
             <ImageButton
                 android:id="@+id/add_new_activity_add_activity_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="@dimen/submit_button_height_width"
+                android:layout_height="@dimen/submit_button_height_width"
+                android:layout_marginBottom="@dimen/submit_button_bottom_margin"
+                android:layout_marginRight="@dimen/submit_button_right_margin"
                 android:background="@drawable/add_mood_finish" />
 
         </LinearLayout>

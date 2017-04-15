@@ -8,30 +8,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/main_content_all_margin"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/settings_section_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/settings_reminders" />
+                    android:text="@string/settings_reminders"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -52,8 +52,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="15dp"
-                        android:text="@string/settings_time" />
+                        android:paddingLeft="@dimen/text_padding"
+                        android:text="@string/settings_time"
+                        android:textSize="@dimen/regular_text_size" />
 
                 </LinearLayout>
 
@@ -67,8 +68,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/settings_reminder_button_vertical_margin"
+                        android:layout_marginTop="@dimen/settings_reminder_button_vertical_margin"
                         android:onClick="showTimePicker" />
 
                 </LinearLayout>
@@ -106,8 +107,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="15dp"
-                        android:text="@string/settings_time" />
+                        android:paddingLeft="@dimen/text_padding"
+                        android:text="@string/settings_time"
+                        android:textSize="@dimen/regular_text_size" />
 
                 </LinearLayout>
 
@@ -121,8 +123,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/settings_reminder_button_vertical_margin"
+                        android:layout_marginTop="@dimen/settings_reminder_button_vertical_margin"
                         android:onClick="showTimePicker" />
 
                 </LinearLayout>
@@ -160,8 +162,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="15dp"
-                        android:text="@string/settings_time" />
+                        android:paddingLeft="@dimen/text_padding"
+                        android:text="@string/settings_time"
+                        android:textSize="@dimen/regular_text_size" />
 
                 </LinearLayout>
 
@@ -175,8 +178,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/settings_reminder_button_vertical_margin"
+                        android:layout_marginTop="@dimen/settings_reminder_button_vertical_margin"
                         android:onClick="showTimePicker" />
 
                 </LinearLayout>
@@ -203,24 +206,23 @@
             android:id="@+id/settings_section_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/settings_section_bg"
+            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/settings_export" />
+                    android:text="@string/settings_export"
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -241,8 +243,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:paddingLeft="15dp"
-                        android:text="@string/settings_export_desc" />
+                        android:paddingLeft="@dimen/text_padding"
+                        android:text="@string/settings_export_desc"
+                        android:textSize="@dimen/regular_text_size"/>
 
                 </LinearLayout>
 
@@ -256,8 +259,8 @@
                         android:id="@+id/export_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="@dimen/settings_export_button_vertical_margin"
+                        android:layout_marginTop="@dimen/settings_export_button_vertical_margin"
                         android:gravity="center"
                         android:onClick="exportEntries"
                         android:text="@string/settings_export" />
@@ -272,59 +275,58 @@
             android:id="@+id/settings_section_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/settings_more" />
+                    android:text="@string/settings_more"
+                    android:textSize="@dimen/title_text_size"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/settings_nested_scroll_5"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:onClick="goToCustomise"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/settings_customise" />
+                    android:text="@string/settings_customise"
+                    android:textSize="@dimen/regular_text_size"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/settings_nested_scroll_6"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/nested_scroll_view_bg"
                 android:onClick="goToAbout"
                 android:orientation="horizontal"
-                android:paddingLeft="15dp">
+                android:padding="@dimen/text_padding">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/settings_about" />
+                    android:text="@string/settings_about"
+                    android:textSize="@dimen/regular_text_size"/>
 
             </LinearLayout>
 

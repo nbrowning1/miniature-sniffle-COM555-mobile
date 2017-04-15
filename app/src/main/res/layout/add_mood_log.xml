@@ -2,30 +2,28 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:fillViewport="true"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="@dimen/main_content_all_margin"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
             android:text="@string/feeling_text"
-            android:textSize="30sp" />
+            android:textSize="@dimen/large_header_text_size" />
 
         <LinearLayout
             android:id="@+id/mood_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="5">
@@ -39,7 +37,7 @@
 
                 <ImageButton
                     android:id="@+id/mood_great"
-                    android:layout_width="50dp"
+                    android:layout_width="@dimen/mood_icon_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_great"
                     android:contentDescription="@string/mood_great"
@@ -49,9 +47,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/text_padding"
                     android:text="@string/mood_great"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -64,7 +62,7 @@
 
                 <ImageButton
                     android:id="@+id/mood_happy"
-                    android:layout_width="50dp"
+                    android:layout_width="@dimen/mood_icon_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_happy"
                     android:contentDescription="@string/mood_happy"
@@ -74,9 +72,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/text_padding"
                     android:text="@string/mood_happy"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -89,7 +87,7 @@
 
                 <ImageButton
                     android:id="@+id/mood_neutral"
-                    android:layout_width="50dp"
+                    android:layout_width="@dimen/mood_icon_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_neutral"
                     android:contentDescription="@string/mood_neutral"
@@ -99,9 +97,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/text_padding"
                     android:text="@string/mood_neutral"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -114,7 +112,7 @@
 
                 <ImageButton
                     android:id="@+id/mood_sad"
-                    android:layout_width="50dp"
+                    android:layout_width="@dimen/mood_icon_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_sad"
                     android:contentDescription="@string/mood_sad"
@@ -124,9 +122,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/text_padding"
                     android:text="@string/mood_sad"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -139,7 +137,7 @@
 
                 <ImageButton
                     android:id="@+id/mood_angry"
-                    android:layout_width="50dp"
+                    android:layout_width="@dimen/mood_icon_width"
                     android:layout_height="wrap_content"
                     android:background="@drawable/mood_angry"
                     android:contentDescription="@string/mood_angry"
@@ -149,9 +147,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
+                    android:paddingTop="@dimen/text_padding"
                     android:text="@string/mood_angry"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/title_text_size" />
 
             </LinearLayout>
 
@@ -160,11 +158,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
+            android:layout_marginTop="@dimen/nested_element_spacing_vertical_margin"
             android:gravity="center_horizontal"
             android:text="@string/activity_text"
-            android:textSize="30sp" />
+            android:textSize="@dimen/large_header_text_size" />
 
         <LinearLayout
             android:id="@+id/activities_root"
@@ -185,10 +183,10 @@
 
             <ImageButton
                 android:id="@+id/add_mood_log_add_mood_button"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_width="@dimen/submit_button_height_width"
+                android:layout_height="@dimen/submit_button_height_width"
+                android:layout_marginBottom="@dimen/submit_button_bottom_margin"
+                android:layout_marginRight="@dimen/submit_button_right_margin"
                 android:background="@drawable/add_mood_finish" />
 
         </LinearLayout>
