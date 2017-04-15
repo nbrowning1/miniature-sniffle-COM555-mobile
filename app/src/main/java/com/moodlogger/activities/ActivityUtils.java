@@ -48,7 +48,7 @@ public class ActivityUtils {
         AlertDialog hintDialog = new AlertDialog.Builder(context).create();
         hintDialog.setTitle(title);
         hintDialog.setMessage(msg);
-        hintDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+        hintDialog.setButton(android.app.AlertDialog.BUTTON_POSITIVE, "Got it!",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

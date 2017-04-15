@@ -35,17 +35,16 @@ public class SummaryTabFragment extends Fragment {
                 .execute();
         setSpecificViewThemes();
         // TODO: change to sharedPreferences
-        // TODO: move dialog to asyncTask
-        if (false && debugHintsCount < 2) {
+        if (debugHintsCount < 2) {
             debugHintsCount++;
             showHint();
         }
     }
 
     private void showHint() {
-        String title = getResources().getString(R.string.summary_hint_1_title);
+        String title = getResources().getString(R.string.summary_hint_title);
         String username = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user_name", "");
-        String message = String.format(getResources().getString(R.string.summary_hint_1_message), username);
+        String message = String.format(getResources().getString(R.string.summary_hint_message), username);
 
         ActivityUtils.showHintDialog(getActivity(), title, message);
     }

@@ -15,15 +15,14 @@ import com.moodlogger.asyncTasks.BuildEvaluationsTask;
 
 public class EvaluateTabFragment extends Fragment {
 
+    private static int debugHintsCount = 0;
+
     private int timeSpinnerIndexSelected;
     private boolean isDarkTheme;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.evaluate_tab_fragment, container, false);
-
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.evaluate_tab_fragment, container, false);
     }
 
     @Override
@@ -31,6 +30,17 @@ public class EvaluateTabFragment extends Fragment {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setupSpinners();
         setSpecificViewThemes();
+        // TODO: change to sharedPreferences
+        if (debugHintsCount < 1) {
+            debugHintsCount++;
+            showHint();
+        }
+    }
+
+    private void showHint() {
+        ActivityUtils.showHintDialog(getActivity(),
+                getResources().getString(R.string.evaluate_hint_title),
+                getResources().getString(R.string.evaluate_hint_message));
     }
 
     private void setupSpinners() {

@@ -2,6 +2,7 @@ package com.moodlogger.activities.main;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import java.util.List;
 
 public class ViewTabFragment extends Fragment {
 
+    private static int debugHintsCount = 0;
+
     private int timeSpinnerIndexSelected;
     private int moodSpinnerIndexSelected;
     private int activitySpinnerIndexSelected;
@@ -42,6 +45,17 @@ public class ViewTabFragment extends Fragment {
         setupNestedScrollViews();
         setupSpinners();
         setSpecificViewThemes();
+        // TODO: change to sharedPreferences
+        if (debugHintsCount < 1) {
+            debugHintsCount++;
+            showHint();
+        }
+    }
+
+    private void showHint() {
+        ActivityUtils.showHintDialog(getActivity(),
+                getResources().getString(R.string.view_hint_title),
+                getResources().getString(R.string.view_hint_message));
     }
 
     private void setupNestedScrollViews() {

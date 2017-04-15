@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
+import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.activities.presenters.impl.SettingsPresenterImpl;
 import com.moodlogger.activities.presenters.intf.SettingsPresenter;
 import com.moodlogger.activities.views.intf.SettingsView;
@@ -30,6 +31,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class SettingsActivity extends AbstractMoodActivity implements SettingsView {
+
+    private static int debugHintsCount = 0;
 
     private static final int NO_OF_REMINDERS = 3;
 
@@ -46,6 +49,18 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
         setSpecificViewThemes(isDarkTheme());
 
         presenter = new SettingsPresenterImpl(this, this);
+
+        // TODO: change to sharedPreferences
+        if (debugHintsCount < 1) {
+            debugHintsCount++;
+            showHint();
+        }
+    }
+
+    private void showHint() {
+        ActivityUtils.showHintDialog(this,
+                getResources().getString(R.string.settings_hint_title),
+                getResources().getString(R.string.settings_hint_message));
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.List;
 
 public class ActivityEvaluator {
 
-    // TODO : extract to Strings
     private static final String GOOD_ACTIVITY_EVALUATION = "%s seems to be linked with good moods. Keep making time for this activity in the future";
     private static final String BAD_ACTIVITY_EVALUATION = "%s is linked with more negative moods than others. Consider evaluating why it makes you feel this way and any changes that can be made to create a healthier environment for this activity";
     private static final String SAD_ACTIVITY_EVALUATION = "%s invokes more gloomy feelings than other activities - are you able to do this activity less? If not, can you take any steps to make this a more positive activity?";

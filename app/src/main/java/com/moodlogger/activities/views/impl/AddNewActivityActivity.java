@@ -22,6 +22,8 @@ import java.util.List;
 
 public class AddNewActivityActivity extends AbstractMoodActivity implements AddNewActivityView {
 
+    private static int debugHintsCount = 0;
+
     private String selectedActivityTagName;
     private boolean isDarkTheme;
 
@@ -38,6 +40,18 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         findViewById(R.id.add_new_activity_add_activity_button).setOnClickListener(onAddNewActivity());
 
         presenter = new AddNewActivityPresenterImpl(this, getApplicationContext());
+
+        // TODO: change to sharedPreferences
+        if (debugHintsCount < 1) {
+            debugHintsCount++;
+            showHint();
+        }
+    }
+
+    private void showHint() {
+        ActivityUtils.showHintDialog(this,
+                getResources().getString(R.string.add_new_activity_hint_title),
+                getResources().getString(R.string.add_new_activity_hint_message));
     }
 
     @Override
