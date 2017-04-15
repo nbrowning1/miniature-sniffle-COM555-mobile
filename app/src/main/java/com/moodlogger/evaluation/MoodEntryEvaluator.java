@@ -8,7 +8,6 @@ import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +31,8 @@ public class MoodEntryEvaluator {
             }
         }
 
-        if (timeRange.equals(TimeRangeEnum.Week)) {
-            return new ActivityEvaluator(getSortedActivityBundle())
-                    .getActivityEvaluations();
-        }
-        return new ArrayList<>();
+        return new ActivityEvaluator(getSortedActivityBundle())
+                .getActivityEvaluations();
     }
 
     private void addActivityRating(int moodRating, Activity moodEntryActivity) {

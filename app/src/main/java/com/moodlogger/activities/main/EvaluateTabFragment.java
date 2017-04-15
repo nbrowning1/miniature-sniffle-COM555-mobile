@@ -17,7 +17,6 @@ public class EvaluateTabFragment extends Fragment {
 
     private int timeSpinnerIndexSelected;
     private boolean isDarkTheme;
-    private Spinner timeRangeSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +36,7 @@ public class EvaluateTabFragment extends Fragment {
     private void setupSpinners() {
         /* we want to trigger the onItemSelected handler during view initialisation */
         timeSpinnerIndexSelected = -1;
-        timeRangeSpinner = (Spinner) getView().findViewById(R.id.evaluate_time_range_spinner);
+        Spinner timeRangeSpinner = (Spinner) getView().findViewById(R.id.evaluate_time_range_spinner);
 
         timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
