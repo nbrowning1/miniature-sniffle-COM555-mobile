@@ -10,10 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.AbstractMoodTabFragment;
 import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.asyncTasks.BuildEvaluationsTask;
 
-public class EvaluateTabFragment extends Fragment {
+public class EvaluateTabFragment extends AbstractMoodTabFragment {
 
     private static int debugHintsCount = 0;
 
@@ -28,13 +29,20 @@ public class EvaluateTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
-        setupSpinners();
         setSpecificViewThemes();
-        // TODO: change to sharedPreferences
+        if (shouldPerformTasksOnViewCreated()) {
+            performTasksForVisibleView();
+        }
+    }
+
+    @Override
+    protected void performTasksForVisibleView() {
+        setupSpinners();
         if (debugHintsCount < 1) {
             debugHintsCount++;
             showHint();
         }
+        buildEvaluations();
     }
 
     private void showHint() {

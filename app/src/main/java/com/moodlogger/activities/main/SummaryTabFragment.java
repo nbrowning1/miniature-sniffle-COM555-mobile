@@ -1,25 +1,18 @@
 package com.moodlogger.activities.main;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.AbstractMoodTabFragment;
 import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.asyncTasks.BuildChartTask;
 
-public class SummaryTabFragment extends Fragment {
+public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     private static int debugHintsCount = 0;
 
@@ -30,10 +23,19 @@ public class SummaryTabFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        setSpecificViewThemes();
+
+        if (shouldPerformTasksOnViewCreated()) {
+            performTasksForVisibleView();
+        }
+    }
+
+    @Override
+    protected void performTasksForVisibleView() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
         new BuildChartTask(getContext(), parentView, getResources())
                 .execute();
-        setSpecificViewThemes();
+
         // TODO: change to sharedPreferences
         if (debugHintsCount < 2) {
             debugHintsCount++;

@@ -1,9 +1,6 @@
 package com.moodlogger.activities.main;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,16 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.moodlogger.R;
-import com.moodlogger.ThemeEnum;
+import com.moodlogger.activities.AbstractMoodTabFragment;
 import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.asyncTasks.FetchInfoForMoodTask;
 import com.moodlogger.asyncTasks.FetchMoodsForActivityTask;
-import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.helpers.ActivityDbHelper;
 
 import java.util.List;
 
-public class ViewTabFragment extends Fragment {
+public class ViewTabFragment extends AbstractMoodTabFragment {
 
     private static int debugHintsCount = 0;
 
@@ -42,14 +38,25 @@ public class ViewTabFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
+        setSpecificViewThemes();
+        if (shouldPerformTasksOnViewCreated()) {
+            performTasksForVisibleView();
+        }
+    }
+
+    @Override
+    protected void performTasksForVisibleView() {
         setupNestedScrollViews();
         setupSpinners();
-        setSpecificViewThemes();
+
         // TODO: change to sharedPreferences
         if (debugHintsCount < 1) {
             debugHintsCount++;
             showHint();
         }
+
+        buildMoodsView();
+        buildActivitiesView();
     }
 
     private void showHint() {
@@ -95,7 +102,8 @@ public class ViewTabFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         moodTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -109,7 +117,8 @@ public class ViewTabFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
 
         activityTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -123,7 +132,8 @@ public class ViewTabFragment extends Fragment {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
         });
     }
 

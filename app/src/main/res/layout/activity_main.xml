@@ -27,24 +27,32 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 android:elevation="4dp"
-                android:theme="@style/Toolbar"/>
+                android:theme="@style/Toolbar" />
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <!-- Needed for Android's sake -->
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-
-            <!-- where the real content goes -->
-            <FrameLayout
-                android:id="@+id/tabContent"
+            <!-- for scrolling between tabs -->
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content">
+
+                <!-- Needed for Android's sake -->
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp" />
+
+                <!-- where the real content goes -->
+                <FrameLayout
+                    android:id="@+id/tabContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </android.support.v4.view.ViewPager>
 
         </LinearLayout>
 
