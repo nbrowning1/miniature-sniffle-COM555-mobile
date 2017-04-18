@@ -5,7 +5,9 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodTabFragment;
@@ -16,6 +18,12 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     private static int debugHintsCount = 0;
 
+    private int timeSpinnerIndexSelected;
+    private int chartTypeSpinnerIndexSelected;
+
+    private Spinner timeRangeSpinner;
+    private Spinner chartTypeSpinner;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.summary_tab_fragment, container, false);
@@ -24,23 +32,22 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setSpecificViewThemes();
-
-        if (shouldPerformTasksOnViewCreated()) {
-            performTasksForVisibleView();
-        }
+        setupSpinners();
     }
 
     @Override
     protected void performTasksForVisibleView() {
-        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
-        new BuildChartTask(getContext(), parentView, getResources())
-                .execute();
-
         // TODO: change to sharedPreferences
         if (debugHintsCount < 2) {
             debugHintsCount++;
             showHint();
         }
+    }
+
+    private void buildChart() {
+        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
+        new BuildChartTask(getContext(), parentView, getResources())
+                .execute();
     }
 
     private void showHint() {
@@ -59,5 +66,50 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     private void setSpecificViewTheme(boolean isDarkTheme, int lightThemeResId, int darkThemeResId, int viewResId) {
         ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme, lightThemeResId, darkThemeResId, viewResId);
+    }
+
+    private void setupSpinners() {
+        initialiseSpinnerIndexesSelected();
+
+        timeRangeSpinner = (Spinner) getView().findViewById(R.id.time_range_spinner);
+        chartTypeSpinner = (Spinner) getView().findViewById(R.id.chart_type_spinner);
+
+        timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == timeSpinnerIndexSelected) {
+                    return;
+                }
+                buildChart();
+                timeSpinnerIndexSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        chartTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if (position == chartTypeSpinnerIndexSelected) {
+                    return;
+                }
+                buildChart();
+                chartTypeSpinnerIndexSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+
+    private void initialiseSpinnerIndexesSelected() {
+        /* chart type spinner is the only spinner where we want to trigger the
+        onItemSelected handler during initialisation, as it affects
+        both sections anyway */
+        timeSpinnerIndexSelected = 0;
+        chartTypeSpinnerIndexSelected = -1;
     }
 }

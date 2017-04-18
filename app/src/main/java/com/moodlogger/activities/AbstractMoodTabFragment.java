@@ -8,6 +8,7 @@ public abstract class AbstractMoodTabFragment extends Fragment {
     /* used for knowing when to perform processing-intensive tasks for display
         based on fragment loading because of pager adapter swiping between tabs.
         Lifecycle of fragment on Android seems messed up */
+    // TODO : is needed?
     protected boolean isViewShown = false;
 
     @Override
@@ -20,10 +21,6 @@ public abstract class AbstractMoodTabFragment extends Fragment {
         } else {
             isViewShown = false;
         }
-    }
-
-    protected boolean shouldPerformTasksOnViewCreated() {
-        return getUserVisibleHint() && !isViewShown;
     }
 
     protected abstract void performTasksForVisibleView();

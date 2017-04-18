@@ -30,14 +30,11 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setSpecificViewThemes();
-        if (shouldPerformTasksOnViewCreated()) {
-            performTasksForVisibleView();
-        }
+        setupSpinners();
     }
 
     @Override
     protected void performTasksForVisibleView() {
-        setupSpinners();
         if (debugHintsCount < 1) {
             debugHintsCount++;
             showHint();

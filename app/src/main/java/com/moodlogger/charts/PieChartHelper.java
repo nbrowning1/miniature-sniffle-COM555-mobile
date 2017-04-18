@@ -14,7 +14,6 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,16 +23,14 @@ import java.util.Map;
 
 public class PieChartHelper implements ChartHelper {
 
-    private TimeRangeEnum timeRange;
     private String[] moodValues;
-    private Context context;
     private boolean isDarkTheme;
+    private List<MoodEntry> moodEntries;
 
-    public PieChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
-        this.timeRange = timeRange;
+    public PieChartHelper(String[] moodValues, boolean isDarkTheme, List<MoodEntry> moodEntries) {
         this.moodValues = moodValues;
-        this.context = context;
         this.isDarkTheme = isDarkTheme;
+        this.moodEntries = moodEntries;
     }
 
     public void buildChart(View chartView) {
@@ -83,7 +80,6 @@ public class PieChartHelper implements ChartHelper {
 
     private List<PieEntry> getEntries() {
         List<PieEntry> entries = new ArrayList<>();
-        List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
         Map<Integer, Integer> moodIdsAndCount = new HashMap<>();
 
         // initialise map with 0 count for moods

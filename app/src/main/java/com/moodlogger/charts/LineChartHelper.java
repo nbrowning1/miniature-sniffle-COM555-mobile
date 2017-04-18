@@ -1,6 +1,5 @@
 package com.moodlogger.charts;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -12,10 +11,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.moodlogger.utils.DateUtils;
 import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
+import com.moodlogger.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +22,15 @@ public class LineChartHelper implements ChartHelper {
 
     private TimeRangeEnum timeRange;
     private String[] moodValues;
-    private Context context;
     private boolean isDarkTheme;
+    private List<MoodEntry> moodEntries;
 
-    public LineChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
+    public LineChartHelper(TimeRangeEnum timeRange, String[] moodValues, boolean isDarkTheme,
+                           List<MoodEntry> moodEntries) {
         this.timeRange = timeRange;
         this.moodValues = moodValues;
-        this.context = context;
         this.isDarkTheme = isDarkTheme;
+        this.moodEntries = moodEntries;
     }
 
     public void buildChart(View chartView) {
@@ -93,7 +92,6 @@ public class LineChartHelper implements ChartHelper {
 
     private List<Entry> getEntries() {
         List<Entry> entries = new ArrayList<>();
-        List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
 
         for (MoodEntry moodEntry : moodEntries) {
             long startPeriodTime;

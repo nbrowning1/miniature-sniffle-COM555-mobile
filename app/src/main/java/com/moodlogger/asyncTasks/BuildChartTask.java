@@ -18,21 +18,20 @@ import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
 import com.moodlogger.charts.PieChartHelper;
 import com.moodlogger.TimeRangeEnum;
+import com.moodlogger.db.entities.MoodEntry;
+import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
-public class BuildChartTask extends AsyncTask<Void, Void, Void> {
+import java.util.List;
+
+public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
 
     private Context context;
     private LinearLayout parentView;
     private Resources resources;
     private boolean isDarkTheme;
 
-    private Spinner timeRangeSpinner;
-    private Spinner chartTypeSpinner;
-
-    /* stuff to work around spinner's implementation quirks - known problem:
-        http://stackoverflow.com/questions/5624825/spinner-onitemselected-executes-when-it-is-not-suppose-to/5918177#5918177 */
-    private static final int NO_OF_SPINNERS_TO_WAIT_FOR_INIT = 1;
-    private int noOfSpinnersInitialised;
+    private TimeRangeEnum timeRange;
+    private ChartTypeEnum chartType;
 
     public BuildChartTask(Context context, LinearLayout parentView, Resources resources) {
         this.context = context;
@@ -43,62 +42,51 @@ public class BuildChartTask extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        initialiseViewsToShowLoading();
+        setValuesFromSpinners();
+    }
+
+    private void initialiseViewsToShowLoading() {
         parentView.findViewById(R.id.chart_parent).setVisibility(View.GONE);
-        // chart will be built via spinners' onClick handler after spinners are initialised
-        setupSpinners();
+        parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.VISIBLE);
     }
 
-    private void setupSpinners() {
-        noOfSpinnersInitialised = 0;
-        timeRangeSpinner = (Spinner) parentView.findViewById(R.id.time_range_spinner);
-        chartTypeSpinner = (Spinner) parentView.findViewById(R.id.chart_type_spinner);
+    private void setValuesFromSpinners() {
+        String timeRangeValue = ((Spinner) parentView.findViewById(R.id.time_range_spinner))
+                .getSelectedItem().toString();
+        timeRange = TimeRangeEnum.getEnum(timeRangeValue);
 
-        AdapterView.OnItemSelectedListener valueSelectedListener = new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-                // won't actually run if method is called during initialisation of first spinner
-                if (noOfSpinnersInitialised < NO_OF_SPINNERS_TO_WAIT_FOR_INIT) {
-                    noOfSpinnersInitialised++;
-                    return;
-                }
-                buildChart();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {}
-        };
-
-        timeRangeSpinner.setOnItemSelectedListener(valueSelectedListener);
-        chartTypeSpinner.setOnItemSelectedListener(valueSelectedListener);
+        String chartTypeValue = ((Spinner) parentView.findViewById(R.id.chart_type_spinner))
+                .getSelectedItem().toString();
+        chartType = ChartTypeEnum.getChartType(chartTypeValue);
     }
 
     @Override
-    protected Void doInBackground(Void... params) {
-        return null;
+    protected List<MoodEntry> doInBackground(Void... params) {
+        return new MoodEntryDbHelper(context).getMoodEntries(timeRange);
     }
 
     @Override
-    protected void onPostExecute(Void params) {
+    protected void onPostExecute(List<MoodEntry> moodEntries) {
         // hide progress spinner and show chart
         parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.GONE);
         parentView.findViewById(R.id.chart_parent).setVisibility(View.VISIBLE);
+
+        buildChart(moodEntries);
     }
 
-    private void buildChart() {
-        TimeRangeEnum timeRange = TimeRangeEnum.getEnum(timeRangeSpinner.getSelectedItem().toString());
-        ChartTypeEnum chartType = ChartTypeEnum.getChartType(chartTypeSpinner.getSelectedItem().toString());
+    private void buildChart(List<MoodEntry> moodEntries) {
         String[] moodValues = resources.getStringArray(R.array.mood_values);
 
         buildChart(chartType);
         View chartView = parentView.findViewById(R.id.chart);
 
         if (chartType.equals(ChartTypeEnum.Line)) {
-            new LineChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
+            new LineChartHelper(timeRange, moodValues, isDarkTheme, moodEntries).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
-            new BarChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
+            new BarChartHelper(moodValues, isDarkTheme, moodEntries).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Pie)) {
-            new PieChartHelper(timeRange, moodValues, context, isDarkTheme).buildChart(chartView);
+            new PieChartHelper(moodValues, isDarkTheme, moodEntries).buildChart(chartView);
         }
     }
 

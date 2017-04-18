@@ -12,9 +12,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
-import com.moodlogger.db.helpers.MoodEntryDbHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,16 +21,14 @@ import java.util.Map;
 
 public class BarChartHelper implements ChartHelper {
 
-    private TimeRangeEnum timeRange;
     private String[] moodValues;
-    private Context context;
     private boolean isDarkTheme;
+    private List<MoodEntry> moodEntries;
 
-    public BarChartHelper(TimeRangeEnum timeRange, String[] moodValues, Context context, boolean isDarkTheme) {
-        this.timeRange = timeRange;
+    public BarChartHelper(String[] moodValues, boolean isDarkTheme, List<MoodEntry> moodEntries) {
         this.moodValues = moodValues;
-        this.context = context;
         this.isDarkTheme = isDarkTheme;
+        this.moodEntries = moodEntries;
     }
 
     public void buildChart(View chartView) {
@@ -91,7 +87,6 @@ public class BarChartHelper implements ChartHelper {
 
     private List<BarEntry> getEntries() {
         List<BarEntry> entries = new ArrayList<>();
-        List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
         Map<Integer, Integer> moodIdsAndCount = new HashMap<>();
 
         // initialise map with 0 count for moods

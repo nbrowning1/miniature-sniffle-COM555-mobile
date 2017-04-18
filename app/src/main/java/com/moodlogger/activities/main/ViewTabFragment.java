@@ -39,24 +39,18 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setSpecificViewThemes();
-        if (shouldPerformTasksOnViewCreated()) {
-            performTasksForVisibleView();
-        }
+        setupSpinners();
     }
 
     @Override
     protected void performTasksForVisibleView() {
         setupNestedScrollViews();
-        setupSpinners();
 
         // TODO: change to sharedPreferences
         if (debugHintsCount < 1) {
             debugHintsCount++;
             showHint();
         }
-
-        buildMoodsView();
-        buildActivitiesView();
     }
 
     private void showHint() {
