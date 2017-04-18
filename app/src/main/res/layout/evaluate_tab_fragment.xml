@@ -10,9 +10,9 @@
         android:id="@+id/evaluate_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/main_content_all_margin"
-        android:paddingLeft="@dimen/main_content_all_margin"
-        android:paddingRight="@dimen/main_content_all_margin"
+        android:paddingBottom="@dimen/main_content_spacing"
+        android:paddingLeft="@dimen/main_content_spacing"
+        android:paddingRight="@dimen/main_content_spacing"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -20,8 +20,8 @@
             android:id="@+id/evaluate_time_range_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
-            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+            android:layout_marginBottom="@dimen/element_spacing_vertical"
+            android:layout_marginTop="@dimen/element_spacing_vertical"
             android:entries="@array/time_period_array" />
 
         <LinearLayout

@@ -17,8 +17,8 @@
             android:id="@+id/time_range_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
-            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+            android:layout_marginBottom="@dimen/element_spacing_vertical"
+            android:layout_marginTop="@dimen/element_spacing_vertical"
             android:entries="@array/time_period_array" />
 
         <LinearLayout
@@ -41,7 +41,7 @@
             android:id="@+id/chart_type_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+            android:layout_marginTop="@dimen/element_spacing_vertical"
             android:entries="@array/graph_type_array" />
 
         <LinearLayout

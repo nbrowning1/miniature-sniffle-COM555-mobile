@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- general -->
-    <dimen name="main_content_all_margin">25dp</dimen>
-    <dimen name="element_spacing_vertical_margin">15dp</dimen>
-    <dimen name="nested_element_spacing_vertical_margin">50dp</dimen>
+    <dimen name="main_content_spacing">25dp</dimen>
+    <dimen name="element_spacing_vertical">15dp</dimen>
+    <dimen name="content_section_spacing_vertical">30dp</dimen>
     <dimen name="text_padding">15dp</dimen>
     <dimen name="mood_icon_width">50dp</dimen>
     <dimen name="activity_icon_width">50dp</dimen>
@@ -26,6 +26,7 @@
     <dimen name="summary_tab_progress_bar_height">300dp</dimen>
 
     <!-- view tab -->
+    <dimen name="view_nested_element_spacing_vertical">50dp</dimen>
     <dimen name="view_tab_mood_nested_scroll_height">300dp</dimen>
     <dimen name="view_tab_mood_section_column_padding">10dp</dimen>
     <dimen name="view_tab_mood_section_progress_bar_margin">30dp</dimen>

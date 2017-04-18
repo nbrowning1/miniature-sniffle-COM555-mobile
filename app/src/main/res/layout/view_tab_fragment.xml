@@ -10,9 +10,9 @@
         android:id="@+id/view_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/main_content_all_margin"
-        android:paddingLeft="@dimen/main_content_all_margin"
-        android:paddingRight="@dimen/main_content_all_margin"
+        android:paddingBottom="@dimen/main_content_spacing"
+        android:paddingLeft="@dimen/main_content_spacing"
+        android:paddingRight="@dimen/main_content_spacing"
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -20,15 +20,15 @@
             android:id="@+id/view_time_range_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/element_spacing_vertical_margin"
-            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+            android:layout_marginBottom="@dimen/element_spacing_vertical"
+            android:layout_marginTop="@dimen/element_spacing_vertical"
             android:entries="@array/time_period_array" />
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/mood_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="@dimen/view_tab_mood_nested_scroll_height"
-            android:layout_marginBottom="@dimen/nested_element_spacing_vertical_margin"
+            android:layout_marginBottom="@dimen/view_nested_element_spacing_vertical"
             android:background="@drawable/nested_scroll_view_bg">
 
             <LinearLayout
@@ -41,13 +41,13 @@
                     android:id="@+id/mood_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                    android:layout_marginTop="@dimen/element_spacing_vertical"
                     android:entries="@array/mood_values" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                    android:layout_marginTop="@dimen/element_spacing_vertical"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -73,7 +73,7 @@
                             android:id="@+id/mood_locations"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                            android:layout_marginTop="@dimen/element_spacing_vertical"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
 
@@ -105,7 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                            android:layout_marginTop="@dimen/element_spacing_vertical"
                             android:gravity="center_horizontal"
                             android:orientation="vertical">
 
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                    android:layout_marginTop="@dimen/element_spacing_vertical"
                     android:foregroundGravity="center"
                     android:gravity="center" />
 
@@ -162,7 +162,7 @@
                     android:id="@+id/mood_parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/element_spacing_vertical_margin"
+                    android:layout_marginTop="@dimen/element_spacing_vertical"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:visibility="gone"
