@@ -37,7 +37,6 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
         this.context = context;
         this.parentView = parentView;
         this.resources = resources;
-        this.isDarkTheme = ActivityUtils.isDarkTheme(context);
     }
 
     @Override
@@ -63,6 +62,7 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
 
     @Override
     protected List<MoodEntry> doInBackground(Void... params) {
+        isDarkTheme = ActivityUtils.isDarkTheme(context);
         return new MoodEntryDbHelper(context).getMoodEntries(timeRange);
     }
 

@@ -1,5 +1,6 @@
 package com.moodlogger.activities.main;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
@@ -40,12 +41,14 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setSpecificViewThemes();
         setupSpinners();
+        setupNestedScrollViews();
+        if (getUserVisibleHint()) {
+            performTasksForVisibleView();
+        }
     }
 
     @Override
     protected void performTasksForVisibleView() {
-        setupNestedScrollViews();
-
         // TODO: change to sharedPreferences
         if (debugHintsCount < 1) {
             debugHintsCount++;
@@ -63,17 +66,8 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
         NestedScrollView moodScrollView = (NestedScrollView) getView().findViewById(R.id.mood_scroll_view);
         NestedScrollView activityScrollView = (NestedScrollView) getView().findViewById(R.id.activity_scroll_view);
 
-        View.OnTouchListener scrollOverrideListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        };
-
-        // override parent scrollview's scrolling
-        moodScrollView.setOnTouchListener(scrollOverrideListener);
-        activityScrollView.setOnTouchListener(scrollOverrideListener);
+        moodScrollView.setNestedScrollingEnabled(true);
+        activityScrollView.setNestedScrollingEnabled(true);
     }
 
     private void setupSpinners() {
@@ -151,13 +145,13 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
     private void buildMoodsView() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
         new FetchInfoForMoodTask(getContext(), parentView, getResources(), isDarkTheme)
-                .execute();
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void buildActivitiesView() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
         new FetchMoodsForActivityTask(getContext(), parentView, getResources())
-                .execute();
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void setSpecificViewThemes() {

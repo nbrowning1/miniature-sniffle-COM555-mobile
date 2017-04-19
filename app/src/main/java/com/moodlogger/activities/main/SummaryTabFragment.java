@@ -1,5 +1,6 @@
 package com.moodlogger.activities.main;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -33,12 +34,15 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         setSpecificViewThemes();
         setupSpinners();
+        if (getUserVisibleHint()) {
+            performTasksForVisibleView();
+        }
     }
 
     @Override
     protected void performTasksForVisibleView() {
         // TODO: change to sharedPreferences
-        if (debugHintsCount < 2) {
+        if (debugHintsCount < 1) {
             debugHintsCount++;
             showHint();
         }
@@ -47,7 +51,7 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
     private void buildChart() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
         new BuildChartTask(getContext(), parentView, getResources())
-                .execute();
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void showHint() {

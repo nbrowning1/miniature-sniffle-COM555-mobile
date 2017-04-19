@@ -1,5 +1,6 @@
 package com.moodlogger.activities.main;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +32,10 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
         isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setSpecificViewThemes();
         setupSpinners();
+        buildEvaluations();
+        if (getUserVisibleHint()) {
+            performTasksForVisibleView();
+        }
     }
 
     @Override
@@ -39,7 +44,6 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
             debugHintsCount++;
             showHint();
         }
-        buildEvaluations();
     }
 
     private void showHint() {
@@ -77,6 +81,6 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
     private void buildEvaluations() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.evaluate_fragment);
         new BuildEvaluationsTask(getContext(), parentView, getResources())
-                .execute();
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }
