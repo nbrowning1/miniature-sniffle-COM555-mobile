@@ -37,6 +37,9 @@
     <!-- evaluate tab -->
     <dimen name="evaluate_tab_progress_bar_margin">30dp</dimen>
 
+    <!-- add mood log -->
+    <dimen name="add_mood_log_activity_pane_horizontal_margin">5dp</dimen>
+
     <!-- add new activity -->
     <dimen name="add_new_activity_section_vertical_margin">30dp</dimen>
     <dimen name="add_new_activity_activity_row_vertical_margin">30dp</dimen>

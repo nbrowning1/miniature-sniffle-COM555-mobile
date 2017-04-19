@@ -3,6 +3,7 @@ package com.moodlogger.activities.views.impl;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.Gravity;
@@ -145,32 +146,47 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     private void buildActivities() {
         LinearLayout activitiesLayout = (LinearLayout) findViewById(R.id.activities_root);
         List<Activity> activities = new ActivityDbHelper(getApplicationContext()).getActivities();
-        for (int i = 0; i < activities.size(); i += 2) {
-            Activity leftActivity = activities.get(i);
-            Activity rightActivity = (i + 1) >= activities.size() ?
-                    null :
-                    activities.get(i + 1);
-            activitiesLayout.addView(createDualActivityView(leftActivity, rightActivity));
-        }
+
+        addActivitiesToActivityPanes(activities);
 
         activitiesLayout.addView(createAddNewActivityView());
     }
 
-    private LinearLayout createDualActivityView(Activity leftActivity, Activity rightActivity) {
-        LinearLayout horizontalDualActivityLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams dualActivityLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        dualActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
-        horizontalDualActivityLayout.setLayoutParams(dualActivityLayoutParams);
-        horizontalDualActivityLayout.setGravity(Gravity.CENTER_HORIZONTAL);
-        horizontalDualActivityLayout.setOrientation(LinearLayout.HORIZONTAL);
-        horizontalDualActivityLayout.setWeightSum(2);
+    /* building each pane of activities - should appear left to right, top to bottom from oldest
+            to newest activity */
+    private void addActivitiesToActivityPanes(List<Activity> activities) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // portrait orientation = space for 2 panes (left and right)
+            for (int i = 0; i < activities.size(); i += 2) {
+                Activity leftActivity = activities.get(i);
+                ((LinearLayout) findViewById(R.id.activities_pane_left))
+                        .addView(createSingleActivityView(leftActivity));
 
-        horizontalDualActivityLayout.addView(createSingleActivityView(leftActivity));
-        horizontalDualActivityLayout.addView(createSingleActivityView(rightActivity));
+                if ((i + 1) < activities.size()) {
+                    Activity rightActivity = activities.get(i + 1);
+                    ((LinearLayout) findViewById(R.id.activities_pane_right))
+                            .addView(createSingleActivityView(rightActivity));
+                }
+            }
+        } else {
+            // portrait orientation = space for 2 panes (left and right)
+            for (int i = 0; i < activities.size(); i += 3) {
+                Activity leftActivity = activities.get(i);
+                ((LinearLayout) findViewById(R.id.activities_pane_left))
+                        .addView(createSingleActivityView(leftActivity));
 
-        return horizontalDualActivityLayout;
+                if ((i + 1) < activities.size()) {
+                    Activity midActivity = activities.get(i + 1);
+                    ((LinearLayout) findViewById(R.id.activities_pane_mid))
+                            .addView(createSingleActivityView(midActivity));
+                }
+                if ((i + 2) < activities.size()) {
+                    Activity rightActivity = activities.get(i + 2);
+                    ((LinearLayout) findViewById(R.id.activities_pane_right))
+                            .addView(createSingleActivityView(rightActivity));
+                }
+            }
+        }
     }
 
     private LinearLayout createSingleActivityView(Activity activity) {
@@ -186,15 +202,12 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
-        // width = 0 as width relies on the weight of the layout params (ensuring equal width activities side-by-side)
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                0, LinearLayout.LayoutParams.WRAP_CONTENT);
-        singleActivityLayoutParams.weight = 1;
-        singleActivityLayoutParams.setMargins(
-                ActivityUtils.dpToPixels(getResources(), 30), 0,
-                0, 0);
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                ActivityUtils.dpToPixels(getResources(), 50));
+        singleActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
+
         singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
-        singleActivityLayout.setGravity(Gravity.LEFT);
 
         return singleActivityLayout;
     }
