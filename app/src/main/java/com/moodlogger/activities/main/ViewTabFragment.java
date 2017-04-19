@@ -65,7 +65,6 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
     private void setupNestedScrollViews() {
         NestedScrollView moodScrollView = (NestedScrollView) getView().findViewById(R.id.mood_scroll_view);
         NestedScrollView activityScrollView = (NestedScrollView) getView().findViewById(R.id.activity_scroll_view);
-
         moodScrollView.setNestedScrollingEnabled(true);
         activityScrollView.setNestedScrollingEnabled(true);
     }

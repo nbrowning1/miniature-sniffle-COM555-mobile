@@ -222,7 +222,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         LinearLayout.LayoutParams activityImageLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(getResources(), 15), 0);
+        activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(getResources(), 10), 0);
         ImageButton activityImageBtn = new ImageButton(this);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
         activityImageBtn.setBackgroundResource(resId);
@@ -236,6 +236,8 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         LinearLayout.LayoutParams activityTextLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        activityTextLayoutParams.gravity = Gravity.CENTER;
+
         TextView activityText = new TextView(this);
         activityText.setLayoutParams(activityTextLayoutParams);
         activityText.setText(activityName);

@@ -18,6 +18,7 @@ import com.moodlogger.ThemeEnum;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.SettingsActivity;
+import com.moodlogger.activities.views.impl.WelcomeActivity;
 
 public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPageChangeListener {
 
@@ -35,6 +36,17 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // uncomment later, commented out now to test welcome screen each time
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
+//        if (!welcomeGiven) {
+        if (debugWelcomeCount == 0) {
+            debugWelcomeCount++;
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getToolbarColor());
         setSupportActionBar(toolbar);
@@ -45,17 +57,6 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(mainActivityFragmentPagerAdapter);
         viewPager.addOnPageChangeListener(this);
-
-        // uncomment later, commented out now to test welcome screen each time
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
-//        if (!welcomeGiven) {
-
-//        if (debugWelcomeCount == 0) {
-//            debugWelcomeCount++;
-//            Intent intent = new Intent(this, WelcomeActivity.class);
-//            startActivity(intent);
-//        }
     }
 
     @Override
