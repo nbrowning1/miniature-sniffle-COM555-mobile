@@ -28,7 +28,6 @@
     <!-- Welcome theme (only one as only shown once before user can customise) -->
     <style name="WelcomeTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/colorPrimary</item>
-        <item name="android:windowFullscreen">true</item>
         <!-- all text-related -->
         <item name="android:textColor">@color/white</item>
         <item name="colorControlNormal">@color/white</item>

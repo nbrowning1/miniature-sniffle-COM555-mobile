@@ -17,8 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.views.impl.WelcomeActivity"
-            android:theme="@style/WelcomeTheme"
-            android:label="@string/welcome" />
+            android:label="@string/welcome"
+            android:theme="@style/WelcomeTheme" />
         <activity
             android:name=".activities.main.MainActivity"
             android:theme="@style/MainTheme"

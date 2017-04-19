@@ -7,15 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.activities.presenters.impl.AddMoodLogPresenterImpl;
 import com.moodlogger.activities.presenters.impl.AddNewActivityPresenterImpl;
 import com.moodlogger.activities.presenters.intf.AddNewActivityPresenter;
 import com.moodlogger.activities.views.intf.AddNewActivityView;
-import com.moodlogger.db.entities.Activity;
-import com.moodlogger.db.helpers.ActivityDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +21,9 @@ import java.util.List;
 public class AddNewActivityActivity extends AbstractMoodActivity implements AddNewActivityView {
 
     private static int debugHintsCount = 0;
+    private static final String ACTIVITY_RESTORE_KEY = "activity_selected";
 
-    private String selectedActivityTagName;
+    private String selectedActivityTagName = "";
     private boolean isDarkTheme;
 
     private EditText activityName;
@@ -38,6 +37,8 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         setSpecificViewThemes();
         activityName = (EditText) findViewById(R.id.edit_message);
         findViewById(R.id.add_new_activity_add_activity_button).setOnClickListener(onAddNewActivity());
+
+        restoreView(savedInstanceState);
 
         presenter = new AddNewActivityPresenterImpl(this, getApplicationContext());
 
@@ -67,7 +68,7 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
 
     @Override
     public void showGeneralValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
+        ActivityUtils.showAlertDialog(this, "Select an icon and enter a valid name for the new activity");
     }
 
     @Override
@@ -127,6 +128,27 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         }
     }
 
+    private void restoreView(Bundle savedState) {
+        String targetTag = savedState != null ?
+                savedState.getString(ACTIVITY_RESTORE_KEY, "") :
+                "";
+        if (targetTag.isEmpty()) {
+            return;
+        }
+
+        List<View> allViews = ActivityUtils.getChildViews(findViewById(R.id.new_activity_layout), new ArrayList<View>());
+        for (View view : allViews) {
+            String tag =
+                    view.getTag() == null ? "" : view.getTag().toString();
+            if (tag.equals(targetTag)) {
+                selectedActivityTagName = targetTag;
+                int defaultResourceId = getResources().getIdentifier(tag + "_selected", "drawable", this.getPackageName());
+                view.setBackgroundResource(defaultResourceId);
+                return;
+            }
+        }
+    }
+
     private void selectActivity(View activityView) {
         String tag = activityView.getTag().toString();
         // remove theme modifier if exists before marking as selected
@@ -142,5 +164,16 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // save activity to restore later
+
+        String selectedActivityTag = isDarkTheme ?
+                selectedActivityTagName.replace("_selected", "_white") :
+                selectedActivityTagName.replace("_selected", "");
+        outState.putString(ACTIVITY_RESTORE_KEY, selectedActivityTag);
     }
 }
