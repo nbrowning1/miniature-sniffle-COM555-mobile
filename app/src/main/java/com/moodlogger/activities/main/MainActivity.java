@@ -21,15 +21,16 @@ import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.SettingsActivity;
 import com.moodlogger.activities.views.impl.WelcomeActivity;
 
-public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPageChangeListener {
-
-    MainActivityFragmentPagerAdapter mainActivityFragmentPagerAdapter;
-    ViewPager viewPager;
-    FragmentTabHost tabHost;
+public class MainActivity extends AbstractMoodActivity {
 
     private static final String TAB_ONE_NAME = "Summary";
     private static final String TAB_TWO_NAME = "View";
     private static final String TAB_THREE_NAME = "Evaluate";
+
+    private static int selectedTab = 0;
+
+    private ViewPager viewPager;
+    private FragmentTabHost tabHost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,8 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
         toolbar.setBackgroundColor(getToolbarColor());
         setSupportActionBar(toolbar);
 
+        setupSwipeAbility();
         setupTabs();
-
-        mainActivityFragmentPagerAdapter = new MainActivityFragmentPagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(mainActivityFragmentPagerAdapter);
-        viewPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -116,6 +113,13 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupSwipeAbility() {
+        MainActivityFragmentPagerAdapter mainActivityFragmentPagerAdapter = new MainActivityFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(mainActivityFragmentPagerAdapter);
+        viewPager.addOnPageChangeListener(onTabSwipeListener());
+    }
+
     private void setupTabs() {
         tabHost = (FragmentTabHost) findViewById(R.id.tabHost);
         tabHost.setup(this, getSupportFragmentManager(), R.id.tabContent);
@@ -130,9 +134,14 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
-                viewPager.setCurrentItem(tabHost.getCurrentTab());
+                int currentTab = tabHost.getCurrentTab();
+                selectedTab = currentTab;
+                viewPager.setCurrentItem(currentTab);
             }
         });
+
+        // restore state
+        tabHost.setCurrentTab(selectedTab);
     }
 
     public void addMoodLog(View view) {
@@ -140,17 +149,23 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
         startActivity(intent);
     }
 
-    @Override
-    public void onPageScrollStateChanged(int arg0) {
-    }
+    private ViewPager.OnPageChangeListener onTabSwipeListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
 
-    // Manages the Page changes, synchronizing it with Tabs
-    @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-        tabHost.setCurrentTab(viewPager.getCurrentItem());
-    }
+            // Manages the Page changes, synchronizing it with Tabs
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                int currentTab = viewPager.getCurrentItem();
+                selectedTab = currentTab;
+                tabHost.setCurrentTab(currentTab);
+            }
 
-    @Override
-    public void onPageSelected(int arg0) {
+            @Override
+            public void onPageSelected(int arg0) {
+            }
+        };
     }
 }

@@ -200,11 +200,24 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     private LinearLayout createSingleActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 ActivityUtils.dpToPixels(getResources(), 50));
         singleActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
 
         singleActivityLayout.setLayoutParams(singleActivityLayoutParams);
+
+        // invoke on-click of child image button when parent pressed
+        singleActivityLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                for (View childView : ActivityUtils.getChildViews(view, new ArrayList<View>())) {
+                    if (childView instanceof ImageButton) {
+                        childView.callOnClick();
+                        return;
+                    }
+                }
+            }
+        });
 
         return singleActivityLayout;
     }
