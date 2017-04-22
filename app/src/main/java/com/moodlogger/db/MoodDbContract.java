@@ -1,7 +1,6 @@
 package com.moodlogger.db;
 
 import com.moodlogger.db.entities.Activity;
-import com.moodlogger.db.entities.Mood;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
 import com.moodlogger.db.entities.Reminder;
@@ -23,16 +22,6 @@ public final class MoodDbContract {
                     MoodEntry.LOCATION_LONGITUDE + " DECIMAL(9,6)," +
                     MoodEntry.DATE_TIME + " DATE DEFAULT (datetime('now','localtime'))," +
                     MoodEntry.MOOD_ID + " INTEGER);";
-
-    private static final String SQL_CREATE_MOOD_TABLE =
-            "CREATE TABLE " + Mood.TABLE_NAME + " (" +
-                    Mood._ID + " INTEGER PRIMARY KEY," +
-                    Mood.NAME + " TEXT," +
-                    Mood.RATING + " TINYINT);";
-
-    private static final String SQL_UPDATE_MOOD_TABLE =
-            "INSERT INTO " + Mood.TABLE_NAME +
-                    "(" + Mood.NAME + ", " + Mood.RATING + ") VALUES ('%s', %d);";
 
     private static final String SQL_CREATE_ACTIVITY_TABLE =
             "CREATE TABLE " + Activity.TABLE_NAME + " (" +
@@ -63,19 +52,12 @@ public final class MoodDbContract {
 
     public static final String[] SQL_CREATE_ENTRIES = new String[]{
             SQL_CREATE_MOOD_ENTRY_TABLE,
-            SQL_CREATE_MOOD_TABLE,
             SQL_CREATE_ACTIVITY_TABLE,
             SQL_CREATE_MOOD_ENTRY_ACTIVITY_TABLE,
             SQL_CREATE_REMINDER_TABLE
     };
 
-    public static final String[] SQL_UPDATE_ENTRIES = new String[]{
-            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Great", 4),
-            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Happy", 3),
-            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Neutral", 2),
-            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Sad", 1),
-            String.format(Locale.UK, SQL_UPDATE_MOOD_TABLE, "Angry", 0),
-
+    public static final String[] SQL_UPDATE_ENTRIES = new String[] {
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Work", "activity_work"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", "activity_study"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", "activity_relax"),
@@ -89,7 +71,6 @@ public final class MoodDbContract {
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + MoodEntry.TABLE_NAME + "; " +
-                    "DROP TABLE IF EXISTS " + Mood.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + Activity.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + MoodEntryActivity.TABLE_NAME + "; " +
                     "DROP TABLE IF EXISTS " + Reminder.TABLE_NAME + ";";
