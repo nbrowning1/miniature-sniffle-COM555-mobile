@@ -68,11 +68,11 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
 
     @Override
     protected void onPostExecute(List<MoodEntry> moodEntries) {
+        buildChart(moodEntries);
+
         // hide progress spinner and show chart
         parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.GONE);
         parentView.findViewById(R.id.chart_parent).setVisibility(View.VISIBLE);
-
-        buildChart(moodEntries);
     }
 
     private void buildChart(List<MoodEntry> moodEntries) {

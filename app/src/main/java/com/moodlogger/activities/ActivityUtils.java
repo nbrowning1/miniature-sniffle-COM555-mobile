@@ -110,7 +110,9 @@ public class ActivityUtils {
     }
 
     public static boolean textInputIsValid(String input) {
+        input = input.trim();
         return !StringUtils.isEmpty(input) &&
+                input.length() > 0 &&
                 input.length() <= 15 &&
                 // only allow alphabetical characters and spaces
                 input.matches("[a-zA-Z\\s]+");

@@ -31,7 +31,7 @@ public class AddNewActivityModelImpl implements AddNewActivityModel {
             }
         }
 
-        Activity newActivity = new Activity(activityName, selectedActivityResource);
+        Activity newActivity = new Activity(activityName.trim(), selectedActivityResource);
         activityDbHelper.create(newActivity);
 
         listener.onSuccess();
