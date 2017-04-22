@@ -17,7 +17,7 @@ import com.moodlogger.asyncTasks.BuildEvaluationsTask;
 
 public class EvaluateTabFragment extends AbstractMoodTabFragment {
 
-    private static int debugHintsCount = 0;
+    private static final String HINT_GIVEN_SHARED_PREF_KEY = "evaluate_hint_given";
 
     private int timeSpinnerIndexSelected;
     private boolean isDarkTheme;
@@ -40,9 +40,9 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
 
     @Override
     protected void performTasksForVisibleView() {
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
             showHint();
+            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
         }
     }
 

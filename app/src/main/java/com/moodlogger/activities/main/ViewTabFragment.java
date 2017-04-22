@@ -23,7 +23,7 @@ import java.util.List;
 
 public class ViewTabFragment extends AbstractMoodTabFragment {
 
-    private static int debugHintsCount = 0;
+    private static final String HINT_GIVEN_SHARED_PREF_KEY = "view_hint_given";
 
     private int timeSpinnerIndexSelected;
     private int moodSpinnerIndexSelected;
@@ -49,10 +49,9 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
 
     @Override
     protected void performTasksForVisibleView() {
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
             showHint();
+            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
         }
     }
 

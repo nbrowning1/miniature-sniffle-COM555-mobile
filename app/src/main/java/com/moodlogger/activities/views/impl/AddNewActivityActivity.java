@@ -20,7 +20,6 @@ import java.util.List;
 
 public class AddNewActivityActivity extends AbstractMoodActivity implements AddNewActivityView {
 
-    private static int debugHintsCount = 0;
     private static final String ACTIVITY_RESTORE_KEY = "activity_selected";
 
     private String selectedActivityTagName = "";
@@ -42,10 +41,9 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
 
         presenter = new AddNewActivityPresenterImpl(this, getApplicationContext());
 
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(this)) {
             showHint();
+            ActivityUtils.markHintAsGiven(this);
         }
     }
 

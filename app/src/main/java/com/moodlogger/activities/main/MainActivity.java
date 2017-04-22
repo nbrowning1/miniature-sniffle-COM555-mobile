@@ -1,6 +1,7 @@
 package com.moodlogger.activities.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTabHost;
@@ -30,18 +31,13 @@ public class MainActivity extends AbstractMoodActivity implements ViewPager.OnPa
     private static final String TAB_TWO_NAME = "View";
     private static final String TAB_THREE_NAME = "Evaluate";
 
-    private static int debugWelcomeCount = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // uncomment later, commented out now to test welcome screen each time
-//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
-//        if (!welcomeGiven) {
-        if (debugWelcomeCount == 0) {
-            debugWelcomeCount++;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
+        if (!welcomeGiven) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
             finish();

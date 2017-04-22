@@ -16,8 +16,6 @@ import com.moodlogger.activities.views.intf.CustomiseView;
 
 public class CustomiseActivity extends AbstractMoodActivity implements CustomiseView {
 
-    private static int debugHintsCount = 0;
-
     /* for checking if any changes were made - determines whether we need to provide visual feedback
         to user upon exiting */
     private String initialName = "";
@@ -36,10 +34,9 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
 
         presenter = new CustomisePresenterImpl(this, this);
 
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(this)) {
             showHint();
+            ActivityUtils.markHintAsGiven(this);
         }
     }
 

@@ -32,8 +32,6 @@ import java.util.List;
 
 public class SettingsActivity extends AbstractMoodActivity implements SettingsView {
 
-    private static int debugHintsCount = 0;
-
     private static final int NO_OF_REMINDERS = 3;
 
     private List<Reminder> initialReminders;
@@ -50,10 +48,9 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
 
         presenter = new SettingsPresenterImpl(this, this);
 
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(this)) {
             showHint();
+            ActivityUtils.markHintAsGiven(this);
         }
     }
 

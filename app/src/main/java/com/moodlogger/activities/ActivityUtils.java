@@ -1,8 +1,10 @@
 package com.moodlogger.activities;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
@@ -19,6 +21,8 @@ import java.util.List;
 
 public class ActivityUtils {
 
+    private static final String DEFAULT_HINT_GIVEN_SHARED_PREF_KEY = "hint_given";
+
     /**
      * Used to generate a pixel value given a DP value
      * When creating views programmatically, measurements are done in pixels while building
@@ -29,6 +33,26 @@ public class ActivityUtils {
      */
     public static int dpToPixels(Resources resources, float dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.getDisplayMetrics());
+    }
+
+    public static boolean hintGiven(Activity activity) {
+        return hintGiven(activity, DEFAULT_HINT_GIVEN_SHARED_PREF_KEY);
+    }
+
+    public static boolean hintGiven(Activity activity, String sharedPreferencesKey) {
+        SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(sharedPreferencesKey, false);
+    }
+
+    public static void markHintAsGiven(Activity activity) {
+        markHintAsGiven(activity, DEFAULT_HINT_GIVEN_SHARED_PREF_KEY);
+    }
+
+    public static void markHintAsGiven(Activity activity, String sharedPreferencesKey) {
+        SharedPreferences sharedPreferences = activity.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(sharedPreferencesKey, true);
+        editor.apply();
     }
 
     public static void showAlertDialog(Context context, String msg) {
@@ -68,7 +92,7 @@ public class ActivityUtils {
      * Get all child views for a given view. Returns all leaves in the branch AKA only
      * views that have no children of their own.
      *
-     * @param view to find child views for
+     * @param view             to find child views for
      * @param existingChildren used to keep track of children when making recursive calls down the tree
      * @return list of child views for {@code view}
      */
@@ -108,7 +132,7 @@ public class ActivityUtils {
     }
 
     public static void setSpecificViewTheme(View contextView, boolean isDarkTheme, int lightThemeResId, int darkThemeResId,
-                                        int viewResId) {
+                                            int viewResId) {
         final int themeResId = isDarkTheme ? darkThemeResId : lightThemeResId;
         contextView.findViewById(viewResId).setBackgroundResource(themeResId);
     }

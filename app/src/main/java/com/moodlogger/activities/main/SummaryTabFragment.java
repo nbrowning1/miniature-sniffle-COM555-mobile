@@ -1,5 +1,7 @@
 package com.moodlogger.activities.main;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -17,7 +19,7 @@ import com.moodlogger.asyncTasks.BuildChartTask;
 
 public class SummaryTabFragment extends AbstractMoodTabFragment {
 
-    private static int debugHintsCount = 0;
+    private static final String HINT_GIVEN_SHARED_PREF_KEY = "summary_hint_given";
 
     private int timeSpinnerIndexSelected;
     private int chartTypeSpinnerIndexSelected;
@@ -41,17 +43,10 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     @Override
     protected void performTasksForVisibleView() {
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
             showHint();
+            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
         }
-    }
-
-    private void buildChart() {
-        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
-        new BuildChartTask(getContext(), parentView, getResources())
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void showHint() {
@@ -115,5 +110,11 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
         both sections anyway */
         timeSpinnerIndexSelected = 0;
         chartTypeSpinnerIndexSelected = -1;
+    }
+
+    private void buildChart() {
+        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
+        new BuildChartTask(getContext(), parentView, getResources())
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

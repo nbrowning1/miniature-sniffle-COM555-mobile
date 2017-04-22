@@ -31,8 +31,6 @@ import java.util.Map;
 
 public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodLogView {
 
-    private static int debugHintsCount = 0;
-
     private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private static final String ACTIVITY_VIEW_TAG = "ACTIVITY_id-";
     private static final String SELECTED_ACTIVITY_VIEW_TAG_PREFIX = "SELECTED_";
@@ -66,10 +64,9 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
         presenter = new AddMoodLogPresenterImpl(this, this);
 
-        // TODO: change to sharedPreferences
-        if (debugHintsCount < 1) {
-            debugHintsCount++;
+        if (!ActivityUtils.hintGiven(this)) {
             showHint();
+            ActivityUtils.markHintAsGiven(this);
         }
     }
 
