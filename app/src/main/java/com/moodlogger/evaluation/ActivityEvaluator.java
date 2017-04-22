@@ -19,14 +19,27 @@ public class ActivityEvaluator {
 
     public List<String> getActivityEvaluations() {
         List<String> activityEvaluations = new ArrayList<>();
-        if (sortedActivityBundle.getGoodRatingActivity().equals(sortedActivityBundle.getBadRatingActivity())) {
+
+        boolean goodRatingActivityExists = sortedActivityBundle.getGoodRatingActivity() != null;
+        boolean badRatingActivityExists = sortedActivityBundle.getBadRatingActivity() != null;
+        boolean sadRatingActivityExists = sortedActivityBundle.getSadRatingActivity() != null;
+        boolean angryRatingActivityExists = sortedActivityBundle.getAngryRatingActivity() != null;
+
+        if (goodRatingActivityExists && badRatingActivityExists &&
+                sortedActivityBundle.getGoodRatingActivity().equals(sortedActivityBundle.getBadRatingActivity())) {
             activityEvaluations.add(String.format(AMBIGUOUS_ACTIVITY_EVALUATION, sortedActivityBundle.getGoodRatingActivity().getName()));
-        } else {
+        } else if (goodRatingActivityExists) {
             activityEvaluations.add(String.format(GOOD_ACTIVITY_EVALUATION, sortedActivityBundle.getGoodRatingActivity().getName()));
+        } else if (badRatingActivityExists) {
             activityEvaluations.add(String.format(BAD_ACTIVITY_EVALUATION, sortedActivityBundle.getBadRatingActivity().getName()));
         }
-        activityEvaluations.add(String.format(SAD_ACTIVITY_EVALUATION, sortedActivityBundle.getSadRatingActivity().getName()));
-        activityEvaluations.add(String.format(ANGRY_ACTIVITY_EVALUATION, sortedActivityBundle.getAngryRatingActivity().getName()));
+
+        if (sadRatingActivityExists) {
+            activityEvaluations.add(String.format(SAD_ACTIVITY_EVALUATION, sortedActivityBundle.getSadRatingActivity().getName()));
+        }
+        if (angryRatingActivityExists) {
+            activityEvaluations.add(String.format(ANGRY_ACTIVITY_EVALUATION, sortedActivityBundle.getAngryRatingActivity().getName()));
+        }
 
         return activityEvaluations;
     }

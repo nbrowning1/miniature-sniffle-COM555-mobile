@@ -62,10 +62,10 @@ public class MoodEntryEvaluator {
         Activity badRatingActivity = null;
         Activity sadRatingActivity = null;
         Activity angryRatingActivity = null;
-        int highestGoodRating = -1;
-        int highestBadRating = -1;
-        int highestSadRating = -1;
-        int highestAngryRating = -1;
+        int highestGoodRating = 0;
+        int highestBadRating = 0;
+        int highestSadRating = 0;
+        int highestAngryRating = 0;
 
         for (Map.Entry<Activity, ActivityRating> activityRatingEntry : activityRatings.entrySet()) {
             if (highestGoodRating < activityRatingEntry.getValue().getGoodRating()) {
@@ -87,6 +87,19 @@ public class MoodEntryEvaluator {
                 highestAngryRating = activityRatingEntry.getValue().getAngryRating();
                 angryRatingActivity = activityRatingEntry.getKey();
             }
+        }
+
+        if (highestGoodRating == 0) {
+            goodRatingActivity = null;
+        }
+        if (highestBadRating == 0) {
+            badRatingActivity = null;
+        }
+        if (highestSadRating == 0) {
+            sadRatingActivity = null;
+        }
+        if (highestAngryRating == 0) {
+            angryRatingActivity = null;
         }
 
         return new SortedActivityBundle(goodRatingActivity, badRatingActivity,

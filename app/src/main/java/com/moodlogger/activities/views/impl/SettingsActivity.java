@@ -92,6 +92,7 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
         );
 
         TimePickerDialog tpd = new TimePickerDialog(SettingsActivity.this, timePickerOnSetListener(view.getId()), time.getHour(), time.getMinute(), true);
+        tpd.setTitle("");
         tpd.show();
     }
 

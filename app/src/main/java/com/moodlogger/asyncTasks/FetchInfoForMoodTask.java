@@ -57,6 +57,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
         parentView.findViewById(R.id.mood_info_progress_spinner).setVisibility(View.VISIBLE);
         ((LinearLayout) parentView.findViewById(R.id.mood_locations)).removeAllViews();
         ((LinearLayout) parentView.findViewById(R.id.mood_activities)).removeAllViews();
+        ((TextView) parentView.findViewById(R.id.view_no_moods_text)).setText("");
     }
 
     private void setValuesFromSpinners() {
@@ -113,6 +114,12 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
         LinearLayout locationsParent = (LinearLayout) parentView.findViewById(R.id.mood_locations);
         LinearLayout activitiesParent = (LinearLayout) parentView.findViewById(R.id.mood_activities);
+
+        if (locations.isEmpty() && activitiesForMoodRating.isEmpty()) {
+            ((TextView) parentView.findViewById(R.id.view_no_moods_text))
+                    .setText(resources.getString(R.string.view_no_moods));
+            return;
+        }
 
         for (String locationText : locations) {
             locationsParent.addView(createLocationText(locationText));

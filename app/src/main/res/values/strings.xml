@@ -55,6 +55,8 @@
     <string name="view_hint_title">View Tab</string>
     <string name="view_hint_message">The View tab is where statistics will be shown for different moods and activities over the specified time range, according to your logged mood entries. The top pane allows you to view the locations and activities related to a given mood, and the bottom pane will show the moods related to a given activity</string>
 
+    <string name="view_no_moods">No mood entries found for this time range and mood</string>
+
     <!-- Evaluate Tab -->
     <string name="evaluate_hint_title">Evaluate Tab</string>
     <string name="evaluate_hint_message">The Evaluate tab will show an evaluation of your logged mood entries, and attempt to give some advice based on positive and negative trends that it finds. This tab serves as a way to automatically evaluate your mood entries, so that you don\'t have to</string>

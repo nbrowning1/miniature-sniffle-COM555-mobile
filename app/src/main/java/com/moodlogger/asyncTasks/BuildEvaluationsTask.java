@@ -3,7 +3,9 @@ package com.moodlogger.asyncTasks;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -75,11 +77,14 @@ public class BuildEvaluationsTask extends AsyncTask<Void, Void, List<String>> {
         LinearLayout.LayoutParams evaluationTextLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        evaluationTextLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(resources, 30));
+        evaluationTextLayoutParams.setMargins(0, ActivityUtils.dpToPixels(resources, 15), 0, ActivityUtils.dpToPixels(resources, 15));
         TextView evaluationText = new TextView(context);
         evaluationText.setLayoutParams(evaluationTextLayoutParams);
         evaluationText.setText(text);
         evaluationText.setTextSize(15f);
+        evaluationText.setGravity(Gravity.CENTER);
+        evaluationText.setTypeface(evaluationText.getTypeface(), Typeface.ITALIC);
+        evaluationText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
         return evaluationText;
     }

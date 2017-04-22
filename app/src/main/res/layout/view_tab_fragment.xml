@@ -10,11 +10,11 @@
         android:id="@+id/view_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingBottom="@dimen/main_content_spacing"
         android:paddingLeft="@dimen/main_content_spacing"
-        android:paddingRight="@dimen/main_content_spacing"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:paddingRight="@dimen/main_content_spacing">
 
         <Spinner
             android:id="@+id/view_time_range_spinner"
@@ -114,6 +114,26 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/view_no_moods_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/element_spacing_vertical"
+                        android:paddingLeft="@dimen/text_padding"
+                        android:paddingRight="@dimen/text_padding"
+                        android:paddingTop="@dimen/text_padding"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/regular_text_size"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
 
