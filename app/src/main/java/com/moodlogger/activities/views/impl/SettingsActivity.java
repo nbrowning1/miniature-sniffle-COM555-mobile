@@ -196,11 +196,13 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
     }
 
     public void goToCustomise(View view) {
+        saveReminders();
         Intent intent = new Intent(this, CustomiseActivity.class);
         startActivity(intent);
     }
 
     public void goToAbout(View view) {
+        saveReminders();
         Intent intent = new Intent(this, AboutActivity.class);
         startActivity(intent);
     }
@@ -218,6 +220,6 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
                 saveReminders();
                 break;
         }
-        return (super.onOptionsItemSelected(item));
+        return super.onOptionsItemSelected(item);
     }
 }
