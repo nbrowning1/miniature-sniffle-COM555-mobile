@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.moodlogger.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;

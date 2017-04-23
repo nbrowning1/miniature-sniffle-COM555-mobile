@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.moodlogger.R;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.TimeRangeEnum;
+import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;

@@ -43,7 +43,6 @@ public class MoodDbHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO: Better impl?
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }

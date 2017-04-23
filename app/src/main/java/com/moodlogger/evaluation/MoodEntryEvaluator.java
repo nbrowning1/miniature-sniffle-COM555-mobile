@@ -2,14 +2,13 @@ package com.moodlogger.evaluation;
 
 import android.content.Context;
 
-import com.moodlogger.MoodEnum;
-import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
+import com.moodlogger.enums.MoodEnum;
+import com.moodlogger.enums.TimeRangeEnum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ public class MoodEntryEvaluator {
 
     private Context context;
 
-    private Map<Activity, ActivityRating> activityRatings = new HashMap<>();
+    Map<Activity, ActivityRating> activityRatings = new HashMap<>();
 
     public MoodEntryEvaluator(Context context) {
         this.context = context;
@@ -27,7 +26,7 @@ public class MoodEntryEvaluator {
     public List<String> getEvaluations(TimeRangeEnum timeRange) {
         List<MoodEntry> moodEntries = new MoodEntryDbHelper(context).getMoodEntries(timeRange);
         if (moodEntries.isEmpty()) {
-            return Arrays.asList("No mood entries exist for evaluation");
+            return Collections.singletonList("No mood entries exist for evaluation");
         }
 
         for (MoodEntry moodEntry : moodEntries) {
@@ -57,7 +56,7 @@ public class MoodEntryEvaluator {
         }
     }
 
-    private SortedActivityBundle getSortedActivityBundle() {
+    SortedActivityBundle getSortedActivityBundle() {
         Activity goodRatingActivity = null;
         Activity badRatingActivity = null;
         Activity sadRatingActivity = null;

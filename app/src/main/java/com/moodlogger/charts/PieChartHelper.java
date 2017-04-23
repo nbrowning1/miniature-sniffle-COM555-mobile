@@ -1,6 +1,5 @@
 package com.moodlogger.charts;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -12,7 +11,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.moodlogger.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 
 import java.util.ArrayList;

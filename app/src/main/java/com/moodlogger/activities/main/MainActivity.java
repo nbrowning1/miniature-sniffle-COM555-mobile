@@ -15,7 +15,7 @@ import android.widget.TabHost;
 
 import com.moodlogger.MainActivityFragmentPagerAdapter;
 import com.moodlogger.R;
-import com.moodlogger.ThemeEnum;
+import com.moodlogger.enums.ThemeEnum;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.SettingsActivity;

@@ -13,10 +13,13 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class AddMoodLogModelTest {
 
@@ -37,7 +40,7 @@ public class AddMoodLogModelTest {
         doNothing().when(model).saveMoodLog(anyInt(), ArgumentMatchers.<Long>anyList());
     }
 
-    private static final List<Long> VALID_ACTIVITY_LIST = Arrays.asList(1L);
+    private static final List<Long> VALID_ACTIVITY_LIST = Collections.singletonList(1L);
 
     @Test
     public void itTriggersValidationForInvalidMood() {

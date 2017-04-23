@@ -15,7 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.moodlogger.utils.StringUtils;
-import com.moodlogger.ThemeEnum;
+import com.moodlogger.enums.ThemeEnum;
 
 import java.util.List;
 

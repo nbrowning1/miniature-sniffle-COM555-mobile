@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
@@ -17,7 +16,7 @@ import com.moodlogger.charts.BarChartHelper;
 import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
 import com.moodlogger.charts.PieChartHelper;
-import com.moodlogger.TimeRangeEnum;
+import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 

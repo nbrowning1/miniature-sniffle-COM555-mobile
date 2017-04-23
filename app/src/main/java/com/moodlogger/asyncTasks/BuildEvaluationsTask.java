@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
-import com.moodlogger.TimeRangeEnum;
+import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.evaluation.MoodEntryEvaluator;
 

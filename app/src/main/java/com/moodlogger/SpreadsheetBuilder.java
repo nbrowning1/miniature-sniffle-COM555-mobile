@@ -2,6 +2,7 @@ package com.moodlogger;
 
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
+import com.moodlogger.enums.MoodEnum;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;

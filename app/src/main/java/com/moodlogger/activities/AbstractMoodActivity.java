@@ -5,7 +5,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.moodlogger.R;
-import com.moodlogger.ThemeEnum;
+import com.moodlogger.enums.ThemeEnum;
 
 public abstract class AbstractMoodActivity extends AppCompatActivity {
 
