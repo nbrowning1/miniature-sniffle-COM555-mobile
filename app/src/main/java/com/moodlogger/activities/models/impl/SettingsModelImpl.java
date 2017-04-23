@@ -1,6 +1,5 @@
 package com.moodlogger.activities.models.impl;
 
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -8,13 +7,13 @@ import android.content.Intent;
 
 import com.moodlogger.HourAndMinsTime;
 import com.moodlogger.R;
-import com.moodlogger.reminders.ReminderReceiver;
 import com.moodlogger.SpreadsheetBuilder;
 import com.moodlogger.activities.models.intf.SettingsModel;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.Reminder;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
 import com.moodlogger.db.helpers.ReminderDbHelper;
+import com.moodlogger.reminders.ReminderReceiver;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 

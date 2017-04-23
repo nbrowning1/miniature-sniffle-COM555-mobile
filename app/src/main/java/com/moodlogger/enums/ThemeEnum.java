@@ -19,6 +19,6 @@ public enum ThemeEnum {
                 return theme;
             }
         }
-        return null;
+        throw new RuntimeException("Theme not found for themeId: " + themeId);
     }
 }

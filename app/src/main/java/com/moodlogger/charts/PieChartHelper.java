@@ -42,7 +42,9 @@ public class PieChartHelper implements ChartHelper {
 
         PieDataSet dataSet = new PieDataSet(entries, "Mood");
         int lightGreen = Color.rgb(153, 255, 51);
+        // angry -> great mood colours for pie slices
         final int[] moodColours = new int[]{Color.RED, Color.BLUE, Color.GRAY, Color.GREEN, lightGreen};
+        // text colours to contrast against pie slice colours declared above
         List<Integer> textColours = Arrays.asList(Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.BLACK);
         dataSet.setColors(moodColours);
         dataSet.setValueTextColors(textColours);

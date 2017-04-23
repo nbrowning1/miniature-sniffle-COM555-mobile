@@ -2,7 +2,6 @@ package com.moodlogger.activities.main;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
     private static final String HINT_GIVEN_SHARED_PREF_KEY = "evaluate_hint_given";
 
     private int timeSpinnerIndexSelected;
-    private boolean isDarkTheme;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,30 +27,22 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        isDarkTheme = ActivityUtils.isDarkTheme(getContext());
         setSpecificViewThemes();
         setupSpinners();
         buildEvaluations();
         if (getUserVisibleHint()) {
-            performTasksForVisibleView();
+            showHintIfHintNotGiven();
         }
     }
 
     @Override
-    protected void performTasksForVisibleView() {
-        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
-            showHint();
-            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
-        }
+    protected void setSpecificViewThemes() {
+        ActivityUtils.setSpecificViewTheme(getView(), ActivityUtils.isDarkTheme(getContext()),
+                R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg, R.id.evaluate_view);
     }
 
-    private void showHint() {
-        ActivityUtils.showHintDialog(getActivity(),
-                getResources().getString(R.string.evaluate_hint_title),
-                getResources().getString(R.string.evaluate_hint_message));
-    }
-
-    private void setupSpinners() {
+    @Override
+    protected void setupSpinners() {
         /* we want to trigger the onItemSelected handler during view initialisation */
         timeSpinnerIndexSelected = -1;
         Spinner timeRangeSpinner = (Spinner) getView().findViewById(R.id.evaluate_time_range_spinner);
@@ -73,9 +63,16 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
         });
     }
 
-    private void setSpecificViewThemes() {
-        ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme,
-                R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg, R.id.evaluate_view);
+    @Override
+    protected String getHintGivenSharedPreferencesKey() {
+        return HINT_GIVEN_SHARED_PREF_KEY;
+    }
+
+    @Override
+    protected void showHint() {
+        ActivityUtils.showHintDialog(getActivity(),
+                getResources().getString(R.string.evaluate_hint_title),
+                getResources().getString(R.string.evaluate_hint_message));
     }
 
     private void buildEvaluations() {

@@ -35,7 +35,7 @@ public class Activity extends Entity {
     }
 
     /* used specifically for making it easier to create a distinct list of activities
-        on the View tab */
+        on the View tab and comparing Activities on Evaluate tab */
     @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof Activity)) {
@@ -49,7 +49,7 @@ public class Activity extends Entity {
     }
 
     /* used specifically for making it easier to create a distinct list of activities
-        on the View tab */
+        on the View tab and comparing Activities on Evaluate tab */
     @Override
     public int hashCode() {
         return Objects.hash(id, name);

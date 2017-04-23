@@ -1,6 +1,5 @@
 package com.moodlogger.charts;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -44,6 +43,7 @@ public class BarChartHelper implements ChartHelper {
 
         BarDataSet dataSet = new BarDataSet(entries, "Mood");
         int lightGreen = Color.rgb(153, 255, 51);
+        // angry -> great mood colours for bars
         int[] moodColours = new int[]{Color.RED, Color.BLUE, Color.GRAY, Color.GREEN, lightGreen};
         dataSet.setColors(moodColours);
         dataSet.setDrawValues(false);

@@ -14,6 +14,8 @@
     <string name="welcome_text_p3">mood will provide some tips on how to get started with its features, but first…</string>
     <string name="welcome_text_p4">What\'s your name?</string>
 
+    <string name="welcome_submit_validation">Please enter a valid name (up to 15 alphabetical characters only)</string>
+
     <!-- Main Activity - Summary Tab -->
     <string-array name="time_period_array">
         <item>Weekly</item>
@@ -82,6 +84,9 @@
     <string name="add_mood_log_hint_message">This is where you can log a mood entry. Logging mood entries allows the app to keep track of your moods over time and visualise them, among other things. To add a mood log, select a mood type at the top and at least one activity that you had been involved in recently.
         \n\nMultiple activities can be selected, and you can also add your own by pressing the \'Add…\' button. To finalise the mood entry, press the finish button in the bottom right. Adding a mood entry will also store the location linked to the mood, so you may be asked to allow for this</string>
 
+    <string name="add_mood_log_submit_validation">Select a mood and at least one activity</string>
+    <string name="add_mood_log_submit_toast">Mood log added!</string>
+
     <!-- Add New Activity Activity -->
     <string name="new_activity_image_choice">Choose a suitable image</string>
     <string name="new_activity_name">Give it a name</string>
@@ -89,6 +94,10 @@
 
     <string name="add_new_activity_hint_title">Adding a new activity type</string>
     <string name="add_new_activity_hint_message">This screen allows you to create a new activity type. Select an icon to associate with the activity, give it a name and finish by pressing the finish button in the bottom right</string>
+
+    <string name="add_new_activity_submit_validation_general">Select an icon and enter a valid name for the new activity</string>
+    <string name="add_new_activity_submit_validation_already_exists">Activity name is already in use</string>
+    <string name="add_new_activity_submit_toast">New activity created!</string>
 
     <!-- Settings Activity -->
     <string name="settings_reminders">Reminders</string>
@@ -114,11 +123,19 @@
     <string name="customise_hint_title">Customise</string>
     <string name="customise_hint_message">On this screen, you can change the name that the app will refer to you as, and set a new visual theme for the app. Give it a shot!</string>
 
+    <string name="customise_name_change_validation">Please enter a valid name (up to 15 alphabetical characters only)</string>
+    <string name="customise_theme_change_toast">Theme changed.</string>
+    <string name="customise_changes_saved_toast">Changes saved.</string>
+
     <!-- About Activity -->
     <string name="about_team">The Team</string>
     <string name="about_team_desc">The team for this app consisted of a solo developer, Neil Browning. The app was created in Android Studio using Java as part of university coursework.</string>
     <string name="about_credits">Credits</string>
     <string name="about_credits_desc">Thanks to Icons8 for the free icons: https://icons8.com
         \n\nThanks to the MPAndroidChart project created by Philipp Jahoda for its charting capabilities: https://github.com/PhilJay/MPAndroidChart</string>
+
+    <!-- Reminders -->
+    <string name="reminder_title">Add a mood log</string>
+    <string name="reminder_text">Hey %s! This is a set reminder to add a mood log</string>
 
 </resources>

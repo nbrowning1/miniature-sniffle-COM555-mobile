@@ -1,7 +1,5 @@
 package com.moodlogger.activities.main;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,9 +22,6 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
     private int timeSpinnerIndexSelected;
     private int chartTypeSpinnerIndexSelected;
 
-    private Spinner timeRangeSpinner;
-    private Spinner chartTypeSpinner;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.summary_tab_fragment, container, false);
@@ -37,45 +32,28 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
         setSpecificViewThemes();
         setupSpinners();
         if (getUserVisibleHint()) {
-            performTasksForVisibleView();
+            showHintIfHintNotGiven();
         }
     }
 
     @Override
-    protected void performTasksForVisibleView() {
-        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
-            showHint();
-            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
-        }
-    }
-
-    private void showHint() {
-        String title = getResources().getString(R.string.summary_hint_title);
-        String username = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user_name", "");
-        String message = String.format(getResources().getString(R.string.summary_hint_message), username);
-
-        ActivityUtils.showHintDialog(getActivity(), title, message);
-    }
-
-    private void setSpecificViewThemes() {
+    protected void setSpecificViewThemes() {
         boolean isDarkTheme = ActivityUtils.isDarkTheme(getContext());
-        setSpecificViewTheme(isDarkTheme, R.drawable.add_mood_entry, R.drawable.add_mood_entry_white,
-                R.id.summary_add_mood_button);
+        ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme,
+                R.drawable.add_mood_entry, R.drawable.add_mood_entry_white, R.id.summary_add_mood_button);
     }
 
-    private void setSpecificViewTheme(boolean isDarkTheme, int lightThemeResId, int darkThemeResId, int viewResId) {
-        ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme, lightThemeResId, darkThemeResId, viewResId);
-    }
-
-    private void setupSpinners() {
+    @Override
+    protected void setupSpinners() {
         initialiseSpinnerIndexesSelected();
 
-        timeRangeSpinner = (Spinner) getView().findViewById(R.id.time_range_spinner);
-        chartTypeSpinner = (Spinner) getView().findViewById(R.id.chart_type_spinner);
+        Spinner timeRangeSpinner = (Spinner) getView().findViewById(R.id.time_range_spinner);
+        Spinner chartTypeSpinner = (Spinner) getView().findViewById(R.id.chart_type_spinner);
 
         timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // to stop unnecessarily re-invoking things if already selected e.g. view initialisation
                 if (position == timeSpinnerIndexSelected) {
                     return;
                 }
@@ -91,6 +69,7 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
         chartTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // to stop unnecessarily re-invoking things if already selected e.g. view initialisation
                 if (position == chartTypeSpinnerIndexSelected) {
                     return;
                 }
@@ -106,10 +85,24 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     private void initialiseSpinnerIndexesSelected() {
         /* chart type spinner is the only spinner where we want to trigger the
-        onItemSelected handler during initialisation, as it affects
-        both sections anyway */
+            onItemSelected handler during initialisation - set to -1 so it triggers chart build
+            in spinner's OnItemSelectedListener */
         timeSpinnerIndexSelected = 0;
         chartTypeSpinnerIndexSelected = -1;
+    }
+
+    @Override
+    protected String getHintGivenSharedPreferencesKey() {
+        return HINT_GIVEN_SHARED_PREF_KEY;
+    }
+
+    @Override
+    protected void showHint() {
+        String title = getResources().getString(R.string.summary_hint_title);
+        String username = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user_name", "");
+        String message = String.format(getResources().getString(R.string.summary_hint_message), username);
+
+        ActivityUtils.showHintDialog(getActivity(), title, message);
     }
 
     private void buildChart() {

@@ -15,11 +15,11 @@ import android.widget.TabHost;
 
 import com.moodlogger.MainActivityFragmentPagerAdapter;
 import com.moodlogger.R;
-import com.moodlogger.enums.ThemeEnum;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.views.impl.AddMoodLogActivity;
 import com.moodlogger.activities.views.impl.SettingsActivity;
 import com.moodlogger.activities.views.impl.WelcomeActivity;
+import com.moodlogger.enums.ThemeEnum;
 
 public class MainActivity extends AbstractMoodActivity {
 
@@ -27,6 +27,7 @@ public class MainActivity extends AbstractMoodActivity {
     private static final String TAB_TWO_NAME = "View";
     private static final String TAB_THREE_NAME = "Evaluate";
 
+    // to persist chosen tab when navigating back from other activities
     private static int selectedTab = 0;
 
     private ViewPager viewPager;
@@ -36,20 +37,29 @@ public class MainActivity extends AbstractMoodActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        startWelcomeIfWelcomeNotGiven();
+        setupCustomToolbar();
+        setupSwipeAbility();
+        setupTabs();
+    }
+
+    private void startWelcomeIfWelcomeNotGiven() {
+        // app-wide context as Welcome activity needs to write to this once finished
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         boolean welcomeGiven = sharedPreferences.getBoolean("welcome_given", false);
         if (!welcomeGiven) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
+            // so user can't back out into this activity once Welcome activity has started
             finish();
         }
+    }
 
+    private void setupCustomToolbar() {
+        // custom toolbar for 'Settings' icon
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getToolbarColor());
         setSupportActionBar(toolbar);
-
-        setupSwipeAbility();
-        setupTabs();
     }
 
     @Override
@@ -102,10 +112,8 @@ public class MainActivity extends AbstractMoodActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.settings) {
-            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
         }
@@ -167,5 +175,10 @@ public class MainActivity extends AbstractMoodActivity {
             public void onPageSelected(int arg0) {
             }
         };
+    }
+
+    @Override
+    protected void setSpecificViewThemes() {
+        // do nothing
     }
 }

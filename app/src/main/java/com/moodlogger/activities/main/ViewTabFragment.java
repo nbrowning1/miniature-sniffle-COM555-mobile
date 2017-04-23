@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -43,116 +42,12 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
         setupSpinners();
         setupNestedScrollViews();
         if (getUserVisibleHint()) {
-            performTasksForVisibleView();
+            showHintIfHintNotGiven();
         }
     }
 
     @Override
-    protected void performTasksForVisibleView() {
-        if (!ActivityUtils.hintGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY)) {
-            showHint();
-            ActivityUtils.markHintAsGiven(getActivity(), HINT_GIVEN_SHARED_PREF_KEY);
-        }
-    }
-
-    private void showHint() {
-        ActivityUtils.showHintDialog(getActivity(),
-                getResources().getString(R.string.view_hint_title),
-                getResources().getString(R.string.view_hint_message));
-    }
-
-    private void setupNestedScrollViews() {
-        NestedScrollView moodScrollView = (NestedScrollView) getView().findViewById(R.id.mood_scroll_view);
-        NestedScrollView activityScrollView = (NestedScrollView) getView().findViewById(R.id.activity_scroll_view);
-        moodScrollView.setNestedScrollingEnabled(true);
-        activityScrollView.setNestedScrollingEnabled(true);
-    }
-
-    private void setupSpinners() {
-        initialiseSpinnerIndexesSelected();
-        populateActivitiesSpinner();
-
-        final Spinner timeRangeSpinner = (Spinner) getView().findViewById(R.id.view_time_range_spinner);
-        final Spinner moodTypeSpinner = (Spinner) getView().findViewById(R.id.mood_spinner);
-        final Spinner activityTypeSpinner = (Spinner) getView().findViewById(R.id.activity_spinner);
-
-        timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == timeSpinnerIndexSelected) {
-                    return;
-                }
-                buildMoodsView();
-                buildActivitiesView();
-                timeSpinnerIndexSelected = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-
-        moodTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == moodSpinnerIndexSelected) {
-                    return;
-                }
-                buildMoodsView();
-                moodSpinnerIndexSelected = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-
-        activityTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                if (position == activitySpinnerIndexSelected) {
-                    return;
-                }
-                buildActivitiesView();
-                activitySpinnerIndexSelected = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-    }
-
-    private void initialiseSpinnerIndexesSelected() {
-        /* time spinner is the only spinner where we want to trigger the
-        onItemSelected handler during initialisation, as it affects
-        both sections anyway */
-        timeSpinnerIndexSelected = -1;
-        moodSpinnerIndexSelected = 0;
-        activitySpinnerIndexSelected = 0;
-    }
-
-    private void populateActivitiesSpinner() {
-        List<String> activities = new ActivityDbHelper(getContext()).getActivityNames();
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, activities);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ((Spinner) getView().findViewById(R.id.activity_spinner)).setAdapter(spinnerArrayAdapter);
-    }
-
-    private void buildMoodsView() {
-        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
-        new FetchInfoForMoodTask(getContext(), parentView, getResources(), isDarkTheme)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    private void buildActivitiesView() {
-        LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
-        new FetchMoodsForActivityTask(getContext(), parentView, getResources())
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-    }
-
-    private void setSpecificViewThemes() {
+    protected void setSpecificViewThemes() {
         setSpecificViewTheme(R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg,
                 R.id.mood_scroll_view);
         setSpecificViewTheme(R.drawable.nested_scroll_view_bg, R.drawable.dark_nested_scroll_view_bg,
@@ -166,5 +61,115 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
 
     private void setSpecificViewTheme(int lightThemeResId, int darkThemeResId, int viewResId) {
         ActivityUtils.setSpecificViewTheme(getView(), isDarkTheme, lightThemeResId, darkThemeResId, viewResId);
+    }
+
+    @Override
+    protected void setupSpinners() {
+        initialiseSpinnerIndexesSelected();
+        populateActivitiesSpinner();
+
+        final LinearLayout fragmentView = (LinearLayout) getView().findViewById(R.id.view_fragment);
+        final Spinner timeRangeSpinner = (Spinner) getView().findViewById(R.id.view_time_range_spinner);
+        final Spinner moodTypeSpinner = (Spinner) getView().findViewById(R.id.mood_spinner);
+        final Spinner activityTypeSpinner = (Spinner) getView().findViewById(R.id.activity_spinner);
+
+        // time range spinner should refresh both moods and activities sections
+        timeRangeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // to stop unnecessarily re-invoking things if already selected e.g. view initialisation
+                if (position == timeSpinnerIndexSelected) {
+                    return;
+                }
+                buildMoodsView(fragmentView);
+                buildActivitiesView(fragmentView);
+                timeSpinnerIndexSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        // mood type spinner should refresh only moods section
+        moodTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // to stop unnecessarily re-invoking things if already selected e.g. view initialisation
+                if (position == moodSpinnerIndexSelected) {
+                    return;
+                }
+                buildMoodsView(fragmentView);
+                moodSpinnerIndexSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        // activity type spinner should refresh only activities section
+        activityTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // to stop unnecessarily re-invoking things if already selected e.g. view initialisation
+                if (position == activitySpinnerIndexSelected) {
+                    return;
+                }
+                buildActivitiesView(fragmentView);
+                activitySpinnerIndexSelected = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+    }
+
+    private void initialiseSpinnerIndexesSelected() {
+        /* time spinner is the only spinner where we want to trigger the
+            onItemSelected handler during initialisation, as it affects
+            both sections anyway - set to -1 so it triggers chart build
+            in spinner's OnItemSelectedListener */
+        timeSpinnerIndexSelected = -1;
+        moodSpinnerIndexSelected = 0;
+        activitySpinnerIndexSelected = 0;
+    }
+
+    private void populateActivitiesSpinner() {
+        List<String> activities = new ActivityDbHelper(getContext()).getActivityNames();
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, activities);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) getView().findViewById(R.id.activity_spinner)).setAdapter(spinnerArrayAdapter);
+    }
+
+    private void buildMoodsView(LinearLayout parentView) {
+        new FetchInfoForMoodTask(getContext(), parentView, getResources(), isDarkTheme)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void buildActivitiesView(LinearLayout parentView) {
+        new FetchMoodsForActivityTask(getContext(), parentView, getResources())
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void setupNestedScrollViews() {
+        NestedScrollView moodScrollView = (NestedScrollView) getView().findViewById(R.id.mood_scroll_view);
+        NestedScrollView activityScrollView = (NestedScrollView) getView().findViewById(R.id.activity_scroll_view);
+        moodScrollView.setNestedScrollingEnabled(true);
+        activityScrollView.setNestedScrollingEnabled(true);
+    }
+
+    @Override
+    protected String getHintGivenSharedPreferencesKey() {
+        return HINT_GIVEN_SHARED_PREF_KEY;
+    }
+
+    @Override
+    protected void showHint() {
+        ActivityUtils.showHintDialog(getActivity(),
+                getResources().getString(R.string.view_hint_title),
+                getResources().getString(R.string.view_hint_message));
     }
 }

@@ -5,10 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
+import com.moodlogger.enums.TimeRangeEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MoodEntryActivityDbHelper implements DbHelperIntf<MoodEntryActivity
         };
 
         String selection = MoodEntryActivity.ACTIVITY_ID + " = ?";
-        String[] selectionArgs = { Long.toString(activityId) };
+        String[] selectionArgs = {Long.toString(activityId)};
 
         Cursor cursor = db.query(MoodEntryActivity.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
 
@@ -55,7 +55,7 @@ public class MoodEntryActivityDbHelper implements DbHelperIntf<MoodEntryActivity
         };
 
         String selection = MoodEntryActivity.MOOD_ENTRY_ID + " = ?";
-        String[] selectionArgs = { Long.toString(moodId) };
+        String[] selectionArgs = {Long.toString(moodId)};
 
         Cursor cursor = db.query(MoodEntryActivity.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
 

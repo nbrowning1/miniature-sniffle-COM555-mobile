@@ -1,6 +1,5 @@
 package com.moodlogger.activities.presenters.impl;
 
-
 import android.content.Context;
 
 import com.moodlogger.activities.models.impl.AddNewActivityModelImpl;

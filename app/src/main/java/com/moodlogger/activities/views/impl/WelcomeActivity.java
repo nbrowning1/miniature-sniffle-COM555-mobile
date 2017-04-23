@@ -14,7 +14,7 @@ import com.moodlogger.activities.presenters.impl.WelcomePresenterImpl;
 import com.moodlogger.activities.presenters.intf.WelcomePresenter;
 import com.moodlogger.activities.views.intf.WelcomeView;
 
-public class WelcomeActivity extends AppCompatActivity implements WelcomeView, View.OnClickListener {
+public class WelcomeActivity extends AppCompatActivity implements WelcomeView {
 
     private EditText name;
     private WelcomePresenter presenter;
@@ -25,7 +25,7 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView, V
         setContentView(R.layout.welcome);
 
         name = (EditText) findViewById(R.id.welcome_name_text);
-        findViewById(R.id.welcome_finish).setOnClickListener(this);
+        findViewById(R.id.welcome_finish).setOnClickListener(onFinishWelcome());
 
         presenter = new WelcomePresenterImpl(this, getApplicationContext());
     }
@@ -41,19 +41,22 @@ public class WelcomeActivity extends AppCompatActivity implements WelcomeView, V
         hideSoftKeyBoard();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-
         // finish activity so user can't return
         finish();
     }
 
-    @Override
-    public void onClick(View v) {
-        presenter.validateName(name.getText().toString());
+    private View.OnClickListener onFinishWelcome() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.validateName(name.getText().toString());
+            }
+        };
     }
 
     @Override
     public void showValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
+        ActivityUtils.showAlertDialog(this, getString(R.string.welcome_submit_validation));
     }
 
     private void hideSoftKeyBoard() {

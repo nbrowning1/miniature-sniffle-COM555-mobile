@@ -57,8 +57,9 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         return R.layout.customise;
     }
 
-    private void setSpecificViewThemes() {
-        boolean isDarkTheme = ActivityUtils.isDarkTheme(this);
+    @Override
+    protected void setSpecificViewThemes() {
+        boolean isDarkTheme = isDarkTheme();
 
         final int settingsSectionResId = isDarkTheme ?
                 R.drawable.dark_settings_section_bg :
@@ -104,7 +105,7 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         finish();
         startActivity(getIntent());
 
-        Toast.makeText(CustomiseActivity.this, "Theme changed.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.customise_theme_change_toast), Toast.LENGTH_LONG).show();
     }
 
     private boolean saveName() {
@@ -114,12 +115,12 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
 
     @Override
     public void showValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Please enter a valid name (up to 15 alphabetical characters only)");
+        ActivityUtils.showAlertDialog(this, getString(R.string.customise_name_change_validation));
     }
 
     @Override
     public void showChangesSaved() {
-        Toast.makeText(this, "Changes saved.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.customise_changes_saved_toast), Toast.LENGTH_LONG).show();
     }
 
     @Override

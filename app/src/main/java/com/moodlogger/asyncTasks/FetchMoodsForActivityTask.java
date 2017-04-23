@@ -9,11 +9,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.ActivityDbHelper;
 import com.moodlogger.db.helpers.MoodEntryActivityDbHelper;
+import com.moodlogger.enums.TimeRangeEnum;
 
 import java.util.HashMap;
 import java.util.List;

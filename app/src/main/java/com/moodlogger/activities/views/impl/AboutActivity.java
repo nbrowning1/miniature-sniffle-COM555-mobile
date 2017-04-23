@@ -21,8 +21,9 @@ public class AboutActivity extends AbstractMoodActivity implements AboutView {
         return R.layout.about;
     }
 
-    private void setSpecificViewThemes() {
-        boolean isDarkTheme = ActivityUtils.isDarkTheme(this);
+    @Override
+    protected void setSpecificViewThemes() {
+        boolean isDarkTheme = isDarkTheme();
 
         final int settingsSectionResId = isDarkTheme ?
                 R.drawable.dark_settings_section_bg :

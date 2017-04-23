@@ -1,6 +1,5 @@
 package com.moodlogger.asyncTasks;
 
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -13,8 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.activities.ActivityUtils;
+import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.evaluation.MoodEntryEvaluator;
 
 import java.util.List;

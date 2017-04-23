@@ -1,6 +1,5 @@
 package com.moodlogger.evaluation;
 
-
 import com.moodlogger.db.entities.Activity;
 
 public class SortedActivityBundle {

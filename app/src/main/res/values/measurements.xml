@@ -23,7 +23,7 @@
     <dimen name="welcome_name_text_field_width">200dp</dimen>
 
     <!-- summary tab -->
-    <dimen name="summary_tab_progress_bar_height">300dp</dimen>
+    <dimen name="summary_tab_progress_bar_height">350dp</dimen>
 
     <!-- view tab -->
     <dimen name="view_nested_element_spacing_vertical">50dp</dimen>

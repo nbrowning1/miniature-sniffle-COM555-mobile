@@ -1,7 +1,5 @@
 package com.moodlogger.utils;
 
-import android.util.Log;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +17,6 @@ public class DateUtils {
             calendar.setTime(date);
             return calendar;
         } catch (ParseException e) {
-            Log.e("ERROR", "Error occurred parsing mood entry date to java format", e);
             throw new RuntimeException(e);
         }
     }

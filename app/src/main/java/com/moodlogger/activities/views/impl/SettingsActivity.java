@@ -36,15 +36,19 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
 
     private List<Reminder> initialReminders;
 
+    private boolean isDarkTheme;
+
     private SettingsPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        isDarkTheme = isDarkTheme();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         populateReminders();
         initialReminders = getRemindersFromScreen();
-        setSpecificViewThemes(isDarkTheme());
+        setSpecificViewThemes();
 
         presenter = new SettingsPresenterImpl(this, this);
 
@@ -71,7 +75,8 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
         return R.layout.settings;
     }
 
-    protected void setSpecificViewThemes(boolean isDarkTheme) {
+    @Override
+    protected void setSpecificViewThemes() {
         final int settingsSectionResId = isDarkTheme ?
                 R.drawable.dark_settings_section_bg :
                 R.drawable.settings_section_bg;
@@ -88,7 +93,7 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
                 ((Button) view).getText().toString()
         );
 
-        TimePickerDialog tpd = new TimePickerDialog(SettingsActivity.this, timePickerOnSetListener(view.getId()), time.getHour(), time.getMinute(), true);
+        TimePickerDialog tpd = new TimePickerDialog(this, timePickerOnSetListener(view.getId()), time.getHour(), time.getMinute(), true);
         tpd.setTitle("");
         tpd.show();
     }

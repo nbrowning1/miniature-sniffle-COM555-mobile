@@ -1,10 +1,8 @@
 package com.moodlogger.activities.models.impl;
 
-
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
-import android.util.Log;
 
 import com.moodlogger.activities.models.intf.AddMoodLogModel;
 import com.moodlogger.db.entities.Activity;
@@ -44,6 +42,7 @@ public class AddMoodLogModelImpl implements AddMoodLogModel {
         float longitude = -1L;
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
+        // should already have gained permissions in the activity - try-catch here just for compilation
         try {
             Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
@@ -51,7 +50,7 @@ public class AddMoodLogModelImpl implements AddMoodLogModel {
                 longitude = (float) location.getLongitude();
             }
         } catch (SecurityException e) {
-            Log.e("ERROR", "Unexpected security exception caught when getting location: " + e.getMessage());
+            throw new RuntimeException(e);
         }
 
         MoodEntry moodEntry = new MoodEntry(latitude, longitude, selectedMood, activities);

@@ -21,6 +21,12 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
 
     private static final String ACTIVITY_RESTORE_KEY = "activity_selected";
 
+    private static final String MOOD_LOG_MOOD_RESTORE_KEY = "mood_selected";
+    private static final String MOOD_LOG_ACTIVITIES_RESTORE_KEY = "activities_selected";
+
+    private static final String DARK_THEME_ACTIVITY_RESOURCE_SUFFIX = "_white";
+    private static final String SELECTED_ACTIVITY_RESOURCE_SUFFIX = "_selected";
+
     private String selectedActivityTagName = "";
     private boolean isDarkTheme;
 
@@ -65,12 +71,12 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
 
     @Override
     public void showGeneralValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Select an icon and enter a valid name for the new activity");
+        ActivityUtils.showAlertDialog(this, getString(R.string.add_new_activity_submit_validation_general));
     }
 
     @Override
     public void showAlreadyExistsValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Activity name is already in use");
+        ActivityUtils.showAlertDialog(this, getString(R.string.add_new_activity_submit_validation_already_exists));
     }
 
     @Override
@@ -78,11 +84,11 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         Intent intent = new Intent(this, AddMoodLogActivity.class);
 
         // pass intent extras back to mood creation activity
-        intent.putExtra("mood_selected", getIntent().getIntExtra("mood_selected", -1));
-        intent.putExtra("activities_selected", getIntent().getSerializableExtra("activities_selected"));
+        intent.putExtra(MOOD_LOG_MOOD_RESTORE_KEY, getIntent().getIntExtra(MOOD_LOG_MOOD_RESTORE_KEY, -1));
+        intent.putExtra(MOOD_LOG_ACTIVITIES_RESTORE_KEY, getIntent().getSerializableExtra(MOOD_LOG_ACTIVITIES_RESTORE_KEY));
         startActivity(intent);
 
-        Toast.makeText(AddNewActivityActivity.this, "New activity created!",
+        Toast.makeText(this, getString(R.string.add_new_activity_submit_toast),
                 Toast.LENGTH_LONG).show();
 
         finish();
@@ -97,7 +103,8 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         };
     }
 
-    private void setSpecificViewThemes() {
+    @Override
+    protected void setSpecificViewThemes() {
         // will take care of any theme-related changes for activity icons
         resetActivities();
         View contextView = findViewById(android.R.id.content);
@@ -117,7 +124,7 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
                     view.getTag() == null ? "" : view.getTag().toString();
             if (tag.contains("activity")) {
                 if (isDarkTheme) {
-                    tag += "_white";
+                    tag += DARK_THEME_ACTIVITY_RESOURCE_SUFFIX;
                 }
                 int defaultResourceId = getResources().getIdentifier(tag, "drawable", this.getPackageName());
                 view.setBackgroundResource(defaultResourceId);
@@ -125,6 +132,12 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         }
     }
 
+    /**
+     * restore view state in case of activity re-creation e.g. screen orientation change
+     *
+     * @param savedState a saved state from screen orientation change or other activity re-creation
+     *                   method
+     */
     private void restoreView(Bundle savedState) {
         String targetTag = savedState != null ?
                 savedState.getString(ACTIVITY_RESTORE_KEY, "") :
@@ -139,7 +152,7 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
                     view.getTag() == null ? "" : view.getTag().toString();
             if (tag.equals(targetTag)) {
                 selectedActivityTagName = targetTag;
-                int defaultResourceId = getResources().getIdentifier(tag + "_selected", "drawable", this.getPackageName());
+                int defaultResourceId = getResources().getIdentifier(tag + SELECTED_ACTIVITY_RESOURCE_SUFFIX, "drawable", this.getPackageName());
                 view.setBackgroundResource(defaultResourceId);
                 return;
             }
@@ -149,14 +162,14 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
     private void selectActivity(View activityView) {
         String tag = activityView.getTag().toString();
         // remove theme modifier if exists before marking as selected
-        String selectedImgResource = tag.replace("_white", "") + "_selected";
+        String selectedImgResource = tag.replace(DARK_THEME_ACTIVITY_RESOURCE_SUFFIX, "") + SELECTED_ACTIVITY_RESOURCE_SUFFIX;
         activityView.setBackgroundResource(getResources().getIdentifier(selectedImgResource, "drawable", this.getPackageName()));
         selectedActivityTagName = tag;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()== android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
@@ -169,8 +182,8 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
         // save activity to restore later
 
         String selectedActivityTag = isDarkTheme ?
-                selectedActivityTagName.replace("_selected", "_white") :
-                selectedActivityTagName.replace("_selected", "");
+                selectedActivityTagName.replace(SELECTED_ACTIVITY_RESOURCE_SUFFIX, DARK_THEME_ACTIVITY_RESOURCE_SUFFIX) :
+                selectedActivityTagName.replace(SELECTED_ACTIVITY_RESOURCE_SUFFIX, "");
         outState.putString(ACTIVITY_RESTORE_KEY, selectedActivityTag);
     }
 }

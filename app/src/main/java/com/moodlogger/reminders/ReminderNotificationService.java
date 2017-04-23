@@ -20,7 +20,7 @@ public class ReminderNotificationService extends IntentService {
     private static final int NOTIFICATION_ID = 1;
     Notification notification;
 
-    // for AndroidManifest
+    // for AndroidManifest (default constructor required)
     public ReminderNotificationService() {
         this("Default");
     }
@@ -35,7 +35,7 @@ public class ReminderNotificationService extends IntentService {
         Intent addMoodIntent = new Intent(this, AddMoodLogActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, addMoodIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         String username = PreferenceManager.getDefaultSharedPreferences(context).getString("user_name", "");
-        String notificationMsg = String.format("Hey %s! This is a set reminder to add a mood log", username);
+        String notificationMsg = String.format(getString(R.string.reminder_text), username);
 
         Resources res = this.getResources();
         notification = new NotificationCompat.Builder(this)
@@ -44,7 +44,7 @@ public class ReminderNotificationService extends IntentService {
                 .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
                 .setAutoCancel(true)
                 .setPriority(8)
-                .setContentTitle("Add a mood log")
+                .setContentTitle(getString(R.string.reminder_title))
                 .setContentText(notificationMsg).build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_SHOW_LIGHTS;
         notification.defaults |= Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE;

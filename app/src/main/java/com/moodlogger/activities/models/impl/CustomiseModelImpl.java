@@ -1,6 +1,5 @@
 package com.moodlogger.activities.models.impl;
 
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -38,7 +37,7 @@ public class CustomiseModelImpl implements CustomiseModel {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("user_name", name);
 
-            /* apply as we're unlikely to run into anything needing the name - doesn't need to be
+        /* apply as we're unlikely to run into anything needing the name - doesn't need to be
                 be immediate */
         editor.apply();
     }

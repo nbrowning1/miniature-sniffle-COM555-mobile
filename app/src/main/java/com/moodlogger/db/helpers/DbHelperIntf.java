@@ -4,5 +4,5 @@ import com.moodlogger.db.entities.Entity;
 
 public interface DbHelperIntf<T extends Entity> {
 
-    public long create(T entity);
+    long create(T entity);
 }

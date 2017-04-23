@@ -5,11 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.moodlogger.utils.DateUtils;
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.entities.MoodEntryActivity;
+import com.moodlogger.enums.TimeRangeEnum;
+import com.moodlogger.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,8 @@ public class MoodEntryDbHelper implements DbHelperIntf<MoodEntry> {
     }
 
     public MoodEntry getMoodEntryIfPresent(long moodId, TimeRangeEnum timeRange) {
-        String selection = MoodEntry._ID + " = ? AND " + MoodEntry.DATE_TIME + " BETWEEN ? AND ?";;
+        String selection = MoodEntry._ID + " = ? AND " + MoodEntry.DATE_TIME + " BETWEEN ? AND ?";
+        ;
         String[] selectionArgs = buildTimeRangeSelectionArgs(Long.toString(moodId), timeRange);
         // should only ever be one mood entry with mood id
         List<MoodEntry> moodEntryIfPresent = getMoodEntries(selection, selectionArgs);
@@ -87,7 +88,7 @@ public class MoodEntryDbHelper implements DbHelperIntf<MoodEntry> {
         MoodEntryActivityDbHelper moodEntryActivityDbHelper = new MoodEntryActivityDbHelper(dbHelper.getContext());
         List<MoodEntry> moodEntries = new ArrayList<>();
         Cursor cursor = db.query(MoodEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, sortOrder);
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             long id = cursor.getLong(cursor.getColumnIndexOrThrow(MoodEntry._ID));
             float locationLatitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LATITUDE));
             float locationLongitude = cursor.getFloat(cursor.getColumnIndexOrThrow(MoodEntry.LOCATION_LONGITUDE));

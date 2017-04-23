@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.moodlogger.enums.MoodEnum;
 import com.moodlogger.R;
 import com.moodlogger.activities.AbstractMoodActivity;
 import com.moodlogger.activities.ActivityUtils;
@@ -23,6 +22,7 @@ import com.moodlogger.activities.presenters.intf.AddMoodLogPresenter;
 import com.moodlogger.activities.views.intf.AddMoodLogView;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.helpers.ActivityDbHelper;
+import com.moodlogger.enums.MoodEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodLogView {
 
+    // request code for sending information to Add Activity when restoring view
     private static final int ADD_ACTIVITY_REQUEST_CODE = 1;
     private static final String ACTIVITY_VIEW_TAG = "ACTIVITY_id-";
     private static final String SELECTED_ACTIVITY_VIEW_TAG_PREFIX = "SELECTED_";
@@ -55,7 +56,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        isDarkTheme = ActivityUtils.isDarkTheme(this);
+        isDarkTheme = isDarkTheme();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSpecificViewThemes();
         buildActivities();
@@ -89,7 +90,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     @Override
     public void showValidationDialog() {
-        ActivityUtils.showAlertDialog(this, "Select a mood and at least one activity");
+        ActivityUtils.showAlertDialog(this, getString(R.string.add_mood_log_submit_validation));
     }
 
     @Override
@@ -97,9 +98,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
-        Toast.makeText(AddMoodLogActivity.this, "Mood log added!",
-                Toast.LENGTH_LONG).show();
-
+        Toast.makeText(this, getString(R.string.add_mood_log_submit_toast), Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -118,7 +117,8 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         };
     }
 
-    private void setSpecificViewThemes() {
+    @Override
+    protected void setSpecificViewThemes() {
         // will take care of any theme-related changes for mood icons
         resetMoods();
         View contextView = findViewById(android.R.id.content);
@@ -126,26 +126,31 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
                 R.drawable.add_mood_finish, R.drawable.add_mood_finish_white, R.id.add_mood_log_add_mood_button);
     }
 
+    /**
+     * reset moods so that none are selected, in their default state based on the theme
+     */
     private void resetMoods() {
         View contextView = findViewById(android.R.id.content);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.mood_great, R.drawable.mood_great_white, R.id.mood_great);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.mood_happy, R.drawable.mood_happy_white, R.id.mood_happy);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.mood_neutral, R.drawable.mood_neutral_white, R.id.mood_neutral);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.mood_sad, R.drawable.mood_sad_white, R.id.mood_sad);
-        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme(),
+        ActivityUtils.setSpecificViewTheme(contextView, isDarkTheme,
                 R.drawable.mood_angry, R.drawable.mood_angry_white, R.id.mood_angry);
     }
 
+    /**
+     * dynamic creation of the user's activities on the view
+     */
     private void buildActivities() {
-        LinearLayout activitiesLayout = (LinearLayout) findViewById(R.id.activities_root);
         List<Activity> activities = new ActivityDbHelper(getApplicationContext()).getActivities();
-
         addActivitiesToActivityPanes(activities);
 
+        LinearLayout activitiesLayout = (LinearLayout) findViewById(R.id.activities_root);
         activitiesLayout.addView(createAddNewActivityView());
     }
 
@@ -166,7 +171,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
                 }
             }
         } else {
-            // portrait orientation = space for 2 panes (left and right)
+            // landscape orientation = space for 3 panes (left, mid, right)
             for (int i = 0; i < activities.size(); i += 3) {
                 Activity leftActivity = activities.get(i);
                 ((LinearLayout) findViewById(R.id.activities_pane_left))
@@ -234,6 +239,7 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
                 }
         );
 
+        // generates unique tag so it can be marked as selected later (by the user)
         String uniqueTag = ACTIVITY_VIEW_TAG + activity.getId();
         activityImageBtn.setTag(uniqueTag);
         generatedActivitiesIdsAndResourceKeys.put(activity.getId(), activity.getImgKey());
@@ -271,10 +277,8 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     private LinearLayout createAddNewActivityView() {
         LinearLayout singleActivityLayout = createSingleAddNewActivityView();
-
         singleActivityLayout.addView(createAddActivityImageButton());
-        TextView addNewActivityText = createActivityText("");
-        addNewActivityText.setText(R.string.activity_add_new);
+        TextView addNewActivityText = createActivityText(getString(R.string.activity_add_new));
         singleActivityLayout.addView(addNewActivityText);
 
         return singleActivityLayout;
@@ -282,7 +286,6 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
 
     private LinearLayout createSingleAddNewActivityView() {
         LinearLayout singleActivityLayout = new LinearLayout(this);
-        // width = 0 as width relies on the weight of the layout params (ensuring equal width activities side-by-side)
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         singleActivityLayoutParams.setMargins(0, 0, 0, ActivityUtils.dpToPixels(getResources(), 25));
@@ -304,22 +307,35 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         );
     }
 
+    /**
+     * Clears any existing mood selected and marks the new one as selected
+     *
+     * @param view the mood's view to mark as selected
+     */
     public void setMoodSelected(View view) {
         resetMoods();
+        // mark mood as selected for storing to DB / persisting view state if adding activity
         selectedMood = MoodEnum.getMoodRating(view.getTag().toString());
+
         String imgResource = getResources().getResourceEntryName(view.getId());
         // remove theme modifier if present as selected icon is same for both themes anyway
         imgResource = imgResource.replace(DARK_THEME_ACTIVITY_RESOURCE_SUFFIX, "");
         String imgSelectedResource = imgResource + SELECTED_ACTIVITY_RESOURCE_SUFFIX;
-        findViewById(view.getId()).setBackgroundResource(getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
+
+        findViewById(view.getId()).setBackgroundResource(
+                getResources().getIdentifier(imgSelectedResource, "drawable", this.getPackageName()));
     }
 
+    /**
+     * Marks activity as selected, or un-marks it if it was already selected
+     *
+     * @param view the activity's view to mark as selected
+     */
     public void setActivitySelected(View view) {
-
         long activityId = parseActivityIdFromView(view);
-
         String newResourceName;
         String tag = view.getTag().toString();
+
         if (tag.contains(SELECTED_ACTIVITY_VIEW_TAG_PREFIX)) {
             // set back to initial resource name
             newResourceName = getThemeDependentResource(generatedActivitiesIdsAndResourceKeys.get(activityId));
@@ -334,12 +350,25 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
         view.setBackgroundResource(getResources().getIdentifier(newResourceName, "drawable", this.getPackageName()));
     }
 
+    /**
+     * Gets activity's ID from view, assuming that ID was suffixed to the view's tag. Used to
+     * know which activity from DB to relate to this mood entry
+     *
+     * @param view the activity's view to get id for
+     * @return the activity's unique ID
+     */
     private long parseActivityIdFromView(View view) {
         String activityTag = view.getTag().toString();
         // get unique activity ID from end of tag
         return Long.parseLong(activityTag.substring(activityTag.indexOf("id-") + 3));
     }
 
+    /**
+     * restoring the view's state if returning from Add New Activity / screen orientation change etc.
+     *
+     * @param savedState a saved state from screen orientation change or other activity re-creation
+     *                   method
+     */
     private void restoreView(Bundle savedState) {
         restoreMoodView(savedState);
         restoreActivitiesView(savedState);
@@ -422,7 +451,8 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // save mood and activities to restore later
+        /* save mood and activities to restore later, if screen orientation occurs or something similar
+            that re-creates activity */
         outState.putInt(MOOD_RESTORE_KEY, selectedMood);
         outState.putSerializable(ACTIVITIES_RESTORE_KEY, selectedActivities);
     }

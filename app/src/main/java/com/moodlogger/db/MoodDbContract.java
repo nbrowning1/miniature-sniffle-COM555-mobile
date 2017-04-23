@@ -57,7 +57,7 @@ public final class MoodDbContract {
             SQL_CREATE_REMINDER_TABLE
     };
 
-    public static final String[] SQL_UPDATE_ENTRIES = new String[] {
+    public static final String[] SQL_UPDATE_ENTRIES = new String[]{
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Work", "activity_work"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Study", "activity_study"),
             String.format(SQL_UPDATE_ACTIVITY_TABLE, "Relax", "activity_relax"),

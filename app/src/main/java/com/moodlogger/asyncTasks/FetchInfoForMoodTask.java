@@ -16,10 +16,10 @@ import android.widget.TextView;
 
 import com.moodlogger.R;
 import com.moodlogger.activities.ActivityUtils;
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
+import com.moodlogger.enums.TimeRangeEnum;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
@@ -84,6 +84,10 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    /**
+     * Builds location texts up using latitude / longitude to resolve location thoroughfares / street
+     *  names
+     */
     private void buildLocations() {
         Geocoder geocoder = new Geocoder(context, Locale.getDefault());
         for (Location location : locationsForMoodRating) {
@@ -95,7 +99,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
                     locationText = addresses.get(0).getThoroughfare();
                 }
             } catch (IOException e) {
-                Log.w("WARN", "IOException caught when handling location: " + e.getMessage());
+                Log.w("mood", "IOException caught when handling location: " + e.getMessage());
             }
             locations.add(locationText);
         }
