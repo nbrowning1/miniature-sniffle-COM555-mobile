@@ -34,6 +34,7 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
         if (getUserVisibleHint()) {
             showHintIfHintNotGiven();
         }
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), getActivity(), getView());
     }
 
     @Override
@@ -107,7 +108,7 @@ public class SummaryTabFragment extends AbstractMoodTabFragment {
 
     private void buildChart() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.summary_fragment);
-        new BuildChartTask(getContext(), parentView, getResources())
+        new BuildChartTask(getActivity(), parentView, getResources())
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

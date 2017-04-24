@@ -33,6 +33,7 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
         if (getUserVisibleHint()) {
             showHintIfHintNotGiven();
         }
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), getActivity(), getView());
     }
 
     @Override
@@ -77,7 +78,7 @@ public class EvaluateTabFragment extends AbstractMoodTabFragment {
 
     private void buildEvaluations() {
         LinearLayout parentView = (LinearLayout) getView().findViewById(R.id.evaluate_fragment);
-        new BuildEvaluationsTask(getContext(), parentView, getResources())
+        new BuildEvaluationsTask(getActivity(), parentView, getResources())
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

@@ -69,6 +69,8 @@ public class AddMoodLogActivity extends AbstractMoodActivity implements AddMoodL
             showHint();
             ActivityUtils.markHintAsGiven(this);
         }
+
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), this, findViewById(R.id.add_mood_log_root));
     }
 
     private void showHint() {

@@ -7,11 +7,12 @@
 
     <!-- focusableInTouchMode so text field doesn't auto-focus -->
     <LinearLayout
+        android:id="@+id/customise_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/main_content_spacing"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/main_content_spacing">
 
         <LinearLayout
             android:id="@+id/customise_section_1"
@@ -56,9 +57,9 @@
                     android:id="@+id/name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="75dp"
-                    android:inputType="textPersonName|textCapWords"
-                    android:gravity="center" />
+                    android:layout_marginLeft="@dimen/customise_component_left_spacing"
+                    android:gravity="center"
+                    android:inputType="textPersonName|textCapWords" />
 
             </LinearLayout>
 
@@ -68,6 +69,7 @@
             android:id="@+id/customise_section_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/content_section_spacing_vertical"
             android:background="@drawable/settings_section_bg"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -152,6 +154,55 @@
                     android:layout_gravity="center"
                     android:text="@string/theme_mint"
                     android:textSize="@dimen/regular_text_size" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/customise_section_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/content_section_spacing_vertical"
+            android:background="@drawable/settings_section_bg"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/customise_accessibility"
+                    android:textSize="@dimen/title_text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/accessibility_section_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/nested_scroll_view_bg"
+                android:orientation="horizontal"
+                android:padding="@dimen/text_padding">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/customise_large_font"
+                    android:textSize="@dimen/regular_text_size" />
+
+                <Switch
+                    android:id="@+id/large_font_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/customise_component_left_spacing"/>
 
             </LinearLayout>
 

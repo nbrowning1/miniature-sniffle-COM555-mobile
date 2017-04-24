@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.moodlogger.R;
+import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.ActivityDbHelper;
@@ -21,14 +22,14 @@ import java.util.Map;
 
 public class FetchMoodsForActivityTask extends AsyncTask<Void, Void, Map<Integer, Integer>> {
 
-    private Context context;
+    private android.app.Activity contextActivity;
     private LinearLayout parentView;
     private Resources resources;
     private String activityName;
     private TimeRangeEnum timeRange;
 
-    public FetchMoodsForActivityTask(Context context, LinearLayout parentView, Resources resources) {
-        this.context = context;
+    public FetchMoodsForActivityTask(android.app.Activity contextActivity, LinearLayout parentView, Resources resources) {
+        this.contextActivity = contextActivity;
         this.parentView = parentView;
         this.resources = resources;
     }
@@ -50,9 +51,9 @@ public class FetchMoodsForActivityTask extends AsyncTask<Void, Void, Map<Integer
 
     @Override
     protected Map<Integer, Integer> doInBackground(Void... params) {
-        Activity activity = new ActivityDbHelper(context).getActivity(activityName);
+        Activity activity = new ActivityDbHelper(contextActivity).getActivity(activityName);
 
-        List<MoodEntry> moodEntriesForActivity = new MoodEntryActivityDbHelper(context)
+        List<MoodEntry> moodEntriesForActivity = new MoodEntryActivityDbHelper(contextActivity)
                 .getMoodEntriesForActivityId(activity.getId(), timeRange);
 
         Map<Integer, Integer> moodIdsAndCount = new HashMap<>();
@@ -79,6 +80,8 @@ public class FetchMoodsForActivityTask extends AsyncTask<Void, Void, Map<Integer
         setMoodNumber(R.id.mood_neutral_number, moodIdsAndCount.get(2));
         setMoodNumber(R.id.mood_happy_number, moodIdsAndCount.get(3));
         setMoodNumber(R.id.mood_great_number, moodIdsAndCount.get(4));
+
+        ActivityUtils.setFontSizeIfLargeFont(resources, contextActivity, parentView.findViewById(R.id.mood_parent));
     }
 
     private void setMoodNumber(int moodTextResourceId, int moodRating) {

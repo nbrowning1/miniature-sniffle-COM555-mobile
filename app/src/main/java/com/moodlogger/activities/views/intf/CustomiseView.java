@@ -7,4 +7,6 @@ public interface CustomiseView {
     void showChangesSaved();
 
     void changeTheme();
+
+    void changeFont();
 }

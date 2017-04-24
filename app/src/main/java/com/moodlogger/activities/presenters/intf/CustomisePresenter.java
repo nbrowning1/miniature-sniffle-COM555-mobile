@@ -6,5 +6,7 @@ public interface CustomisePresenter {
 
     void setNewTheme(int themeId);
 
+    void setLargeFont(boolean isLargeFont);
+
     void onDestroy();
 }

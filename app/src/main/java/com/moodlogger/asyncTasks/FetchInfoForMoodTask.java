@@ -29,7 +29,7 @@ import java.util.Set;
 
 public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
-    private Context context;
+    private android.app.Activity contextActivity;
     private LinearLayout parentView;
     private Resources resources;
     private boolean isDarkTheme;
@@ -40,8 +40,8 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     private Set<Activity> activitiesForMoodRating = new LinkedHashSet<>();
     private Set<String> locations = new LinkedHashSet<>();
 
-    public FetchInfoForMoodTask(Context context, LinearLayout parentView, Resources resources, boolean isDarkTheme) {
-        this.context = context;
+    public FetchInfoForMoodTask(android.app.Activity contextActivity, LinearLayout parentView, Resources resources, boolean isDarkTheme) {
+        this.contextActivity = contextActivity;
         this.parentView = parentView;
         this.resources = resources;
         this.isDarkTheme = isDarkTheme;
@@ -71,7 +71,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         List<MoodEntry> moodEntriesForMoodRating =
-                new MoodEntryDbHelper(context).getMoodEntries(moodRating, timeRange);
+                new MoodEntryDbHelper(contextActivity).getMoodEntries(moodRating, timeRange);
 
         for (MoodEntry moodEntry : moodEntriesForMoodRating) {
             locationsForMoodRating.add(moodEntry.getLocation());
@@ -89,7 +89,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
      *  names
      */
     private void buildLocations() {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        Geocoder geocoder = new Geocoder(contextActivity, Locale.getDefault());
         for (Location location : locationsForMoodRating) {
             // default to unknown in case error occurs etc.
             String locationText = "Unknown location";
@@ -108,6 +108,8 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void params) {
         buildLocationsAndActivitiesForMood();
+        ActivityUtils.setFontSizeIfLargeFont(resources, contextActivity, parentView.findViewById(R.id.mood_locations));
+        ActivityUtils.setFontSizeIfLargeFont(resources, contextActivity, parentView.findViewById(R.id.mood_activities));
     }
 
     private void buildLocationsAndActivitiesForMood() {
@@ -139,7 +141,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         int marginTopPx = ActivityUtils.dpToPixels(resources, 15);
         activityTextLayoutParams.setMargins(0, marginTopPx, 0, 0);
-        TextView activityText = new TextView(context);
+        TextView activityText = new TextView(contextActivity);
         activityText.setGravity(Gravity.CENTER_HORIZONTAL);
         activityText.setLayoutParams(activityTextLayoutParams);
         activityText.setText(text);
@@ -160,7 +162,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
     }
 
     private LinearLayout createSingleActivityView() {
-        LinearLayout singleActivityLayout = new LinearLayout(context);
+        LinearLayout singleActivityLayout = new LinearLayout(contextActivity);
         LinearLayout.LayoutParams singleActivityLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -176,12 +178,12 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         activityImageLayoutParams.setMargins(0, 0, ActivityUtils.dpToPixels(resources, 15), 0);
-        ImageButton activityImageBtn = new ImageButton(context);
+        ImageButton activityImageBtn = new ImageButton(contextActivity);
         activityImageBtn.setLayoutParams(activityImageLayoutParams);
 
         // get correct icon to show for activity - choosing white one if dark theme is being used
         String activityImageKey = isDarkTheme ? activity.getImgKey() + "_white" : activity.getImgKey();
-        int resId = resources.getIdentifier(activityImageKey, "drawable", context.getPackageName());
+        int resId = resources.getIdentifier(activityImageKey, "drawable", contextActivity.getPackageName());
         activityImageBtn.setBackgroundResource(resId);
 
         return activityImageBtn;
@@ -191,7 +193,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
         LinearLayout.LayoutParams activityTextLayoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        TextView activityText = new TextView(context);
+        TextView activityText = new TextView(contextActivity);
         activityText.setLayoutParams(activityTextLayoutParams);
         activityText.setText(activityName);
         activityText.setTextSize(15f);

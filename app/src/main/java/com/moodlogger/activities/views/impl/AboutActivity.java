@@ -14,6 +14,7 @@ public class AboutActivity extends AbstractMoodActivity implements AboutView {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSpecificViewThemes();
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), this, findViewById(R.id.about_root));
     }
 
     @Override

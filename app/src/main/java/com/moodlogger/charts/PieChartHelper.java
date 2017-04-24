@@ -23,11 +23,13 @@ public class PieChartHelper implements ChartHelper {
 
     private String[] moodValues;
     private boolean isDarkTheme;
+    private boolean isLargeFont;
     private List<MoodEntry> moodEntries;
 
-    public PieChartHelper(String[] moodValues, boolean isDarkTheme, List<MoodEntry> moodEntries) {
+    public PieChartHelper(String[] moodValues, boolean isDarkTheme, boolean isLargeFont, List<MoodEntry> moodEntries) {
         this.moodValues = moodValues;
         this.isDarkTheme = isDarkTheme;
+        this.isLargeFont = isLargeFont;
         this.moodEntries = moodEntries;
     }
 
@@ -48,7 +50,11 @@ public class PieChartHelper implements ChartHelper {
         List<Integer> textColours = Arrays.asList(Color.WHITE, Color.WHITE, Color.WHITE, Color.BLACK, Color.BLACK);
         dataSet.setColors(moodColours);
         dataSet.setValueTextColors(textColours);
-        dataSet.setValueTextSize(10f);
+        if (isLargeFont) {
+            dataSet.setValueTextSize(16f);
+        } else {
+            dataSet.setValueTextSize(10f);
+        }
         // custom value formatter to display mood text instead of counts on pie chart slices
         dataSet.setValueFormatter(new IValueFormatter() {
             // keep track of index manually as pie chart only has one x-value (0)
@@ -73,6 +79,9 @@ public class PieChartHelper implements ChartHelper {
         chart.setHoleColor(Color.TRANSPARENT);
         if (isDarkTheme) {
             chart.getLegend().setTextColor(Color.WHITE);
+        }
+        if (isLargeFont) {
+            chart.getLegend().setTextSize(16f);
         }
 
         chart.invalidate(); // refresh chart

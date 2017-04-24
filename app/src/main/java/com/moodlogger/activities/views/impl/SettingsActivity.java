@@ -56,6 +56,8 @@ public class SettingsActivity extends AbstractMoodActivity implements SettingsVi
             showHint();
             ActivityUtils.markHintAsGiven(this);
         }
+
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), this, findViewById(R.id.settings_root));
     }
 
     private void showHint() {

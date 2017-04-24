@@ -51,6 +51,9 @@
     <dimen name="settings_reminder_button_vertical_margin">5dp</dimen>
     <dimen name="settings_export_button_vertical_margin">5dp</dimen>
 
+    <!-- customise -->
+    <dimen name="customise_component_left_spacing">75dp</dimen>
+
     <!-- start / finish activity buttons -->
     <dimen name="submit_button_height_width">100dp</dimen>
     <dimen name="submit_button_bottom_margin">15dp</dimen>

@@ -33,6 +33,11 @@ public class CustomisePresenterImpl implements CustomisePresenter, CustomiseMode
     }
 
     @Override
+    public void setLargeFont(boolean isLargeFont) {
+        customiseModel.setLargeFont(isLargeFont, this);
+    }
+
+    @Override
     public void onValidationError() {
         if (customiseView != null) {
             customiseView.showValidationDialog();
@@ -50,6 +55,13 @@ public class CustomisePresenterImpl implements CustomisePresenter, CustomiseMode
     public void onThemeSaved() {
         if (customiseView != null) {
             customiseView.changeTheme();
+        }
+    }
+
+    @Override
+    public void onFontChangeSaved() {
+        if (customiseView != null) {
+            customiseView.changeFont();
         }
     }
 }

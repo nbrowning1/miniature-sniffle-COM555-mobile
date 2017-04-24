@@ -7,16 +7,21 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.moodlogger.utils.StringUtils;
 import com.moodlogger.enums.ThemeEnum;
+import com.moodlogger.utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityUtils {
@@ -26,7 +31,7 @@ public class ActivityUtils {
     /**
      * Used to generate a pixel value given a DP value
      * When creating views programmatically, measurements are done in pixels while building
-     * views in XML uses DP units. Allows view creation to be more consistent between XMl and code
+     * views in XML uses DP units. Allows view creation to be more consistent between XML and code
      *
      * @param dp units to convert to px
      * @return px value
@@ -97,7 +102,7 @@ public class ActivityUtils {
      * @return list of child views for {@code view}
      */
     public static List<View> getChildViews(View view, List<View> existingChildren) {
-        if (view instanceof ViewGroup) {
+        if (view instanceof ViewGroup && !(view instanceof Spinner)) {
             ViewGroup viewGroup = (ViewGroup) view;
             int noOfChildren = viewGroup.getChildCount();
             for (int i = 0; i < noOfChildren; i++) {
@@ -139,5 +144,89 @@ public class ActivityUtils {
                                             int viewResId) {
         final int themeResId = isDarkTheme ? darkThemeResId : lightThemeResId;
         contextView.findViewById(viewResId).setBackgroundResource(themeResId);
+    }
+
+    public static boolean isLargeFont(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("large_font", false);
+    }
+
+    public static void setFontSizeIfLargeFont(Resources resources, Activity activity, View rootView) {
+        if (isLargeFont(activity)) {
+            setFontSize(resources, activity, rootView);
+        }
+    }
+
+    private static void setFontSize(Resources resources, Activity activity, View rootView) {
+        for (View view : getChildViews(rootView, new ArrayList<View>())) {
+            if (view instanceof TextView) {
+                TextView textView = (TextView) view;
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                        scaleTextSizeForLargeFont(resources, textView.getTextSize()));
+            }
+
+            if (view instanceof Spinner) {
+                setSpinnerLargeTextSize(activity, view);
+            }
+        }
+    }
+
+    private static void setSpinnerLargeTextSize(Activity activity, View view) {
+        Spinner spinner = (Spinner) view;
+        List<String> items = new ArrayList<>();
+        for (int i = 0; ; i++) {
+            try {
+                items.add((String) spinner.getItemAtPosition(i));
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
+        }
+
+        ArrayAdapter<CharSequence> spinnerAdapter = new ArrayAdapter<CharSequence>(
+                activity, android.R.layout.simple_spinner_item, items.toArray(new String[0])) {
+            @Override
+            @NonNull
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                return view;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                // position 0 already handled by getView override
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
+                return view;
+            }
+        };
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(spinnerAdapter);
+    }
+
+    private static float scaleTextSizeForLargeFont(Resources resources, float previousTextSize) {
+        float textSizeInSp = pixelsToSp(resources, previousTextSize);
+
+        if (textSizeInSp < 18) {
+            return 18;
+        } else if (textSizeInSp > 30) {
+            return textSizeInSp;
+        } else {
+            return 22;
+        }
+    }
+
+    /**
+     * Used to generate a SP value given a pixel value
+     * Android views typically return text size in pixels so this can be used to convert to SP to
+     * set view text sizes more appropriately
+     *
+     * @param px units to convert to sp
+     * @return sp value
+     */
+    private static float pixelsToSp(Resources resources, float px) {
+        return px / resources.getDisplayMetrics().scaledDensity;
     }
 }

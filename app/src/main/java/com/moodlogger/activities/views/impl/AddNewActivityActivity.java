@@ -50,6 +50,8 @@ public class AddNewActivityActivity extends AbstractMoodActivity implements AddN
             showHint();
             ActivityUtils.markHintAsGiven(this);
         }
+
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), this, findViewById(R.id.new_activity_layout));
     }
 
     private void showHint() {

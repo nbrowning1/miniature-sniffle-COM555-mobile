@@ -56,4 +56,19 @@ public class CustomiseModelImpl implements CustomiseModel {
         // commit as we want to change theme in SharedPrefs immediately - huge visual feedback expected
         editor.commit();
     }
+
+    @Override
+    public void setLargeFont(boolean isLargeFont, OnCustomiseFinishedListener listener) {
+        saveFontChange(isLargeFont);
+        listener.onFontChangeSaved();
+    }
+
+    void saveFontChange(boolean isLargeFont) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("large_font", isLargeFont);
+
+        // commit as we want to save this immediately - visual feedback expected
+        editor.commit();
+    }
 }

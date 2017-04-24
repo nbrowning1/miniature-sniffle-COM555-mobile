@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -64,5 +65,14 @@ public class CustomiseModelTest {
         doNothing().when(model).saveThemeChange(anyInt());
         model.setNewTheme(1, listener);
         verify(view, times(1)).changeTheme();
+    }
+
+    @Test
+    public void itTriggersFontChangeWhenFontChanged() {
+        doNothing().when(model).saveFontChange(anyBoolean());
+        model.setLargeFont(true, listener);
+        verify(view, times(1)).changeFont();
+        model.setLargeFont(false, listener);
+        verify(view, times(2)).changeFont();
     }
 }

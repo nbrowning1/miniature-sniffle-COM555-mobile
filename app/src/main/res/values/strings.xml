@@ -119,12 +119,15 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_ocean">Ocean</string>
     <string name="theme_mint">Mint</string>
+    <string name="customise_accessibility">Accessibility</string>
+    <string name="customise_large_font">Large Font:</string>
 
     <string name="customise_hint_title">Customise</string>
     <string name="customise_hint_message">On this screen, you can change the name that the app will refer to you as, and set a new visual theme for the app. Give it a shot!</string>
 
     <string name="customise_name_change_validation">Please enter a valid name (up to 15 alphabetical characters only)</string>
     <string name="customise_theme_change_toast">Theme changed.</string>
+    <string name="customise_font_changed_toast">Font changed.</string>
     <string name="customise_changes_saved_toast">Changes saved.</string>
 
     <!-- About Activity -->

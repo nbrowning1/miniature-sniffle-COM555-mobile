@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/about_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/main_content_spacing"

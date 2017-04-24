@@ -44,6 +44,7 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
         if (getUserVisibleHint()) {
             showHintIfHintNotGiven();
         }
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), getActivity(), getView());
     }
 
     @Override
@@ -145,12 +146,12 @@ public class ViewTabFragment extends AbstractMoodTabFragment {
     }
 
     private void buildMoodsView(LinearLayout parentView) {
-        new FetchInfoForMoodTask(getContext(), parentView, getResources(), isDarkTheme)
+        new FetchInfoForMoodTask(getActivity(), parentView, getResources(), isDarkTheme)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     private void buildActivitiesView(LinearLayout parentView) {
-        new FetchMoodsForActivityTask(getContext(), parentView, getResources())
+        new FetchMoodsForActivityTask(getActivity(), parentView, getResources())
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 

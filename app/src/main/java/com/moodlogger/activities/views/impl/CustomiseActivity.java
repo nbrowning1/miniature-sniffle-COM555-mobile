@@ -1,10 +1,13 @@
 package com.moodlogger.activities.views.impl;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.moodlogger.R;
@@ -13,6 +16,7 @@ import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.activities.presenters.impl.CustomisePresenterImpl;
 import com.moodlogger.activities.presenters.intf.CustomisePresenter;
 import com.moodlogger.activities.views.intf.CustomiseView;
+import com.moodlogger.db.entities.Activity;
 
 public class CustomiseActivity extends AbstractMoodActivity implements CustomiseView {
 
@@ -31,6 +35,7 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         nameView = (EditText) findViewById(R.id.name_text);
         populateNameField();
         setupThemes();
+        setupSwitches();
 
         presenter = new CustomisePresenterImpl(this, this);
 
@@ -38,6 +43,8 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
             showHint();
             ActivityUtils.markHintAsGiven(this);
         }
+
+        ActivityUtils.setFontSizeIfLargeFont(getResources(), this, findViewById(R.id.customise_root));
     }
 
     private void showHint() {
@@ -64,13 +71,14 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         final int settingsSectionResId = isDarkTheme ?
                 R.drawable.dark_settings_section_bg :
                 R.drawable.settings_section_bg;
-        setViewThemes(2, settingsSectionResId, "customise_section_");
+        setViewThemes(3, settingsSectionResId, "customise_section_");
 
         final int nestedScrollResId = isDarkTheme ?
                 R.drawable.dark_nested_scroll_view_bg :
                 R.drawable.nested_scroll_view_bg;
         setViewThemes(1, nestedScrollResId, "name_section_");
         setViewThemes(4, nestedScrollResId, "theme_section_");
+        setViewThemes(1, nestedScrollResId, "accessibility_section_");
     }
 
     private void populateNameField() {
@@ -106,6 +114,37 @@ public class CustomiseActivity extends AbstractMoodActivity implements Customise
         startActivity(getIntent());
 
         Toast.makeText(this, getString(R.string.customise_theme_change_toast), Toast.LENGTH_LONG).show();
+    }
+
+    private void setupSwitches() {
+        Switch largeFontSwitch = (Switch) findViewById(R.id.large_font_switch);
+        // initialise checked status
+        largeFontSwitch.setChecked(ActivityUtils.isLargeFont(this));
+
+        largeFontSwitch.setOnCheckedChangeListener(switchOnCheckedChange());
+    }
+
+    private CompoundButton.OnCheckedChangeListener switchOnCheckedChange() {
+        return new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                // try to save any changes, return if validation not met
+                if (!saveName()) {
+                    return;
+                }
+                presenter.setLargeFont(checked);
+            }
+        };
+    }
+
+    @Override
+    public void changeFont() {
+        // refresh activity
+        finish();
+        startActivity(getIntent());
+
+        Toast.makeText(this, getString(R.string.customise_font_changed_toast), Toast.LENGTH_LONG).show();
     }
 
     private boolean saveName() {

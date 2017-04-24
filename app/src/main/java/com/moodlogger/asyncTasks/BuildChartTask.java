@@ -1,5 +1,6 @@
 package com.moodlogger.asyncTasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -24,29 +25,35 @@ import java.util.List;
 
 public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
 
-    private Context context;
+    private Activity activity;
     private LinearLayout parentView;
     private Resources resources;
     private boolean isDarkTheme;
+    private boolean isLargeFont;
 
     private TimeRangeEnum timeRange;
     private ChartTypeEnum chartType;
 
-    public BuildChartTask(Context context, LinearLayout parentView, Resources resources) {
-        this.context = context;
+    View chartView;
+    View progressBar;
+
+    public BuildChartTask(Activity activity, LinearLayout parentView, Resources resources) {
+        this.activity = activity;
         this.parentView = parentView;
         this.resources = resources;
     }
 
     @Override
     protected void onPreExecute() {
+        chartView = parentView.findViewById(R.id.chart_parent);
+        progressBar = parentView.findViewById(R.id.chart_progress_spinner);
         initialiseViewsToShowLoading();
         setValuesFromSpinners();
     }
 
     private void initialiseViewsToShowLoading() {
-        parentView.findViewById(R.id.chart_parent).setVisibility(View.GONE);
-        parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.VISIBLE);
+        chartView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     private void setValuesFromSpinners() {
@@ -61,8 +68,9 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
 
     @Override
     protected List<MoodEntry> doInBackground(Void... params) {
-        isDarkTheme = ActivityUtils.isDarkTheme(context);
-        return new MoodEntryDbHelper(context).getMoodEntries(timeRange);
+        isDarkTheme = ActivityUtils.isDarkTheme(activity);
+        isLargeFont = ActivityUtils.isLargeFont(activity);
+        return new MoodEntryDbHelper(activity).getMoodEntries(timeRange);
     }
 
     @Override
@@ -70,8 +78,10 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
         buildChart(moodEntries);
 
         // hide progress spinner and show chart
-        parentView.findViewById(R.id.chart_progress_spinner).setVisibility(View.GONE);
-        parentView.findViewById(R.id.chart_parent).setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        chartView.setVisibility(View.VISIBLE);
+
+        ActivityUtils.setFontSizeIfLargeFont(resources, activity, chartView);
     }
 
     private void buildChart(List<MoodEntry> moodEntries) {
@@ -81,16 +91,16 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
         View chartView = parentView.findViewById(R.id.chart);
 
         if (chartType.equals(ChartTypeEnum.Line)) {
-            new LineChartHelper(timeRange, moodValues, isDarkTheme, moodEntries).buildChart(chartView);
+            new LineChartHelper(timeRange, moodValues, isDarkTheme, isLargeFont, moodEntries).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
-            new BarChartHelper(moodValues, isDarkTheme, moodEntries).buildChart(chartView);
+            new BarChartHelper(moodValues, isDarkTheme, isLargeFont, moodEntries).buildChart(chartView);
         } else if (chartType.equals(ChartTypeEnum.Pie)) {
-            new PieChartHelper(moodValues, isDarkTheme, moodEntries).buildChart(chartView);
+            new PieChartHelper(moodValues, isDarkTheme, isLargeFont, moodEntries).buildChart(chartView);
         }
     }
 
     private void buildChart(ChartTypeEnum chartType) {
-        LinearLayout chartParent = (LinearLayout) parentView.findViewById(R.id.chart_parent);
+        LinearLayout chartParent = (LinearLayout) chartView;
         chartParent.removeAllViews();
         View chart;
 
@@ -99,15 +109,15 @@ public class BuildChartTask extends AsyncTask<Void, Void, List<MoodEntry>> {
         LinearLayout.LayoutParams chartLayoutParams = new LinearLayout.LayoutParams(widthPx, heightPx);
 
         if (chartType.equals(ChartTypeEnum.Line)) {
-            chart = new LineChart(context);
+            chart = new LineChart(activity);
             chart.setId(R.id.chart);
             chart.setLayoutParams(chartLayoutParams);
         } else if (chartType.equals(ChartTypeEnum.Bar)) {
-            chart = new BarChart(context);
+            chart = new BarChart(activity);
             chart.setId(R.id.chart);
             chart.setLayoutParams(chartLayoutParams);
         } else {
-            chart = new PieChart(context);
+            chart = new PieChart(activity);
             chart.setId(R.id.chart);
             chart.setLayoutParams(chartLayoutParams);
         }

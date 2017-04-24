@@ -1,5 +1,6 @@
 package com.moodlogger.asyncTasks;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class BuildEvaluationsTask extends AsyncTask<Void, Void, List<String>> {
 
-    private Context context;
+    private Activity activity;
     private LinearLayout parentView;
     private Resources resources;
 
@@ -28,8 +29,8 @@ public class BuildEvaluationsTask extends AsyncTask<Void, Void, List<String>> {
     private LinearLayout evaluationsView;
     private ProgressBar progressBar;
 
-    public BuildEvaluationsTask(Context context, LinearLayout parentView, Resources resources) {
-        this.context = context;
+    public BuildEvaluationsTask(Activity activity, LinearLayout parentView, Resources resources) {
+        this.activity = activity;
         this.parentView = parentView;
         this.resources = resources;
     }
@@ -55,12 +56,13 @@ public class BuildEvaluationsTask extends AsyncTask<Void, Void, List<String>> {
 
     @Override
     protected List<String> doInBackground(Void... params) {
-        return new MoodEntryEvaluator(context).getEvaluations(timeRange);
+        return new MoodEntryEvaluator(activity).getEvaluations(timeRange);
     }
 
     @Override
     protected void onPostExecute(List<String> evaluations) {
         buildEvaluationsView(evaluations);
+        ActivityUtils.setFontSizeIfLargeFont(resources, activity, parentView);
     }
 
     private void buildEvaluationsView(List<String> evaluations) {
@@ -77,7 +79,7 @@ public class BuildEvaluationsTask extends AsyncTask<Void, Void, List<String>> {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         evaluationTextLayoutParams.setMargins(0, ActivityUtils.dpToPixels(resources, 15), 0, ActivityUtils.dpToPixels(resources, 15));
-        TextView evaluationText = new TextView(context);
+        TextView evaluationText = new TextView(activity);
         evaluationText.setLayoutParams(evaluationTextLayoutParams);
         evaluationText.setText(text);
         evaluationText.setTextSize(15f);

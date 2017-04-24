@@ -22,11 +22,13 @@ public class BarChartHelper implements ChartHelper {
 
     private String[] moodValues;
     private boolean isDarkTheme;
+    private boolean isLargeFont;
     private List<MoodEntry> moodEntries;
 
-    public BarChartHelper(String[] moodValues, boolean isDarkTheme, List<MoodEntry> moodEntries) {
+    public BarChartHelper(String[] moodValues, boolean isDarkTheme, boolean isLargeFont, List<MoodEntry> moodEntries) {
         this.moodValues = moodValues;
         this.isDarkTheme = isDarkTheme;
+        this.isLargeFont = isLargeFont;
         this.moodEntries = moodEntries;
     }
 
@@ -55,6 +57,9 @@ public class BarChartHelper implements ChartHelper {
         if (isDarkTheme) {
             chart.getLegend().setTextColor(Color.WHITE);
         }
+        if (isLargeFont) {
+            chart.getLegend().setTextSize(16f);
+        }
 
         chart.invalidate(); // refresh chart
     }
@@ -70,6 +75,10 @@ public class BarChartHelper implements ChartHelper {
         if (isDarkTheme) {
             xAxis.setTextColor(Color.WHITE);
         }
+        if (isLargeFont) {
+            xAxis.setLabelRotationAngle(270);
+            xAxis.setTextSize(16f);
+        }
     }
 
     private void setYAxis(BarChart chart) {
@@ -78,6 +87,9 @@ public class BarChartHelper implements ChartHelper {
         yAxis.setGranularity(1);
         if (isDarkTheme) {
             yAxis.setTextColor(Color.WHITE);
+        }
+        if (isLargeFont) {
+            yAxis.setTextSize(16f);
         }
 
         // hide right axis - only want left
