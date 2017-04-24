@@ -1,7 +1,6 @@
 package com.moodlogger.asyncTasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.AsyncTask;

@@ -1,7 +1,6 @@
 package com.moodlogger.asyncTasks;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.view.View;
@@ -17,9 +16,9 @@ import com.moodlogger.charts.BarChartHelper;
 import com.moodlogger.charts.ChartTypeEnum;
 import com.moodlogger.charts.LineChartHelper;
 import com.moodlogger.charts.PieChartHelper;
-import com.moodlogger.enums.TimeRangeEnum;
 import com.moodlogger.db.entities.MoodEntry;
 import com.moodlogger.db.helpers.MoodEntryDbHelper;
+import com.moodlogger.enums.TimeRangeEnum;
 
 import java.util.List;
 

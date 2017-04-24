@@ -152,11 +152,11 @@ public class ActivityUtils {
 
     public static void setFontSizeIfLargeFont(Resources resources, Activity activity, View rootView) {
         if (isLargeFont(activity)) {
-            setFontSize(resources, activity, rootView);
+            setLargeFontSize(resources, activity, rootView);
         }
     }
 
-    private static void setFontSize(Resources resources, Activity activity, View rootView) {
+    private static void setLargeFontSize(Resources resources, Activity activity, View rootView) {
         for (View view : getChildViews(rootView, new ArrayList<View>())) {
             if (view instanceof TextView) {
                 TextView textView = (TextView) view;
@@ -195,7 +195,6 @@ public class ActivityUtils {
             @Override
             public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
-                // position 0 already handled by getView override
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
                 return view;
@@ -210,10 +209,12 @@ public class ActivityUtils {
         float textSizeInSp = pixelsToSp(resources, previousTextSize);
 
         if (textSizeInSp < 18) {
+            // android 'medium' recommended size
             return 18;
-        } else if (textSizeInSp > 30) {
+        } else if (textSizeInSp > 22) {
             return textSizeInSp;
         } else {
+            // android 'large' recommended size
             return 22;
         }
     }
