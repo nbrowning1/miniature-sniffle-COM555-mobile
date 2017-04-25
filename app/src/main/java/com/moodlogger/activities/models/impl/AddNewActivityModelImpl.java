@@ -2,11 +2,11 @@ package com.moodlogger.activities.models.impl;
 
 import android.content.Context;
 
-import com.moodlogger.utils.StringUtils;
 import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.activities.models.intf.AddNewActivityModel;
 import com.moodlogger.db.entities.Activity;
 import com.moodlogger.db.helpers.ActivityDbHelper;
+import com.moodlogger.utils.StringUtils;
 
 public class AddNewActivityModelImpl implements AddNewActivityModel {
 

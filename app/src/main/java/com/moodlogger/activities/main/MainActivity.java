@@ -112,6 +112,7 @@ public class MainActivity extends AbstractMoodActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // handling for custom settings icon
         if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
@@ -139,6 +140,7 @@ public class MainActivity extends AbstractMoodActivity {
         tabHost.addTab(tabHost.newTabSpec(TAB_THREE_NAME).setIndicator(TAB_THREE_NAME),
                 EvaluateTabFragment.class, null);
 
+        // Manages the Tab changes, synchronizing it with Pages
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String s) {
@@ -179,6 +181,6 @@ public class MainActivity extends AbstractMoodActivity {
 
     @Override
     protected void setSpecificViewThemes() {
-        // do nothing
+        // do nothing - fragments will handle this themselves
     }
 }

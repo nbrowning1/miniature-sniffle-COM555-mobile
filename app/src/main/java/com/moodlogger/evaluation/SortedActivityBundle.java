@@ -10,7 +10,7 @@ public class SortedActivityBundle {
     private Activity angryRatingActivity;
 
     public SortedActivityBundle(Activity goodRatingActivity, Activity badRatingActivity,
-                                 Activity sadRatingActivity, Activity angryRatingActivity) {
+                                Activity sadRatingActivity, Activity angryRatingActivity) {
         this.goodRatingActivity = goodRatingActivity;
         this.badRatingActivity = badRatingActivity;
         this.sadRatingActivity = sadRatingActivity;

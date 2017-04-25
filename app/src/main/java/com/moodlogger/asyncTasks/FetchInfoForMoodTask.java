@@ -85,7 +85,7 @@ public class FetchInfoForMoodTask extends AsyncTask<Void, Void, Void> {
 
     /**
      * Builds location texts up using latitude / longitude to resolve location thoroughfares / street
-     *  names
+     * names
      */
     private void buildLocations() {
         Geocoder geocoder = new Geocoder(contextActivity, Locale.getDefault());

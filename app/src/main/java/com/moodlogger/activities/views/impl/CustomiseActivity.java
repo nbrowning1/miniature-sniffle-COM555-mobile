@@ -1,6 +1,5 @@
 package com.moodlogger.activities.views.impl;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
@@ -16,7 +15,6 @@ import com.moodlogger.activities.ActivityUtils;
 import com.moodlogger.activities.presenters.impl.CustomisePresenterImpl;
 import com.moodlogger.activities.presenters.intf.CustomisePresenter;
 import com.moodlogger.activities.views.intf.CustomiseView;
-import com.moodlogger.db.entities.Activity;
 
 public class CustomiseActivity extends AbstractMoodActivity implements CustomiseView {
 
